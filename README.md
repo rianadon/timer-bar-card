@@ -4,7 +4,7 @@ A progress bar display for [Home Assistant][home-assistant] timers.
 
 The card currently supports **timer** components and stations from [the opensprinkler integration][opensprinkler].
 
-![Screenshots](images/readme.png)
+![Screenshots](https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/readme.png)
 
 If your entity has `duration`, `remaining`, `start_time`, or `end_time` attributes, it may also work with this card.
 
@@ -13,7 +13,11 @@ For numerical quantities or percentages, you may be interested in the unaffiliat
 
 ## Install
 
-Until I publish to HACS, see [manual installation](#manual-installation).
+I haven't published to [HACS][hacs] yet, so there's an extra step here:
+1. Add this repository to custom repositories by clicking the rotated-90-degrees-ellipses icon in the upper right of HACS and selecting custom repositories. Enter https://github.com/rianadon/timer-bar-card as the url and Lovelace as the category.
+2. Click add repositories and search for "timer bar card". Install the card.
+
+If you don't have [HACS][hacs] installed, see [manual installation](#manual-installation).
 
 ## Options
 
@@ -60,7 +64,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 ### Embedded in an entities card
 
-<img alt="Screenshot" src="images/entities-card.png" width="462" height="231" />
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/entities-card.png" width="462" height="231" />
 
 ```yaml
 title: Timer
@@ -76,7 +80,7 @@ entities:
 
 ### Use with [OpenSprinkler integration][opensprinkler]
 
-<img alt="Screenshot" src="images/sprinkler.png" width="457" height="168" />
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/sprinkler.png" width="457" height="168" />
 
 ```yaml
 entities:
@@ -95,7 +99,7 @@ filter: true # So only the running and scheduled stations are shown
 
 ### Icons and entity in card header
 
-<img src="images/header-icons.png" alt="Screenshot" width="477" height="243" />
+<img src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/header-icons.png" alt="Screenshot" width="477" height="243" />
 
 ```yaml
 entities:
@@ -131,7 +135,7 @@ template:
 
 ### Style to your unique tastes
 
-<img alt="Screenshot" src="images/rainbow.png" width="424" height="130" />
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/rainbow.png" width="424" height="130" />
 
 ```yaml
 type: custom:timer-bar-card
@@ -140,14 +144,14 @@ entities:
 - timer.alarm_two
 bar_height: 20px
 bar_background: '#222'
-bar_foreground: 'linear-gradient(to right, red, orange , yellow, green, cyan, blue, violet)'
+bar_foreground: 'linear-gradient(to right, red, orange, yellow, green, cyan, blue, violet)'
 text_width: 6em
 bar_width: 40%
 ```
 
 ## Manual installation
 
-1. Download `timer-bar-card.js` from the latest release and move this file to the `config/www` folder.
+1. Download `timer-bar-card.js` from the [latest release][release] and move this file to the `config/www` folder.
 2. Ensure you have advanced mode enabled (accessible via your username in the bottom left corner)
 3. Go to Configuration -> Lovelace Dashboards -> Resources.
 4. Add `/local/timer-bar-card.js` with type JS module.
@@ -161,3 +165,5 @@ For multicolored icons, you can use this super-duper-hacky frontend module [here
 
 [home-assistant]: https://github.com/home-assistant/home-assistant
 [opensprinkler]: https://github.com/vinteo/hass-opensprinkler
+[hacs]: https://hacs.xyz/
+[release]: https://github.com/rianadon/timer-bar-card/releases
