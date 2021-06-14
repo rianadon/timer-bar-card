@@ -1,0 +1,38 @@
+{
+  "name": "timer-bar-card",
+  "version": "1.3.2",
+  "description": "Progress bar display for Home Assistant timers",
+  "keywords": [
+    "home-assistant",
+    "homeassistant",
+    "hass",
+    "automation",
+    "lovelace",
+    "custom-cards"
+  ],
+  "module": "timer-bar-card.js",
+  "repository": "git@github.com:rianadon/timer-bar-card.git",
+  "license": "MIT",
+  "dependencies": {
+    "custom-card-helpers": "^1.6.6",
+    "home-assistant-js-websocket": "^4.5.0",
+    "lit": "^2.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@rollup/plugin-json": "^4.1.0",
+    "prettier": "^1.19.1",
+    "rollup": "^1.32.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.1.0",
+    "rollup-plugin-terser": "^5.3.1",
+    "rollup-plugin-typescript2": "^0.24.3",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "start": "rollup -c rollup.config.dev.js --watch",
+    "build": "rollup -c"
+  }
+}
