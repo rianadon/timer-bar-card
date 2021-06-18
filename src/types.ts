@@ -14,25 +14,34 @@ export declare type HassEntity = {
   };
 };
 
-
-// TODO Add your configuration elements here for type-checking
-export interface TimerBarConfig extends LovelaceCardConfig {
-  type: string;
-  name?: string;
-  entity?: string;
-  entities?: string[];
+interface styleConfig {
   icon?: string;
   active_icon?: string;
-
-  active_state?: string | string[];
-  pause_state?: string | string[];
-  waiting_state?: string | string[];
 
   bar_width?: string;
   bar_height?: string;
   bar_foreground?: string;
   bar_background?: string;
   text_width?: string;
+}
+
+interface modsConfig extends styleConfig {
+  less_than?: number;
+  less_than_eq?: number;
+}
+
+// TODO Add your configuration elements here for type-checking
+export interface TimerBarConfig extends styleConfig {
+  type: string;
+  name?: string;
+  entity?: string;
+  entities?: string[];
+
+  active_state?: string | string[];
+  pause_state?: string | string[];
+  waiting_state?: string | string[];
+
+  modifications?: modsConfig[];
 
   header_entity?: string;
   header_secondary?: string;

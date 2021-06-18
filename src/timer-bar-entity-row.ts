@@ -16,7 +16,7 @@ import { PropertyValues } from 'lit-element';
 
 export function fillConfig(config: TimerBarConfig) {
   return {
-    active_state: ['active', 'manual', 'program'],
+    active_state: ['active', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
     waiting_state: 'waiting',
     bar_width: '70%',
@@ -28,7 +28,6 @@ export function fillConfig(config: TimerBarConfig) {
   };
 }
 
-@customElement('timer-bar-entity-row')
 export class TimerBarEntityRow extends LitElement {
 
   @property() public hass?: HomeAssistant;
@@ -58,8 +57,8 @@ export class TimerBarEntityRow extends LitElement {
     if (state) percent = timerTimePercent(this.config, state) ?? 0;
 
     const activeConfig = {
-      ...this.config,
-      icon: this.config.active_icon ?? this.config.icon,
+      ...this.modConfig,
+      icon: this.modConfig.active_icon ?? this.modConfig.icon,
     };
 
     if (isState(state, this.config.active_state!) && (this._timeRemaining||0) > 0) {
@@ -74,7 +73,7 @@ export class TimerBarEntityRow extends LitElement {
     } else if (isState(state, this.config.pause_state!)) {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${activeConfig}>
-          <div class="status" style=${this._statusStyle()}>
+          <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
             ${this._localize(state?.state)}
           </div>
           <div class="text-content" style=${this._textStyle()}>
@@ -84,8 +83,8 @@ export class TimerBarEntityRow extends LitElement {
       `;
     } else if (isState(state, this.config.waiting_state!)) {
       return html`
-        <hui-generic-entity-row .hass=${this.hass} .config=${this.config}>
-          <div class="status" style=${this._statusStyle(true)}>
+        <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
+          <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
             ${this._localize("Scheduled for")} ${formatStartTime(state)}
           </div>
         </hui-generic-entity-row>
@@ -93,7 +92,7 @@ export class TimerBarEntityRow extends LitElement {
 
     } else {
       return html`
-        <hui-generic-entity-row .hass=${this.hass} .config=${this.config}>
+        <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
           <div class="text-content">${this._localize(state?.state)}</div>
         </hui-generic-entity-row>
       `;
@@ -101,9 +100,9 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderBar(percent: number) {
-    const containerStyle = styleMap({ width: this.config.bar_width });
-    const bgStyle = this._barStyle('100%', this.config.bar_background!);
-    const fgStyle = this._barStyle(percent+"%", this.config.bar_foreground!);
+    const containerStyle = styleMap({ width: this.modConfig.bar_width });
+    const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
+    const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
     return html`<div class="bar-container" style=${containerStyle} @click=${this._handleClick}>
       <div class="bar" style=${bgStyle}>
         <div style=${fgStyle}>
@@ -166,20 +165,20 @@ export class TimerBarEntityRow extends LitElement {
   private _barStyle(width: string, background: string) {
     return styleMap({
       width, background,
-      height: this.config.bar_height,
+      height: this.modConfig.bar_height,
     });
   }
 
   private _textStyle() {
     return styleMap({
-      width: this.config.text_width,
+      width: this.modConfig.text_width,
       'text-align': 'right',
       'flex-shrink': '0',
     });
   }
 
   private _statusStyle(includeText?: boolean) {
-    const conf = this.config;
+    const conf = this.modConfig;
     return styleMap({
       width: includeText ? `calc(${conf.bar_width} + ${conf.text_width})` : conf.bar_width,
       color: 'var(--secondary-text-color, #eee)',
@@ -191,6 +190,7 @@ export class TimerBarEntityRow extends LitElement {
     if (!content) return 'Undefined';
     if (content === 'idle') return 'Idle';
     if (content === 'paused') return 'Paused';
+    if (content === 'once_program') return 'Once Program';
     return content[0].toUpperCase() + content.substring(1);
   }
 
@@ -208,6 +208,22 @@ export class TimerBarEntityRow extends LitElement {
         align-items: center;
       }
       .bar { margin-top: 2px; }
+      .status { cursor: pointer; line-height: 1.5em; }
     `;
+  }
+
+  private get modConfig(): TimerBarConfig {
+    if (!this.config.modifications) return this.config;
+
+    const state = this.hass!.states[this.config.entity!];
+    const percent = timerTimePercent(this.config, state) ?? 0;
+    for (const mod of this.config.modifications) {
+      if (mod.less_than_eq && percent <= mod.less_than_eq
+        || mod.less_than && percent < mod.less_than) {
+        return { ...this.config, ...mod };
+      }
+    }
+
+    return this.config;
   }
 }

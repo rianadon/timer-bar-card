@@ -4,7 +4,7 @@ import { styleMap } from 'lit/directives/style-map';
 
 import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
-import { fillConfig } from './timer-bar-entity-row';
+import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 
 import type { TimerBarConfig } from './types';
 import { isState } from './helpers';
@@ -17,6 +17,8 @@ import { PropertyValues } from 'lit-element';
   name: 'Timer Bar Card',
   description: 'Display timer-related information as a progress bar',
 });
+
+window.customElements.define('timer-bar-entity-row', TimerBarEntityRow);
 
 @customElement('timer-bar-card')
 export class TimerBarCard extends LitElement {
