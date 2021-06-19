@@ -128,4 +128,16 @@ export class TimerBarCard extends LitElement {
       .concat(this._entitiesOfState(this.config.entities!, this.config.waiting_state!))
     ;
   }
+
+  public async getCardSize(): Promise<number> {
+    if (this.config.entity) return 1;
+
+    let size = 0;
+    if (this.config.header_entity)
+      size += 1;
+    else if (this.config.name)
+      size += 2;
+
+    return size + this._filteredEntities().length;
+  }
 }

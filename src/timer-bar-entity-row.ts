@@ -19,7 +19,7 @@ export function fillConfig(config: TimerBarConfig) {
     active_state: ['active', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
     waiting_state: 'waiting',
-    bar_width: '70%',
+    bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
     text_width: '3.5em',
     bar_background: '#eee',
@@ -205,10 +205,11 @@ export class TimerBarEntityRow extends LitElement {
         cursor: pointer;
         min-height: 1.5em;
         display: flex;
+        flex-shrink: 0;
         align-items: center;
       }
       .bar { margin-top: 2px; }
-      .status { cursor: pointer; line-height: 1.5em; }
+      .status { cursor: pointer; line-height: 1.5em; flex-shrink: 0; }
     `;
   }
 
@@ -217,13 +218,15 @@ export class TimerBarEntityRow extends LitElement {
 
     const state = this.hass!.states[this.config.entity!];
     const percent = timerTimePercent(this.config, state) ?? 0;
+
+    let config = this.config;
     for (const mod of this.config.modifications) {
-      if (mod.less_than_eq && percent <= mod.less_than_eq
-        || mod.less_than && percent < mod.less_than) {
-        return { ...this.config, ...mod };
+      if (mod.greater_than_eq && percent >= mod.greater_than_eq
+        || mod.greater_than && percent > mod.greater_than) {
+        config = { ...config, ...mod };
       }
     }
 
-    return this.config;
+    return config;
   }
 }

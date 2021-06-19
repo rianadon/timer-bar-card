@@ -26,8 +26,8 @@ interface styleConfig {
 }
 
 interface modsConfig extends styleConfig {
-  less_than?: number;
-  less_than_eq?: number;
+  greater_than?: number;
+  greater_than_eq?: number;
 }
 
 // TODO Add your configuration elements here for type-checking

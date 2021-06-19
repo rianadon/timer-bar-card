@@ -1,6 +1,6 @@
 {
   "name": "timer-bar-card",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Progress bar display for Home Assistant timers",
   "keywords": [
     "home-assistant",
@@ -12,7 +12,7 @@
   ],
   "module": "timer-bar-card.js",
   "repository": "git@github.com:rianadon/timer-bar-card.git",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "custom-card-helpers": "^1.6.6",
     "home-assistant-js-websocket": "^4.5.0",

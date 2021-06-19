@@ -44,7 +44,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 <details>
 <summary>Expand: Optional properties to change icons, colors, and sizes.</summary>
-<table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Requirement</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td>icon</td> <td>string</td> <td><strong>Optional</strong></td> <td>Customize the icon to shown next to the timer</td> <td>-</td> </tr> <tr> <td>active_icon</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Override <code>icon</code> when timer is active</td> <td>-</td> </tr> <tr> <td>text_width</td> <td>string</td> <td><strong>Optional</strong></td> <td>Space alotted for the time remaining (i.e. right offset of bar)</td> <td><code>3.5em</code></td> </tr> <tr> <td>bar_width</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Width of progress bar (decrease if the entity name is cut off)</td> <td><code>70%</code></td> </tr> <tr> <td>bar_height</td> <td>string</td> <td><strong>Optional</strong></td> <td>Height of progress bar</td> <td><code>8px</code></td> </tr> <tr> <td>bar_foreground</td> <td>string</td> <td><strong>Optional</strong></td> <td>Foreground color of progress bar</td> <td>primary color †</td> </tr> <tr> <td>bar_background</td> <td>string</td> <td><strong>Optional</strong></td> <td>Background color of progress bar</td> <td><code>#eee</code></td> </tr> </tbody> </table>
+<table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Requirement</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td>icon</td> <td>string</td> <td><strong>Optional</strong></td> <td>Customize the icon to shown next to the timer</td> <td>-</td> </tr> <tr> <td>active_icon</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Override <code>icon</code> when timer is active</td> <td>-</td> </tr> <tr> <td>text_width</td> <td>string</td> <td><strong>Optional</strong></td> <td>Space alotted for the time remaining (i.e. right offset of bar)</td> <td><code>3.5em</code></td> </tr> <tr> <td>bar_width</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Width of progress bar (decrease if the entity name is cut off)</td> <td><code>calc(70% - 7em)</code></td> </tr> <tr> <td>bar_height</td> <td>string</td> <td><strong>Optional</strong></td> <td>Height of progress bar</td> <td><code>8px</code></td> </tr> <tr> <td>bar_foreground</td> <td>string</td> <td><strong>Optional</strong></td> <td>Foreground color of progress bar</td> <td>primary color †</td> </tr> <tr> <td>bar_background</td> <td>string</td> <td><strong>Optional</strong></td> <td>Background color of progress bar</td> <td><code>#eee</code></td> </tr> <tr> <td>modifications</td> <td>array</td> <td><strong>Optional</strong></td> <td>Adjustments to make depending on percentage (<a href="#customize-appearance-based-on-timer-percentage">example</a>)</td> <td>-</td> </tr> </tbody> </table>
 
 † the primary color is taken from your theme using <code>var(--mdc-theme-primary, #6200ee);</code>
 </details>
@@ -148,6 +148,28 @@ bar_foreground: 'linear-gradient(to right, red, orange, yellow, green, cyan, blu
 text_width: 6em
 bar_width: 40%
 ```
+
+### Customize appearance based on timer percentage
+
+<img alt="screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/modifications.gif" width="384" height="85" />
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - timer.alarm
+modifications:
+  - greater_than: 40
+    bar_foreground: orange
+    active_icon: mdi:fire
+    bar_height: 12px
+  - greater_than: 70
+    bar_foreground: red
+    active_icon: mdi:fire-alert
+```
+
+All modifications that match are applied, with the last modification having precedence. This means you'll likeley want to list them in increasing order of percentages, so that styles are overridden as the timer progresses farther.
+
+For each modification, you have the option of using `greater_than` (percentage complete > condition) or `greater_than_eq` (percentage complete ≥ condition).
 
 ## Manual installation
 
