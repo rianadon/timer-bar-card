@@ -151,7 +151,7 @@ bar_width: 40%
 
 ### Customize appearance based on timer percentage
 
-<img alt="screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/modifications.gif" width="384" height="85" />
+<img alt="screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/modifications.gif" width="384" height="80" />
 
 ```yaml
 type: custom:timer-bar-card
