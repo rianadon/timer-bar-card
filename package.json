@@ -1,5 +1,5 @@
 {
-  "name": "timer-bar-card",
+  "name": "lovelace-timer-bar-card",
   "version": "1.1.0",
   "description": "Progress bar display for Home Assistant timers",
   "keywords": [
