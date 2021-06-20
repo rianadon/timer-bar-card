@@ -179,6 +179,33 @@ For each modification, you have the option of using `greater_than` (percentage c
 4. Add `/local/timer-bar-card.js` with type JS module.
 5. Refresh the page? Or restart Home Assistant? The card should eventually be there.
 
+## Using in your own custom cards
+
+If you're publishing a custom card for Lovelace and would like to use the timer bar card inside of it, you can install the card via NPM as a dependency:
+
+```fish
+npm install --save lovelace-timer-bar-card
+```
+
+To avoid conflicts with the `timer-bar-card-entity-row` element this plugin defines, you'll need to give your custom element a different tag name.
+
+```typescript
+import { fillConfig, TimerBarEntityRow } from 'lovelace-timer-bar-card/src/timer-bar-entity-row';
+
+// Assign the tag <my-card-timer-bar-entity-row> to the entity row element
+window.customElements.define('my-card-timer-bar-entity-row', TimerBarEntityRow);
+
+// Use like this
+const config = fillConfig({
+    // extra customization on top of default config
+});
+return html`<my-card-timer-bar-entity-row
+              .config=${config} .hass=${hass}
+            ></my-card-timer-bar-entity-row>`;
+```
+
+For an example of using the timer bar card as a dependency, you can view [the source code of the OpenSprinkler card](https://github.com/rianadon/opensprinkler-card/blob/main/src/opensprinkler-card.ts).
+
 ## Themes? Multicolored icons? Where?
 
 The green and reddish-orange theme (which I called Earth) as well as the gradient theme can be found [here](https://gist.github.com/rianadon/b2b798cf27c6c609d19855abb9ed61f7). Neither are polished and both need work.
