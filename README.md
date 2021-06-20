@@ -13,11 +13,7 @@ For numerical quantities or percentages, you may be interested in the unaffiliat
 
 ## Install
 
-I haven't published to [HACS][hacs] yet, so there's an extra step here:
-1. Add this repository to custom repositories by clicking the rotated-90-degrees-ellipses icon in the upper right of HACS and selecting custom repositories. Enter https://github.com/rianadon/timer-bar-card as the url and Lovelace as the category.
-2. Click add repositories and search for "timer bar card". Install the card.
-
-If you don't have [HACS][hacs] installed, see [manual installation](#manual-installation).
+Timer Bar Card is available from [HACS][hacs]. If you don't have HACS installed, follow the [manual installation](#manual-installation) instructions.
 
 ## Options
 
