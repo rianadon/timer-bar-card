@@ -87,7 +87,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 ```yaml
 title: Timer
-type: entities
+type: custom:timer-bar-card
 entities:
   - entity: timer.alarm
     type: custom:timer-bar-card
