@@ -30,29 +30,52 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 <details>
 <summary>Expand: Configure for entities that use a different set of status states</summary>
 
-<table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Requirement</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td>active_state</td> <td>string or list</td> <td><strong>Optional</strong></td> <td>State(s) used to indicate a timer is running</td> <td><code>active</code>, <code>manual</code>, <code>program</code></td> </tr> <tr> <td>paused_state</td> <td>string or list</td> <td><strong>Optional</strong></td> <td>State(s) used to indicate a timer is paused</td> <td><code>paused</code></td> </tr> <tr> <td>waiting_state</td> <td>string or list</td> <td><strong>Optional</strong></td> <td>State(s) when a timer is scheduled for some later time †</td> <td><code>waiting</code></td> </tr> </tbody> </table>
+| Name          | Type           | Requirement  | Description                                              | Default                       |
+|---------------|----------------|--------------|----------------------------------------------------------|-------------------------------|
+| active_state  | string or list | **Optional** | State(s) used to indicate a timer is running             | `active`, `manual`, `program` |
+| paused_state  | string or list | **Optional** | State(s) used to indicate a timer is paused              | `paused`                      |
+| waiting_state | string or list | **Optional** | State(s) when a timer is scheduled for some later time † | `waiting`                     |
 
 † requires a `start_time` attribute to calculate when the timer will start.
-</details>
 
+</details>
 
 ### Customization
 
 <details>
 <summary>Expand: Optional properties to change icons, colors, and sizes.</summary>
-<table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Requirement</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td>icon</td> <td>string</td> <td><strong>Optional</strong></td> <td>Customize the icon to shown next to the timer</td> <td>-</td> </tr> <tr> <td>active_icon</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Override <code>icon</code> when timer is active</td> <td>-</td> </tr> <tr> <td>text_width</td> <td>string</td> <td><strong>Optional</strong></td> <td>Space alotted for the time remaining (i.e. right offset of bar)</td> <td><code>3.5em</code></td> </tr> <tr> <td>bar_width</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Width of progress bar (decrease if the entity name is cut off)</td> <td><code>calc(70% - 7em)</code></td> </tr> <tr> <td>bar_height</td> <td>string</td> <td><strong>Optional</strong></td> <td>Height of progress bar</td> <td><code>8px</code></td> </tr> <tr> <td>bar_foreground</td> <td>string</td> <td><strong>Optional</strong></td> <td>Foreground color of progress bar</td> <td>primary color †</td> </tr> <tr> <td>bar_background</td> <td>string</td> <td><strong>Optional</strong></td> <td>Background color of progress bar</td> <td><code>#eee</code></td> </tr> <tr> <td>modifications</td> <td>array</td> <td><strong>Optional</strong></td> <td>Adjustments to make depending on percentage (<a href="#customize-appearance-based-on-timer-percentage">example</a>)</td> <td>-</td> </tr> </tbody> </table>
 
-† the primary color is taken from your theme using <code>var(--mdc-theme-primary, #6200ee);</code>
+| Name           | Type    | Requirement  | Description                                                                                                | Default           |
+|----------------|---------|--------------|------------------------------------------------------------------------------------------------------------|-------------------|
+| icon           | string  | **Optional** | Customize the icon to shown next to the timer                                                              | -                 |
+| active_icon    | boolean | **Optional** | Override `icon` when timer is active                                                                       | -                 |
+| text_width     | string  | **Optional** | Space alotted for the time remaining (i.e. right offset of bar)                                            | `3.5em`           |
+| bar_width      | boolean | **Optional** | Width of progress bar (decrease if the entity name is cut off)                                             | `calc(70% - 7em)` |
+| bar_height     | string  | **Optional** | Height of progress bar                                                                                     | `8px`             |
+| bar_foreground | string  | **Optional** | Foreground color of progress bar                                                                           | primary color †   |
+| bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
+| modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
+| translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
+
+† the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
+
 </details>
 
 ### Card options
 
 <details>
 <summary>Expand: Customize the header and display of entities within the card. To use the card, <code>entities</code> must be defined.</summary>
-<table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Requirement</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td>name</td> <td>string</td> <td><strong>Optional</strong></td> <td>Card name / title</td> <td>-</td> </tr> <tr> <td>compressed</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Decrease vertical spacing between entities</td> <td><code>false</code></td> </tr> <tr> <td>filter</td> <td>boolean</td> <td><strong>Optional</strong></td> <td>Only show non-idle timers and sort them by their status</td> <td><code>false</code></td> </tr> <tr> <td>header_entity</td> <td>string</td> <td><strong>Optional</strong></td> <td>Replace title with the icon &amp; name of an entity †</td> <td>-</td> </tr> <tr> <td>header_secondary</td> <td>string</td> <td><strong>Optional</strong></td> <td> Show additional information under header_entity ‡</td> <td>-</td> </tr> </tbody> </table>
 
-† If you specify <code>header_entity</code>, the <code>name</code> option will no longer have any effect. <br>
-‡ See the <code>secondary_info</code> parameter in the <a href="https://www.home-assistant.io/lovelace/entities/#secondary_info">entities documentation</a> for a list of possible values.
+ | Name             | Type    | Requirement  | Description                                             | Default |
+ |------------------|---------|--------------|---------------------------------------------------------|---------|
+ | name             | string  | **Optional** | Card name / title                                       | -       |
+ | compressed       | boolean | **Optional** | Decrease vertical spacing between entities              | `false` |
+ | filter           | boolean | **Optional** | Only show non-idle timers and sort them by their status | `false` |
+ | header_entity    | string  | **Optional** | Replace title with the icon & name of an entity †       | -       |
+ | header_secondary | string  | **Optional** | Show additional information under header_entity ‡       | -       |
+
+† If you specify `header_entity`, the `name` option will no longer have any effect. \
+‡ See the `secondary_info` parameter in the [entities documentation](<https://www.home-assistant.io/lovelace/entities/#secondary_info>) for a list of possible values.
 
 </details>
 
@@ -166,6 +189,22 @@ modifications:
 All modifications that match are applied, with the last modification having precedence. This means you'll likeley want to list them in increasing order of percentages, so that styles are overridden as the timer progresses farther.
 
 For each modification, you have the option of using `greater_than` (percentage complete > condition) or `greater_than_eq` (percentage complete ≥ condition).
+
+### Even more options
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/translation.png" width="475" height="130" />
+
+Want to change the names of the entity statuses because they are in the wrong language or they just aren't cool enough for you? You can do that! Need to use different settings for each entity? You can do that too (replace the entity id with a YAML dict where the `entity` key is the ID, then you can add any other configuration option you like to change it for that entity).
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - timer.alarm
+  - entity: timer.alarm_two
+    icon: mdi:circle
+    translations:
+      idle: Gas, gas, gas!
+```
 
 ## Manual installation
 

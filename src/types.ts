@@ -30,18 +30,21 @@ interface modsConfig extends styleConfig {
   greater_than_eq?: number;
 }
 
-// TODO Add your configuration elements here for type-checking
-export interface TimerBarConfig extends styleConfig {
+export interface TimerBarEntityConfig extends styleConfig {
   type: string;
   name?: string;
   entity?: string;
-  entities?: string[];
 
   active_state?: string | string[];
   pause_state?: string | string[];
   waiting_state?: string | string[];
 
   modifications?: modsConfig[];
+  translations?: { [phrase: string]: string };
+}
+
+export interface TimerBarConfig extends TimerBarEntityConfig {
+  entities?: (string | TimerBarEntityConfig)[];
 
   header_entity?: string;
   header_secondary?: string;

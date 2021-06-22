@@ -6,15 +6,15 @@ import {
   TemplateResult,
   css,
 } from 'lit';
-import { customElement, state, property } from "lit/decorators";
+import { state, property } from "lit/decorators";
 import { styleMap } from 'lit/directives/style-map';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration } from 'custom-card-helpers';
 import { formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';
-import { TimerBarConfig, HassEntity } from './types';
+import { TimerBarEntityConfig, HassEntity } from './types';
 import { PropertyValues } from 'lit-element';
 
-export function fillConfig(config: TimerBarConfig) {
+export function fillConfig(config: TimerBarEntityConfig) {
   return {
     active_state: ['active', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
@@ -25,13 +25,20 @@ export function fillConfig(config: TimerBarConfig) {
     bar_background: '#eee',
     bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
     ...config,
+    translations: {
+      idle: 'Idle',
+      paused: 'Paused',
+      once_program: 'Once Program',
+      'undefined': 'Undefined',
+      ...config.translations,
+    }
   };
 }
 
 export class TimerBarEntityRow extends LitElement {
 
   @property() public hass?: HomeAssistant;
-  @property() public config!: TimerBarConfig;
+  @property() public config!: TimerBarEntityConfig;
 
   @state() private _interval?: number;
   @state() private _timeRemaining?: number;
@@ -187,11 +194,9 @@ export class TimerBarEntityRow extends LitElement {
 
   private _localize(content: string | undefined) {
     // TODO: Support languages other than English
-    if (!content) return 'Undefined';
-    if (content === 'idle') return 'Idle';
-    if (content === 'paused') return 'Paused';
-    if (content === 'once_program') return 'Once Program';
-    return content[0].toUpperCase() + content.substring(1);
+    if (!content) return this.config!.translations!['undefined'];
+    return this.config!.translations![content] ??
+      content[0].toUpperCase() + content.substring(1);
   }
 
   static get styles(): CSSResultGroup {
@@ -213,7 +218,7 @@ export class TimerBarEntityRow extends LitElement {
     `;
   }
 
-  private get modConfig(): TimerBarConfig {
+  private get modConfig(): TimerBarEntityConfig {
     if (!this.config.modifications) return this.config;
 
     const state = this.hass!.states[this.config.entity!];
