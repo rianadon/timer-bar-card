@@ -16,9 +16,12 @@ import { PropertyValues } from 'lit-element';
 
 export function fillConfig(config: TimerBarEntityConfig) {
   return {
-    active_state: ['active', 'manual', 'program', 'once_program'],
+    active_state: ['active', 'on', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
     waiting_state: 'waiting',
+    end_time: { attribute: 'end_time' },
+    start_time: { attribute: 'start_time' },
+    duration: { attribute: 'duration' },
     bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
     text_width: '3.5em',

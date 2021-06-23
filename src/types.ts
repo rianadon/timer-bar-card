@@ -30,6 +30,8 @@ interface modsConfig extends styleConfig {
   greater_than_eq?: number;
 }
 
+export type AttributeType = { attribute: string } | { fixed: number };
+
 export interface TimerBarEntityConfig extends styleConfig {
   type: string;
   name?: string;
@@ -38,6 +40,9 @@ export interface TimerBarEntityConfig extends styleConfig {
   active_state?: string | string[];
   pause_state?: string | string[];
   waiting_state?: string | string[];
+  duration?: AttributeType;
+  start_time?: AttributeType;
+  end_time?: AttributeType;
 
   modifications?: modsConfig[];
   translations?: { [phrase: string]: string };
