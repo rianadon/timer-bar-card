@@ -95,35 +95,6 @@ entities:
   - timer.alarm_three
 ```
 
-### Use with unsupported entities
-
-By default, the card will look for `duration`, `remaining`, `start_time`, or `end_time` attribute on your entity.
-
-You can find a subset of these attributes in the entity popup, and a full list by going visiting the Developer Tools:
-
-<img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
-
-If your entity uses a differently-named attribute (for instance, `start_time` is called `beginning`), you can set in your YAML `start_time: { attribute: beginning }`. Similarly, for choosing the name of the attribute providing end time, set `end_time`.
-
-> *For Home Assistant timers `remaining` behaves much like `duration`, so to keep my own sanity `remaining` cannot be renamed/re-mapped. Don't use `remaining`. Use `duration` instead if you need it.*
-
-If your entity is missing one of these attributes but you know what it's duration is, you can provide `{ duration: fixed: # seconds }`.
-In such cases, you may also be missing a `start_time` attribute. If one is not found, the card will use the `last_changed` property.
-
-<img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
-
-Using fixed duration and a missing `start_time` can be useful in cases where you have a switch, controlled by an automation, that is set to turn off in 5 minutes.
-The screenshot above and code below shows such a setup where the timer will start counting once the switch is turned on.
-
-```yaml
-type: custom:timer-bar-card
-entities:
-  - switch.my_switch
-duration: { fixed: 300 } # 300 seconds = 5 min
-```
-
-And if your entity doesn't meet any of the criteria above, please create an issue and tell me which entity it is so I can make these instructions better!
-
 ### Use with [OpenSprinkler integration][opensprinkler]
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/sprinkler.png" width="457" height="168" />
@@ -141,6 +112,36 @@ active_state: # This option isn't needed due to the defaults
 bar_width: 35%
 compressed: true
 filter: true # So only the running and scheduled stations are shown
+```
+
+### Use with unsupported entities
+
+By default, the card will look for `duration`, `remaining`, `start_time`, or `end_time` attribute on your entity.
+
+You can find a subset of these attributes in the entity popup, and a full list by going visiting the Developer Tools:
+
+<img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
+
+If your entity uses a differently-named attribute (for instance, `start_time` is called `beginning`), you can set in your YAML `start_time: { attribute: beginning }`. Similarly, for choosing the name of the attribute providing end time, set `end_time`.
+
+> *For Home Assistant timers `remaining` behaves much like `duration`, so to keep my own sanity `remaining` cannot be renamed/re-mapped. Don't use `remaining`. Use `duration` instead if you need it.*
+
+If your entity is missing one of these attributes but you know its duration, you can provide `{ duration: fixed: # seconds }`.
+
+And finally, if no `start_time` attribute is found, the card will automatically use the `last_changed` property (i.e. when the card state last changed) in its place.
+
+And if your entity doesn't meet these criteria, 🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
+
+<img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
+
+Now that you're done scratching your head, here's a nice example to cover it in mud: Imagine we have a **switch**, that, through an automation, will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
+In this example, the card will start counting down once the switch is turned on.
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - switch.my_switch
+duration: { fixed: 300 } # 300 seconds = 5 min
 ```
 
 ### Embedded in an entities card
