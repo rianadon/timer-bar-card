@@ -110,7 +110,7 @@ If your entity uses a differently-named attribute (for instance, `start_time` is
 If your entity is missing one of these attributes but you know what it's duration is, you can provide `{ duration: fixed: # seconds }`.
 In such cases, you may also be missing a `start_time` attribute. If one is not found, the card will use the `last_changed` property.
 
-<img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="457" height="84" />
+<img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
 
 Using fixed duration and a missing `start_time` can be useful in cases where you have a switch, controlled by an automation, that is set to turn off in 5 minutes.
 The screenshot above and code below shows such a setup where the timer will start counting once the switch is turned on.
