@@ -31,6 +31,7 @@ interface modsConfig extends styleConfig {
 }
 
 export type AttributeType = { attribute: string } | { fixed: number };
+export type Translations = { [phrase: string]: string };
 
 export interface TimerBarEntityConfig extends styleConfig {
   type: string;
@@ -45,7 +46,7 @@ export interface TimerBarEntityConfig extends styleConfig {
   end_time?: AttributeType;
 
   modifications?: modsConfig[];
-  translations?: { [phrase: string]: string };
+  translations?: Translations;
 }
 
 export interface TimerBarConfig extends TimerBarEntityConfig {

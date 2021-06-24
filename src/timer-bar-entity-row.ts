@@ -9,9 +9,9 @@ import {
 import { state, property } from "lit/decorators";
 import { styleMap } from 'lit/directives/style-map';
 
-import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration } from 'custom-card-helpers';
+import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
 import { formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';
-import { TimerBarEntityConfig, HassEntity } from './types';
+import { TimerBarEntityConfig, HassEntity, Translations } from './types';
 import { PropertyValues } from 'lit-element';
 
 export function fillConfig(config: TimerBarEntityConfig) {
@@ -29,13 +29,34 @@ export function fillConfig(config: TimerBarEntityConfig) {
     bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
     ...config,
     translations: {
-      idle: 'Idle',
-      paused: 'Paused',
+      scheduled_for: 'Scheduled for',
       once_program: 'Once Program',
-      'undefined': 'Undefined',
+      program: 'Program',
+      manual: 'Manual',
+      waiting: 'Waiting',
       ...config.translations,
     }
   };
+}
+
+function tryTranslate(hass: HomeAssistant, state: string) {
+  if (state === 'idle') return hass.localize('component.timer.state._.idle');
+  if (state === 'paused') return hass.localize('component.timer.state._.paused');
+  if (state === 'active') return hass.localize('component.timer.state._.active');
+  if (state === 'on') return hass.localize('component.switch.state._.on');
+  return;
+}
+
+export function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations) {
+  if (translations && translations[state]) return translations[state];
+  if (stateObj) {
+    const translation = computeStateDisplay(hass.localize, stateObj, hass.locale!, state);
+    if (translation !== state) return translation;
+  }
+  const translation = tryTranslate(hass, state);
+  if (translation) return translation;
+
+  return state[0].toUpperCase() + state.substring(1);
 }
 
 export class TimerBarEntityRow extends LitElement {
@@ -84,7 +105,7 @@ export class TimerBarEntityRow extends LitElement {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${activeConfig}>
           <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
-            ${this._localize(state?.state)}
+            ${localize(this.hass!, state.state, state)}
           </div>
           <div class="text-content" style=${this._textStyle()}>
             ${secondsToDuration(this._timeRemaining || 0)}
@@ -95,7 +116,7 @@ export class TimerBarEntityRow extends LitElement {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
           <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
-            ${this._localize("Scheduled for")} ${formatStartTime(state)}
+            ${localize(this.hass!, "scheduled_for")} ${formatStartTime(state)}
           </div>
         </hui-generic-entity-row>
       `;
@@ -103,7 +124,7 @@ export class TimerBarEntityRow extends LitElement {
     } else {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
-          <div class="text-content">${this._localize(state?.state)}</div>
+          <div class="text-content">${localize(this.hass!, state.state, state)}</div>
         </hui-generic-entity-row>
       `;
     }
@@ -182,7 +203,6 @@ export class TimerBarEntityRow extends LitElement {
   private _textStyle() {
     return styleMap({
       width: this.modConfig.text_width,
-      'text-align': 'right',
       'flex-shrink': '0',
     });
   }
@@ -193,13 +213,6 @@ export class TimerBarEntityRow extends LitElement {
       width: includeText ? `calc(${conf.bar_width} + ${conf.text_width})` : conf.bar_width,
       color: 'var(--secondary-text-color, #eee)',
     });
-  }
-
-  private _localize(content: string | undefined) {
-    // TODO: Support languages other than English
-    if (!content) return this.config!.translations!['undefined'];
-    return this.config!.translations![content] ??
-      content[0].toUpperCase() + content.substring(1);
   }
 
   static get styles(): CSSResultGroup {
@@ -218,6 +231,7 @@ export class TimerBarEntityRow extends LitElement {
       }
       .bar { margin-top: 2px; }
       .status { cursor: pointer; line-height: 1.5em; flex-shrink: 0; }
+      .text-content { text-align: right; text-align: end; }
     `;
   }
 
