@@ -56,6 +56,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | bar_height     | string  | **Optional** | Height of progress bar                                                                                     | `8px`             |
 | bar_foreground | string  | **Optional** | Foreground color of progress bar                                                                           | primary color †   |
 | bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
+| bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
 | modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 

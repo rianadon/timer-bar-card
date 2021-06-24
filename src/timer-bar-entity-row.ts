@@ -131,7 +131,7 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderBar(percent: number) {
-    const containerStyle = styleMap({ width: this.modConfig.bar_width });
+    const containerStyle = styleMap({ width: this.modConfig.bar_width, direction: this.modConfig.bar_direction });
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
     return html`<div class="bar-container" style=${containerStyle} @click=${this._handleClick}>

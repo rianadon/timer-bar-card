@@ -22,6 +22,7 @@ interface styleConfig {
   bar_height?: string;
   bar_foreground?: string;
   bar_background?: string;
+  bar_direction?: string;
   text_width?: string;
 }
 
