@@ -96,6 +96,16 @@ entities:
   - timer.alarm_three
 ```
 
+### Receding progress bar
+
+By default, the progress bar will extend from left to right. If you'd like the bar instead to shrink from right to left (as if it were counting down, rather than counting up), reverse the bar direction and invert the colors:
+
+```yaml
+bar_direction: rtl
+bar_foreground: '#eee'
+bar_background: 'var(--mdc-theme-primary, #6200ee)'
+```
+
 ### Use with [OpenSprinkler integration][opensprinkler]
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/sprinkler.png" width="457" height="168" />
