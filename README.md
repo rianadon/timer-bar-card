@@ -122,20 +122,37 @@ You can find a subset of these attributes in the entity popup, and a full list b
 
 <img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
 
-If your entity uses a differently-named attribute (for instance, `start_time` is called `beginning`), you can set in your YAML `start_time: { attribute: beginning }`. Similarly, for choosing the name of the attribute providing end time, set `end_time`.
+Follow these steps in order to figure out what you need:
 
-> *For Home Assistant timers `remaining` behaves much like `duration`, so to keep my own sanity `remaining` cannot be renamed/re-mapped. Don't use `remaining`. Use `duration` instead if you need it.*
+#### 1. My entity has an attribute that looks like `duration` (for example, `timespan`). Supply the following configuration:
 
-If your entity is missing one of these attributes but you know its duration, you can provide `{ duration: fixed: # seconds }`.
+```yaml
+duration: { attribute: "timespan" }
+```
 
-And finally, if no `start_time` attribute is found, the card will automatically use the `last_changed` property (i.e. when the card state last changed) in its place.
+The entity's start time will be computed using the `last_changed` property (when the entity state last changed).
 
-And if your entity doesn't meet these criteria, 🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
+#### 2. The time last changed doesn't approximate the start time well enough, and my entity has a duration-looking attribute and a start time attribute (called `start`).
+
+```yaml
+duration: { attribute: "timespan" }
+start_time: { attribute: "start" }
+```
+
+#### 3. The entity has no duration attribute but it has start time  and end time (`finishes_at`) attributes.
+
+```yaml
+start_time: { attribute: "start" }
+end_time: { attribute: "finishes_at" }
+```
+
+Duration will be computed as the difference between these two times.
+
+#### 4. My entity has no attributes!
+
+Imagine we have a **switch**, that, through an automation, will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
 
 <img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
-
-Now that you're done scratching your head, here's a nice example to cover it in mud: Imagine we have a **switch**, that, through an automation, will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
-In this example, the card will start counting down once the switch is turned on.
 
 ```yaml
 type: custom:timer-bar-card
@@ -143,6 +160,14 @@ entities:
   - switch.my_switch
 duration: { fixed: 300 } # 300 seconds = 5 min
 ```
+
+Like in step 1, there is no `start_time` configured so the card will use the time the switch was last toggled as the start time.
+
+#### 5. If your entity doesn't meet these criteria...
+
+🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
+
+> You may notice you cannot set `remaining`. This is because for Home Assistant timers, `remaining`  behaves much like `duration`, so to keep my own sanity I assume `remaining`=`duration`. Since they are equal, you don't need both! Just use `duration`!
 
 ### Embedded in an entities card
 
