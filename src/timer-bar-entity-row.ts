@@ -105,7 +105,7 @@ export class TimerBarEntityRow extends LitElement {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${activeConfig}>
           <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
-            ${localize(this.hass!, state.state, state)}
+            ${localize(this.hass!, state.state, state, this.config.translations)}
           </div>
           <div class="text-content" style=${this._textStyle()}>
             ${secondsToDuration(this._timeRemaining || 0)}
@@ -116,7 +116,7 @@ export class TimerBarEntityRow extends LitElement {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
           <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
-            ${localize(this.hass!, "scheduled_for")} ${formatStartTime(state)}
+            ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
           </div>
         </hui-generic-entity-row>
       `;
@@ -124,7 +124,7 @@ export class TimerBarEntityRow extends LitElement {
     } else {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
-          <div class="text-content">${localize(this.hass!, state.state, state)}</div>
+          <div class="text-content">${localize(this.hass!, state.state, state, this.config.translations)}</div>
         </hui-generic-entity-row>
       `;
     }
