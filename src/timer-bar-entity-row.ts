@@ -48,6 +48,7 @@ function tryTranslate(hass: HomeAssistant, state: string) {
 }
 
 export function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations) {
+  if (!state) return '';
   if (translations && translations[state]) return translations[state];
   if (stateObj) {
     const translation = computeStateDisplay(hass.localize, stateObj, hass.locale!, state);
@@ -124,7 +125,7 @@ export class TimerBarEntityRow extends LitElement {
     } else {
       return html`
         <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
-          <div class="text-content">${localize(this.hass!, state.state, state, this.config.translations)}</div>
+          <div class="text-content">${localize(this.hass!, state?.state, state, this.config.translations)}</div>
         </hui-generic-entity-row>
       `;
     }
