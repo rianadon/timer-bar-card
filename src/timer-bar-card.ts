@@ -6,7 +6,7 @@ import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 
-import type { TimerBarConfig, TimerBarEntityConfig, AttributeType } from './types';
+import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig } from './types';
 import { isState } from './helpers';
 import { PropertyValues } from 'lit-element';
 
@@ -58,7 +58,7 @@ export class TimerBarCard extends LitElement {
     }
   }
 
-  private _hasEntityChanged(oldHass: HomeAssistant, ...entities: (string | AttributeType | TimerBarEntityConfig | undefined)[]) {
+  private _hasEntityChanged(oldHass: HomeAssistant, ...entities: (string | AttributeConfig | TimerBarEntityConfig | undefined)[]) {
     for (const entity of entities) {
       if (!entity) continue;
       if (typeof entity === 'string') {

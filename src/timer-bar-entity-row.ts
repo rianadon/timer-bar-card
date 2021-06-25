@@ -90,6 +90,7 @@ export class TimerBarEntityRow extends LitElement {
 
     let percent = 0;
     if (state) percent = timerTimePercent(this.hass!, this.config, state) ?? 0;
+    if (percent > 100) percent = 100;
 
     const activeConfig = {
       ...this.modConfig,

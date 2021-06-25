@@ -1,22 +1,20 @@
-import { AttributeType, TimerBarConfig, HassEntity } from "./types";
+import { AttributeConfig, TimerBarConfig, HassEntity } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
-function tryDurationToSeconds(duration: string, field?: string) {
+function tryDurationToSeconds(duration: string, field: string) {
   try {
     const seconds = durationToSeconds(duration);
-    if (isNaN(seconds)) throw new Error(`Error parsing ${field || 'duration'} ${duration}: check it matches the format 0:10:00`);
+    if (isNaN(seconds)) throw new Error(`Error parsing ${field} ${duration}: check it matches the format 0:10:00`);
     return seconds;
   } catch (e) {
-    throw new Error(`Could not convert ${field || 'duration'}: ${duration} is not of format 0:10:00`);
+    throw new Error(`Could not convert ${field}: ${duration} is not of format 0:10:00. If you are passing in a number, specify the units property.`);
   }
 }
 
 /** Find the duration of the timer. */
 export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
-  const duration = attribute(hass, stateObj, config.duration);
-
-  if (duration && typeof duration === 'string') return tryDurationToSeconds(duration);
-  else if (duration) return duration;
+  const duration = durationAttr(hass, stateObj, config.duration);
+  if (duration) return duration;
 
   const start_time = attribute(hass, stateObj, config.start_time);
   const end_time = attribute(hass, stateObj, config.end_time);
@@ -45,13 +43,13 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
     return (Date.parse(end_time) - Date.now()) / 1000;
 
   const start_time = attribute(hass, stateObj, config.start_time);
-  const duration = attribute(hass, stateObj, config.duration);
+  const duration = durationAttr(hass, stateObj, config.duration);
 
   if (start_time && duration)
-    return (Date.parse(start_time) - Date.now()) / 1000 + tryDurationToSeconds(duration);
+    return (Date.parse(start_time) - Date.now()) / 1000 + duration;
 
   if (duration)
-    return (madeActive - Date.now()) / 1000 + tryDurationToSeconds(duration);
+    return (madeActive - Date.now()) / 1000 + duration;
 
   return undefined;
 };
@@ -80,9 +78,24 @@ export const isState = (stateObj: HassEntity | undefined, checkState: string | s
   return checkState.includes(stateObj.state);
 }
 
-export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeType | undefined) => {
+export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
   if (!attrib) throw new Error('One of duration, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
   if ('entity' in attrib) return hass.states[attrib.entity].state;
   return stateObj.attributes[attrib.attribute];
+}
+
+const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
+  const duration = attribute(hass, stateObj, attrib);
+  if (!duration) return duration;
+
+  if (attrib!.units === 'hours' || attrib!.units === 'minutes' || attrib!.units === 'seconds') {
+    const numeric = Number(duration);
+    if (isNaN(numeric)) throw new Error(`Expected duration ${duration} to be a number since units is ${attrib!.units}`);
+    if (attrib!.units == 'hours') return numeric * 3600;
+    if (attrib!.units == 'minutes') return numeric * 60;
+    if (attrib!.units == 'seconds')  return numeric * 1;
+  }
+
+  return tryDurationToSeconds(duration, 'duration');
 }
