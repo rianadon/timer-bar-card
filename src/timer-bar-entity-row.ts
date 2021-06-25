@@ -67,6 +67,7 @@ export class TimerBarEntityRow extends LitElement {
 
   @state() private _interval?: number;
   @state() private _timeRemaining?: number;
+  @state() private _error?: Error;
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -85,8 +86,10 @@ export class TimerBarEntityRow extends LitElement {
 
   protected render(): TemplateResult | void {
     const state = this.hass!.states[this.config.entity!];
+    if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
+
     let percent = 0;
-    if (state) percent = timerTimePercent(this.config, state) ?? 0;
+    if (state) percent = timerTimePercent(this.hass!, this.config, state) ?? 0;
 
     const activeConfig = {
       ...this.modConfig,
@@ -151,8 +154,8 @@ export class TimerBarEntityRow extends LitElement {
     if (!state) return html`<code>No state found</code>`;
     return html`<code>
       State: ${state.state} ( = ${mode} mode)<br>
-      Duration: ${findDuration(this.config, state)}<br>
-      Time remaining: ${timerTimeRemaining(this.config, state)}<br>
+      Duration: ${findDuration(this.hass!, this.config, state)} second<br>
+      Time remaining: ${timerTimeRemaining(this.hass!, this.config, state)}<br>
       Counter: ${this._timeRemaining}
     </code>`;
   }
@@ -206,7 +209,13 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _calculateRemaining(stateObj: HassEntity): void {
-    this._timeRemaining = timerTimeRemaining(this.config, stateObj);
+    try {
+      this._timeRemaining = timerTimeRemaining(this.hass!, this.config, stateObj);
+      this._error = undefined;
+    } catch (e) {
+      console.error(e);
+      this._error = e;
+    }
   }
 
   private _barStyle(width: string, background: string) {
@@ -250,7 +259,7 @@ export class TimerBarEntityRow extends LitElement {
       .text-content { text-align: right; text-align: end; }
       code {
         display: block;
-        background-color: #eee;
+        background-color: var(--secondary-background-color);
         margin: 0.5em 0 0 0;
         padding: 0.7rem;
         font-size: 0.9em;
@@ -262,7 +271,7 @@ export class TimerBarEntityRow extends LitElement {
     if (!this.config.modifications) return this.config;
 
     const state = this.hass!.states[this.config.entity!];
-    const percent = timerTimePercent(this.config, state) ?? 0;
+    const percent = timerTimePercent(this.hass!, this.config, state) ?? 0;
 
     let config = this.config;
     for (const mod of this.config.modifications) {

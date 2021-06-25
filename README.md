@@ -177,7 +177,7 @@ Imagine we have a **switch**, that, through an automation, will always turn off 
 type: custom:timer-bar-card
 entities:
   - switch.my_switch
-duration: { fixed: 300 } # 300 seconds = 5 min
+duration: { fixed: 0:05:00 } # 5 min
 ```
 
 Like in step 1, there is no `start_time` configured so the card will use the time the switch was last toggled as the start time.

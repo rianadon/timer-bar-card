@@ -31,7 +31,7 @@ interface modsConfig extends styleConfig {
   greater_than_eq?: number;
 }
 
-export type AttributeType = { attribute: string } | { fixed: number };
+export type AttributeType = { attribute: string } | { entity: string } | { fixed: number };
 export type Translations = { [phrase: string]: string };
 
 export interface TimerBarEntityConfig extends styleConfig {

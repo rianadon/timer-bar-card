@@ -6,7 +6,7 @@ import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 
-import type { TimerBarConfig, TimerBarEntityConfig } from './types';
+import type { TimerBarConfig, TimerBarEntityConfig, AttributeType } from './types';
 import { isState } from './helpers';
 import { PropertyValues } from 'lit-element';
 
@@ -58,6 +58,18 @@ export class TimerBarCard extends LitElement {
     }
   }
 
+  private _hasEntityChanged(oldHass: HomeAssistant, ...entities: (string | AttributeType | TimerBarEntityConfig | undefined)[]) {
+    for (const entity of entities) {
+      if (!entity) continue;
+      if (typeof entity === 'string') {
+        if (oldHass.states[entity] !== this.hass!.states[entity]) return true;
+      } else if ('entity' in entity) {
+        if (entity.entity && oldHass.states[entity.entity] !== this.hass!.states[entity.entity]) return true;
+      }
+    }
+    return false;
+  }
+
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) return false;
     if (changedProps.has('config')) return true;
@@ -71,12 +83,11 @@ export class TimerBarCard extends LitElement {
     if (!oldHass) return true;
 
     for (const entity of this._filteredEntities()) {
-      const id = typeof entity === 'string' ? entity : entity.entity!;
-      if (oldHass.states[id] !== this.hass!.states[id]) return true;
+      if (this._hasEntityChanged(oldHass, entity)) return true;
     }
 
-    const header = this.config.header_entity;
-    if (header && oldHass.states[header] !== this.hass!.states[header]) return true;
+    if (this._hasEntityChanged(oldHass, this.config.header_entity,
+        this.config.duration, this.config.start_time, this.config.end_time)) return true;
 
     return false;
   }
