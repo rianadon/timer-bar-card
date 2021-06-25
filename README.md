@@ -143,13 +143,25 @@ You can find a subset of these attributes in the entity popup, and a full list b
 #### 1. My entity has an attribute that looks like `duration` (for example, `timespan`). Supply the following configuration:
 
 ```yaml
-duration: { attribute: "timespan" }
+duration: { attribute: "timespan" } # If your your duration attribute looks like 0:10:00.
 debug: true
 ```
 
 The entity's start time will be computed using the `last_changed` property (when the entity state last changed).
 
-#### 2. The time last changed doesn't approximate the start time well enough, and my entity has a duration-looking attribute and a start time attribute (called `start`).
+#### 2. My `duration` isn't in the `0:10:00` format! I need to use different units!
+
+Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects colons in the duration.
+
+```yaml
+duration:
+  attribute: "timespan" # Should look like 10 or 10.0
+  units: minutes
+debug: true
+```
+
+
+#### 3. The time last changed doesn't approximate the start time well enough, and my entity has a duration-looking attribute and a start time attribute (called `start`).
 
 ```yaml
 duration: { attribute: "timespan" }
@@ -157,7 +169,7 @@ start_time: { attribute: "start" }
 debug: true
 ```
 
-#### 3. The entity has no duration attribute but it has start time  and end time (`finishes_at`) attributes.
+#### 4. The entity has no duration attribute but it has start time  and end time (`finishes_at`) attributes.
 
 ```yaml
 start_time: { attribute: "start" }
@@ -167,7 +179,7 @@ debug: true
 
 Duration will be computed as the difference between these two times.
 
-#### 4. My entity has no attributes!
+#### 5. My entity has no attributes!
 
 Imagine we have a **switch**, that, through an automation, will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
 
@@ -182,7 +194,21 @@ duration: { fixed: 0:05:00 } # 5 min
 
 Like in step 1, there is no `start_time` configured so the card will use the time the switch was last toggled as the start time.
 
-#### 5. If your entity doesn't meet these criteria...
+#### 6. My duration actually comes from another entity
+
+So far, `duration` has taken on type `attribute` and `fixed`. But there's a third type: `entity`! Assume there's a duration slider with id `input_number.slider1`.
+
+```yaml
+type: custom:timer-bar-card
+debug: true
+entities:
+  - switch.my_switch # ID of the switch, which provides the active/idle status
+duration:
+  entity: input_number.slider1
+  units: minutes # Since the slider state is a number like 10.0
+```
+
+#### 7. If your entity doesn't meet these criteria...
 
 🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
 
