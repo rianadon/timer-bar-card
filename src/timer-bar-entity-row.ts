@@ -10,7 +10,7 @@ import { state, property } from "lit/decorators";
 import { styleMap } from 'lit/directives/style-map';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';
+import { findDuration, formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations } from './types';
 import { PropertyValues } from 'lit-element';
 
@@ -101,6 +101,7 @@ export class TimerBarEntityRow extends LitElement {
             ${secondsToDuration(this._timeRemaining || 0)}
           </div>
         </hui-generic-entity-row>
+        ${this._renderDebug(state, 'active')}
       `;
     } else if (isState(state, this.config.pause_state!)) {
       return html`
@@ -112,6 +113,7 @@ export class TimerBarEntityRow extends LitElement {
             ${secondsToDuration(this._timeRemaining || 0)}
           </div>
         </hui-generic-entity-row>
+        ${this._renderDebug(state, 'pause')}
       `;
     } else if (isState(state, this.config.waiting_state!)) {
       return html`
@@ -120,6 +122,7 @@ export class TimerBarEntityRow extends LitElement {
             ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
           </div>
         </hui-generic-entity-row>
+        ${this._renderDebug(state, 'waiting')}
       `;
 
     } else {
@@ -127,6 +130,7 @@ export class TimerBarEntityRow extends LitElement {
         <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
           <div class="text-content">${localize(this.hass!, state?.state, state, this.config.translations)}</div>
         </hui-generic-entity-row>
+        ${this._renderDebug(state, 'idle')}
       `;
     }
   }
@@ -140,6 +144,17 @@ export class TimerBarEntityRow extends LitElement {
         <div style=${fgStyle}>
       </div>
     </div>`;
+  }
+
+  private _renderDebug(state: HassEntity | undefined, mode: string) {
+    if (!this.config.debug) return '';
+    if (!state) return html`<code>No state found</code>`;
+    return html`<code>
+      State: ${state.state} ( = ${mode} mode)<br>
+      Duration: ${findDuration(this.config, state)}<br>
+      Time remaining: ${timerTimeRemaining(this.config, state)}<br>
+      Counter: ${this._timeRemaining}
+    </code>`;
   }
 
   private _handleClick() {
@@ -233,6 +248,13 @@ export class TimerBarEntityRow extends LitElement {
       .bar { margin-top: 2px; }
       .status { cursor: pointer; line-height: 1.5em; flex-shrink: 0; }
       .text-content { text-align: right; text-align: end; }
+      code {
+        display: block;
+        background-color: #eee;
+        margin: 0.5em 0 0 0;
+        padding: 0.7rem;
+        font-size: 0.9em;
+      }
     `;
   }
 

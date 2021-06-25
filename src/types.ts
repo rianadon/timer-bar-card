@@ -45,6 +45,7 @@ export interface TimerBarEntityConfig extends styleConfig {
   duration?: AttributeType;
   start_time?: AttributeType;
   end_time?: AttributeType;
+  debug?: boolean;
 
   modifications?: modsConfig[];
   translations?: Translations;

@@ -29,14 +29,15 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 <details>
 <summary>Expand: Configure for entities that use a different set of status states</summary>
 
-| Name          | Type           | Requirement  | Description                                    | Default                                     |
-|---------------|----------------|--------------|------------------------------------------------|---------------------------------------------|
+| Name          | Type           | Requirement  | Description                                    | Default                                             |
+|---------------|----------------|--------------|------------------------------------------------|-----------------------------------------------------|
 | active_state  | string or list | **Optional** | State(s) used to indicate a timer is running   | `active`, `on`, `manual`, `program`, `once-program` |
-| paused_state  | string or list | **Optional** | State(s) used to indicate a timer is paused    | `paused`                                    |
-| waiting_state | string or list | **Optional** | State(s) when a timer is scheduled for later † | `waiting`                                   |
-| start_time    | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                   |
-| end_time      | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                     |
-| duration      | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                     |
+| paused_state  | string or list | **Optional** | State(s) used to indicate a timer is paused    | `paused`                                            |
+| waiting_state | string or list | **Optional** | State(s) when a timer is scheduled for later † | `waiting`                                           |
+| start_time    | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                           |
+| end_time      | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                             |
+| duration      | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
+| debug         | bool           | **Optional** | Show debugging info in card                    | false                                               |
 
 † requires a `start_time` attribute to calculate when the timer will start.
 
@@ -133,12 +134,17 @@ You can find a subset of these attributes in the entity popup, and a full list b
 
 <img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
 
-Follow these steps in order to figure out what you need:
+**STEP ONE**: Assign `active_state`, `paused_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above).
+
+**STEP TWO**: Turn on card debug mode by adding `debug: true` to the yaml configuration.
+
+**STEP THREE**: Then follow these steps in order to figure out what you need:
 
 #### 1. My entity has an attribute that looks like `duration` (for example, `timespan`). Supply the following configuration:
 
 ```yaml
 duration: { attribute: "timespan" }
+debug: true
 ```
 
 The entity's start time will be computed using the `last_changed` property (when the entity state last changed).
@@ -148,6 +154,7 @@ The entity's start time will be computed using the `last_changed` property (when
 ```yaml
 duration: { attribute: "timespan" }
 start_time: { attribute: "start" }
+debug: true
 ```
 
 #### 3. The entity has no duration attribute but it has start time  and end time (`finishes_at`) attributes.
@@ -155,6 +162,7 @@ start_time: { attribute: "start" }
 ```yaml
 start_time: { attribute: "start" }
 end_time: { attribute: "finishes_at" }
+debug: true
 ```
 
 Duration will be computed as the difference between these two times.

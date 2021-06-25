@@ -60,7 +60,7 @@ export class TimerBarCard extends LitElement {
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) return false;
-    if (this.config.header_entity) return true;
+    if (changedProps.has('config')) return true;
     if (this.config.entity) {
       return hasConfigOrEntityChanged(this, changedProps, false);
     }
@@ -74,6 +74,10 @@ export class TimerBarCard extends LitElement {
       const id = typeof entity === 'string' ? entity : entity.entity!;
       if (oldHass.states[id] !== this.hass!.states[id]) return true;
     }
+
+    const header = this.config.header_entity;
+    if (header && oldHass.states[header] !== this.hass!.states[header]) return true;
+
     return false;
   }
 

@@ -2,7 +2,7 @@ import { AttributeType, TimerBarConfig, HassEntity } from "./types";
 import { durationToSeconds, formatTime } from "custom-card-helpers";
 
 /** Find the duration of the timer. */
-function findDuration(config: TimerBarConfig, stateObj: HassEntity) {
+export function findDuration(config: TimerBarConfig, stateObj: HassEntity) {
   const duration = attribute(stateObj, config.duration!);
 
   if (duration && typeof duration === 'string') return durationToSeconds(duration);
