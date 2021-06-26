@@ -82,7 +82,7 @@ export class TimerBarCard extends LitElement {
     const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
     if (!oldHass) return true;
 
-    for (const entity of this._filteredEntities()) {
+    for (const entity of this.config.entities!) {
       if (this._hasEntityChanged(oldHass, entity)) return true;
     }
 
