@@ -20,6 +20,8 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
   const end_time = attribute(hass, stateObj, config.end_time);
   if (start_time && end_time) return (Date.parse(end_time) - Date.parse(start_time)) / 1000;
 
+  if (end_time) return (Date.parse(end_time) - Date.parse(stateObj.last_changed)) / 1000;
+
   return null;
 }
 

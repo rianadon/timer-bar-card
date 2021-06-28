@@ -169,7 +169,7 @@ start_time: { attribute: "start" }
 debug: true
 ```
 
-#### 4. The entity has no duration attribute but it has start time  and end time (`finishes_at`) attributes.
+#### 4. The entity has no duration attribute but it has start time and end time (`finishes_at`) attributes.
 
 ```yaml
 start_time: { attribute: "start" }
@@ -177,7 +177,7 @@ end_time: { attribute: "finishes_at" }
 debug: true
 ```
 
-Duration will be computed as the difference between these two times.
+Duration will be computed as the difference between these two times. You can also omit start time if you only have an `end_time`, in which case the `last_changed` property is used as the start time.
 
 #### 5. My entity has no attributes!
 
