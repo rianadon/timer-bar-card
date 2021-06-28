@@ -58,6 +58,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | bar_foreground | string  | **Optional** | Foreground color of progress bar                                                                           | primary color †   |
 | bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
 | bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
+| full_row       | boolean | **Optional** | Hide the name and icon, which widens the progress bar                                                      | `false`           |
 | modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 
@@ -303,6 +304,18 @@ modifications:
 All modifications that match are applied, with the last modification having precedence. This means you'll likeley want to list them in increasing order of percentages, so that styles are overridden as the timer progresses farther.
 
 For each modification, you have the option of using `greater_than` (percentage complete > condition) or `greater_than_eq` (percentage complete ≥ condition).
+
+### Show only progress bar
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/onlybar.png" width="394" height="66" />
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - timer.alarm
+full_row: true  # hides the name and icon, but not time remaining
+text_width: 0px # hide the time remaining
+```
 
 ### Even more options
 

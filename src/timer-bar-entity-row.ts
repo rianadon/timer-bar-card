@@ -11,7 +11,7 @@ import { styleMap } from 'lit/directives/style-map';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
 import { findDuration, formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';
-import { TimerBarEntityConfig, HassEntity, Translations } from './types';
+import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig } from './types';
 import { PropertyValues } from 'lit-element';
 
 export function fillConfig(config: TimerBarEntityConfig) {
@@ -98,49 +98,53 @@ export class TimerBarEntityRow extends LitElement {
     };
 
     if (isState(state, this.config.active_state!) && (this._timeRemaining||0) > 0) {
-      return html`
-        <hui-generic-entity-row .hass=${this.hass} .config=${activeConfig}>
-          ${this._renderBar(percent)}
-          <div class="text-content" style=${this._textStyle()}>
-            ${secondsToDuration(this._timeRemaining || 0)}
-          </div>
-        </hui-generic-entity-row>
-        ${this._renderDebug(state, 'active')}
-      `;
+      return this._renderRow(activeConfig, html`
+        ${this._renderBar(percent)}
+        <div class="text-content" style=${this._textStyle()}>
+          ${secondsToDuration(this._timeRemaining || 0)}
+        </div>
+      `, this._renderDebug(state, 'active'));
     } else if (isState(state, this.config.pause_state!)) {
-      return html`
-        <hui-generic-entity-row .hass=${this.hass} .config=${activeConfig}>
-          <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
-            ${localize(this.hass!, state.state, state, this.config.translations)}
-          </div>
-          <div class="text-content" style=${this._textStyle()}>
-            ${secondsToDuration(this._timeRemaining || 0)}
-          </div>
-        </hui-generic-entity-row>
-        ${this._renderDebug(state, 'pause')}
-      `;
+      return this._renderRow(activeConfig, html`
+        <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
+          ${localize(this.hass!, state.state, state, this.config.translations)}
+        </div>
+        <div class="text-content" style=${this._textStyle()}>
+          ${secondsToDuration(this._timeRemaining || 0)}
+        </div>
+      `, this._renderDebug(state, 'pause'));
     } else if (isState(state, this.config.waiting_state!)) {
-      return html`
-        <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
-          <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
-            ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
-          </div>
-        </hui-generic-entity-row>
-        ${this._renderDebug(state, 'waiting')}
-      `;
-
+      return this._renderRow(this.modConfig, html`
+        <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
+          ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
+        </div>
+      `, this._renderDebug(state, 'waiting'));
     } else {
-      return html`
-        <hui-generic-entity-row .hass=${this.hass} .config=${this.modConfig}>
-          <div class="text-content">${localize(this.hass!, state?.state, state, this.config.translations)}</div>
-        </hui-generic-entity-row>
-        ${this._renderDebug(state, 'idle')}
-      `;
+      const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
+      const style = textHidden ? 'visibility: hidden' : '';
+      return this._renderRow(this.modConfig, html`
+        <div class="text-content" style=${style}>${localize(this.hass!, state?.state, state, this.config.translations)}</div>
+      `, this._renderDebug(state, 'idle'));
     }
   }
 
+  private _renderRow(config: TimerBarConfig, contents: TemplateResult, contents2?: TemplateResult) {
+    if (this.modConfig.full_row) return html`<div class="flex">${contents}</div>${contents2}`;
+    return html`
+      <hui-generic-entity-row .hass=${this.hass} .config=${config}>
+        ${contents}
+      </hui-generic-entity-row>
+      ${contents2}
+    `;
+  }
+
+  private get _bar_width() {
+    if (this.modConfig.full_row) return `calc(100% - ${this.modConfig.text_width})`;
+    return this.modConfig.bar_width;
+  }
+
   private _renderBar(percent: number) {
-    const containerStyle = styleMap({ width: this.modConfig.bar_width, direction: this.modConfig.bar_direction });
+    const containerStyle = styleMap({ width: this._bar_width, direction: this.modConfig.bar_direction });
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
     return html`<div class="bar-container" style=${containerStyle} @click=${this._handleClick}>
@@ -151,7 +155,7 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderDebug(state: HassEntity | undefined, mode: string) {
-    if (!this.config.debug) return '';
+    if (!this.config.debug) return undefined;
     if (!state) return html`<code>No state found</code>`;
     return html`<code>
       State: ${state.state} ( = ${mode} mode)<br>
@@ -234,11 +238,9 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _statusStyle(includeText?: boolean) {
-    const conf = this.modConfig;
-    return styleMap({
-      width: includeText ? `calc(${conf.bar_width} + ${conf.text_width})` : conf.bar_width,
-      color: 'var(--secondary-text-color, #eee)',
-    });
+    let width = this._bar_width;
+    if (includeText) width = `calc(${this._bar_width} + ${this.modConfig.text_width})`;
+    return styleMap({ width, color: 'var(--secondary-text-color, #eee)' });
   }
 
   static get styles(): CSSResultGroup {
@@ -248,6 +250,7 @@ export class TimerBarEntityRow extends LitElement {
         flex-direction: column;
         justify-content: center;
       }
+      .flex { display: flex; height: 40px; align-items: center; justify-content: flex-end; }
       .bar-container {
         cursor: pointer;
         min-height: 1.5em;
@@ -257,7 +260,7 @@ export class TimerBarEntityRow extends LitElement {
       }
       .bar { margin-top: 2px; }
       .status { cursor: pointer; line-height: 1.5em; flex-shrink: 0; }
-      .text-content { text-align: right; text-align: end; }
+      .text-content { text-align: right; text-align: end; overflow: hidden; }
       code {
         display: block;
         background-color: var(--secondary-background-color);

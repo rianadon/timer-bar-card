@@ -24,6 +24,7 @@ interface styleConfig {
   bar_background?: string;
   bar_direction?: string;
   text_width?: string;
+  full_row?: string;
 }
 
 interface modsConfig extends styleConfig {
