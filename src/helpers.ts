@@ -63,7 +63,7 @@ export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, st
 
   if (!duration || !remaining) return undefined;
 
-  return (duration - remaining) / duration * 100;
+  return (duration - Math.floor(remaining)) / duration * 100;
 };
 
 export const formatStartTime = (stateObj: HassEntity) => {
