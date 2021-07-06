@@ -1,4 +1,4 @@
-name: 'Build'
+name: 'Test'
 
 on:
   push:
@@ -10,11 +10,12 @@ on:
 
 jobs:
   build:
-    name: Test build
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Build
+      - name: Test
         run: |
           npm install
           npm run build
+          npm run test
