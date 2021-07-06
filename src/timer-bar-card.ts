@@ -1,4 +1,4 @@
-import { LitElement, html, TemplateResult } from 'lit';
+import { LitElement, css, html, TemplateResult } from 'lit';
 import { customElement, state, property } from "lit/decorators";
 import { styleMap } from 'lit/directives/style-map';
 
@@ -46,10 +46,10 @@ export class TimerBarCard extends LitElement {
     if (config.entity) {
       return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
     } else if (config.entities) {
-      const header = (config.name && !config.header_entity) ? config.name : undefined;
-      return html`<ha-card header=${header}>
+      return html`<ha-card>
+        ${config.name && !config.header_entity ? html`<h1 class="card-header">${this.config.name}</h1>` : ''}
         <div class="card-content">
-          ${config.header_entity ? this._renderTitle() : null}
+          ${config.header_entity ? this._renderTitle() : ''}
           ${this._renderContent()}
         </div>
       </ha-card>`;
@@ -159,4 +159,12 @@ export class TimerBarCard extends LitElement {
 
     return size + this._filteredEntities().length;
   }
+
+  static styles = css`
+    .card-header {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  `;
 }
