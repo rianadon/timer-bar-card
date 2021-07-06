@@ -13,9 +13,22 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        run: npm install && npx hass-taste-test
+
+      - name: Build
+        run: npm run build
+
       - name: Test
-        run: |
-          npm install
-          npm run build
-          npm run test
+        run: npm run test
+
+      - name: Upload artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: |
+            **/__diff_output__/**/
