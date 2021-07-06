@@ -1,5 +1,7 @@
 import { HomeAssistant } from "hass-taste-test";
 import { entitiesColl } from "home-assistant-js-websocket";
+import { MatchImageSnapshotOptions, toMatchImageSnapshot } from "jest-image-snapshot";
+import { toMatchSnapshot } from "jest-snapshot";
 
 type Hass = HomeAssistant<any>
 
@@ -46,4 +48,26 @@ export async function synchronizeTimerPaused(hass: Hass, entity_id: string, seco
   if (target_time < Date.now()) throw new Error(`Timer has already advanced past ${seconds} seconds from the beginning`);
 
   await new Promise(r => setTimeout(r, target_time - Date.now()));
+}
+
+/** Match both html and image snapshot */
+export async function toMatchDualSnapshot(this: any, received: any, name?: string) {
+  const html = await received.html({ ignoreAttributes: ["style"] });
+  const htmlResult = toMatchSnapshot.call(this, html, name);
+
+  const imgResult = (toMatchImageSnapshot as any).call(this, await received.screenshot(), {
+    customSnapshotIdentifier: name ? ({ defaultIdentifier }) => `${defaultIdentifier}-${name}` : undefined,
+    failureThreshold: 0.05,
+    failureThresholdType: 'percent'
+  });
+
+  return htmlResult.pass ? imgResult : htmlResult;
+}
+
+declare global {
+    namespace jest {
+        interface Matchers<R, T> {
+            toMatchDualSnapshot(name?: string): Promise<R>;
+        }
+    }
 }

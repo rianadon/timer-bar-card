@@ -1,7 +1,6 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { MatchImageSnapshotOptions, toMatchImageSnapshot } from "jest-image-snapshot";
-import { synchronizeTimerPaused } from "./util";
-expect.extend({ toMatchImageSnapshot });
+import { toMatchDualSnapshot, synchronizeTimerPaused } from "./util";
+expect.extend({ toMatchDualSnapshot });
 
 const CONFIGURATION_YAML = `
 timer:
@@ -12,10 +11,6 @@ timer:
 `;
 
 let hass: HomeAssistant<PlaywrightElement>;
-
-function id(name: string): MatchImageSnapshotOptions {
-  return { customSnapshotIdentifier: ({ defaultIdentifier }) => `${defaultIdentifier}-${name}`};
-}
 
 beforeAll(async () => {
   hass = await HomeAssistant.create(CONFIGURATION_YAML, {
@@ -30,14 +25,14 @@ it("Entity Row Styles", async () => {
     { type: "custom:timer-bar-card", entity: "timer.test1" },
   ]);
   const card = dashboard.cards[0];
-  expect(await card.screenshot()).toMatchImageSnapshot(id("idle"));
+  await expect(card).toMatchDualSnapshot("idle");
 
   await hass.callService("timer", "start", {}, { entity_id: "timer.test1" });
-  expect(await card.screenshot()).toMatchImageSnapshot(id("running"));
+  await expect(card).toMatchDualSnapshot("running");
 
   await synchronizeTimerPaused(hass, "timer.test1", 1);
   await hass.callService("timer", "pause", {}, { entity_id: "timer.test1" });
-  expect(await card.screenshot()).toMatchImageSnapshot(id("paused"));
+  await expect(card).toMatchDualSnapshot("paused");
 
 });
 
@@ -46,14 +41,14 @@ it("Card UI Styles", async () => {
     { type: "custom:timer-bar-card", entities: ["timer.test2", "timer.test3"] },
   ]);
   const card = dashboard.cards[0];
-  expect(await card.screenshot()).toMatchImageSnapshot(id("idle"));
+  await expect(card).toMatchDualSnapshot("idle");
 
   await hass.callService("timer", "start", {}, { entity_id: "timer.test2" });
-  expect(await card.screenshot()).toMatchImageSnapshot(id("running"));
+  await expect(card).toMatchDualSnapshot("running");
 
   await synchronizeTimerPaused(hass, "timer.test2", 1);
   await hass.callService("timer", "pause", {}, { entity_id: "timer.test2" });
-  expect(await card.screenshot()).toMatchImageSnapshot(id("paused"));
+  await expect(card).toMatchDualSnapshot("paused");
 });
 
 it("Debug window appears", async () => {

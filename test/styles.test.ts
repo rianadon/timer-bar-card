@@ -1,8 +1,7 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchImageSnapshot } from "jest-image-snapshot";
-import { synchronizeTimerRunning } from "./util";
+import { toMatchDualSnapshot, synchronizeTimerRunning } from "./util";
 
-expect.extend({ toMatchImageSnapshot });
+expect.extend({ toMatchDualSnapshot });
 
 const CONFIGURATION_YAML = `
 timer:
@@ -33,10 +32,10 @@ it("Widths", async () => {
     },
   ]);
   const card = dashboard.cards[0];
-  expect(await card.screenshot()).toMatchImageSnapshot();
+  await expect(card).toMatchDualSnapshot("idle");
 
   await hass.callService("timer", "start", { duration: "10:00:00" }, { entity_id: "timer.test1" });
-  expect(await card.screenshot()).toMatchImageSnapshot();
+  await expect(card).toMatchDualSnapshot("running");
 });
 
 it("Colors and icons", async () => {
@@ -53,7 +52,7 @@ it("Colors and icons", async () => {
 
   await hass.callService("timer", "start", { duration: "00:00:10" }, { entity_id: "timer.test2" });
   await synchronizeTimerRunning(hass, "timer.test2", 1);
-  expect(await card.screenshot()).toMatchImageSnapshot();
+  await expect(card).toMatchDualSnapshot("running");
 });
 
 
@@ -71,5 +70,5 @@ it("Receding progress bar", async () => {
 
   await hass.callService("timer", "start", { duration: "00:00:10" }, { entity_id: "timer.test3" });
   await synchronizeTimerRunning(hass, "timer.test3", 1);
-  expect(await card.screenshot()).toMatchImageSnapshot();
+  await expect(card).toMatchDualSnapshot("running");
 });

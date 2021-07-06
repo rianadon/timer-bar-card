@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Colors and icons: running 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"active\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            test2
+          </div>
+          <slot></slot>
+          <div class=\\"bar-container\\">
+            <div class=\\"bar\\">
+              <div>
+              </div>
+            </div>
+          </div>
+          <div class=\\"text-content\\">
+            9
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
+exports[`Receding progress bar: running 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"active\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            test3
+          </div>
+          <slot></slot>
+          <div class=\\"bar-container\\">
+            <div class=\\"bar\\">
+              <div>
+              </div>
+            </div>
+          </div>
+          <div class=\\"text-content\\">
+            9
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
+exports[`Widths: idle 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <h1 class=\\"card-header\\">
+      Progress bar should be munched
+    </h1>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"idle\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            test1
+          </div>
+          <slot></slot>
+          <div class=\\"text-content\\">
+            Idle
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
+exports[`Widths: running 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <h1 class=\\"card-header\\">
+      Progress bar should be munched
+    </h1>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"active\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            test1
+          </div>
+          <slot></slot>
+          <div class=\\"bar-container\\">
+            <div class=\\"bar\\">
+              <div>
+              </div>
+            </div>
+          </div>
+          <div class=\\"text-content\\">
+            9:59:59
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;

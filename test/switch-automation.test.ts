@@ -1,8 +1,7 @@
-import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchImageSnapshot } from "jest-image-snapshot";
-import { synchronizeTimerRunning } from "./util";
+import { HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
+import { toMatchDualSnapshot, synchronizeTimerRunning } from "./util";
 
-expect.extend({ toMatchImageSnapshot });
+expect.extend({ toMatchDualSnapshot });
 
 const CONFIGURATION_YAML = `
 input_boolean:
@@ -48,7 +47,7 @@ it("Switch with input_number turns off", async () => {
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch" });
   await synchronizeTimerRunning(hass, "input_boolean.switch", 1);
-  expect(await card.screenshot()).toMatchImageSnapshot();
+  await expect(card).toMatchDualSnapshot("running");
   await synchronizeTimerRunning(hass, "input_boolean.switch", 3.5);
-  expect(await card.screenshot()).toMatchImageSnapshot();
+  await expect(card).toMatchDualSnapshot("idle");
 });

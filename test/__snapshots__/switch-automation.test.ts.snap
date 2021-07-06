@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Switch with input_number turns off: idle 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"off\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            switch
+          </div>
+          <slot></slot>
+          <div class=\\"text-content\\">
+            Off
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
+exports[`Switch with input_number turns off: running 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"on\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            switch
+          </div>
+          <slot></slot>
+          <div class=\\"bar-container\\">
+            <div class=\\"bar\\">
+              <div>
+              </div>
+            </div>
+          </div>
+          <div class=\\"text-content\\">
+            2
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
