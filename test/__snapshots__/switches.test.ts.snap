@@ -31,6 +31,40 @@ exports[`Switch with fixed duration: running 1`] = `
 "
 `;
 
+exports[`Switch with input_number duration: 2-minutes 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <ha-card outlined=\\"false\\">
+    <slot></slot>
+    <h1 class=\\"card-header\\">
+      Time is 1:57
+    </h1>
+    <div class=\\"card-content\\">
+      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+            <ha-icon data-state=\\"on\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+          </state-badge>
+          <div class=\\"info pointer text-content\\">
+            switch2
+          </div>
+          <slot></slot>
+          <div class=\\"bar-container\\">
+            <div class=\\"bar\\">
+              <div>
+              </div>
+            </div>
+          </div>
+          <div class=\\"text-content\\">
+            1:57
+          </div>
+        </hui-generic-entity-row>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
 exports[`Switch with input_number duration: 5-minutes 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
   <ha-card outlined=\\"false\\">

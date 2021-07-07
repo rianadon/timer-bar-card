@@ -1,5 +1,5 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchDualSnapshot, synchronizeTimerRunning } from "./util";
+import { toMatchDualSnapshot, waitForTimerTime } from "./util";
 
 expect.extend({ toMatchDualSnapshot });
 
@@ -51,7 +51,7 @@ it("Colors and icons", async () => {
   const card = dashboard.cards[0];
 
   await hass.callService("timer", "start", { duration: "00:00:10" }, { entity_id: "timer.test2" });
-  await synchronizeTimerRunning(hass, "timer.test2", 1);
+  await waitForTimerTime(card, "00:00:09");
   await expect(card).toMatchDualSnapshot("running");
 });
 
@@ -69,6 +69,6 @@ it("Receding progress bar", async () => {
   const card = dashboard.cards[0];
 
   await hass.callService("timer", "start", { duration: "00:00:10" }, { entity_id: "timer.test3" });
-  await synchronizeTimerRunning(hass, "timer.test3", 1);
+  await waitForTimerTime(card, "00:00:09");
   await expect(card).toMatchDualSnapshot("running");
 });

@@ -1,5 +1,5 @@
 import { HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchDualSnapshot, synchronizeTimerRunning } from "./util";
+import { toMatchDualSnapshot, waitForTimerTime } from "./util";
 
 expect.extend({ toMatchDualSnapshot });
 
@@ -46,8 +46,9 @@ it("Switch with input_number turns off", async () => {
   }]);
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch" });
-  await synchronizeTimerRunning(hass, "input_boolean.switch", 1);
+  await waitForTimerTime(card, "00:00:02");
   await expect(card).toMatchDualSnapshot("running");
-  await synchronizeTimerRunning(hass, "input_boolean.switch", 4);
+  await waitForTimerTime(card, "00:00:01");
+  await new Promise(r => setTimeout(r, 2000));
   await expect(card).toMatchDualSnapshot("idle");
 }, 7000);

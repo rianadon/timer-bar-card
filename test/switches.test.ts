@@ -1,5 +1,5 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchDualSnapshot, synchronizeTimerRunning } from "./util";
+import { toMatchDualSnapshot, waitForTimerTime } from "./util";
 
 expect.extend({ toMatchDualSnapshot });
 
@@ -35,7 +35,7 @@ it("Switch with fixed duration", async () => {
   ]);
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch1" });
-  await synchronizeTimerRunning(hass, "input_boolean.switch1", 1);
+  await waitForTimerTime(card, "00:00:59");
   await expect(card).toMatchDualSnapshot("running");
 });
 
@@ -56,6 +56,9 @@ it("Switch with input_number duration", async () => {
   ]);
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch2" });
-  await synchronizeTimerRunning(hass, "input_boolean.switch2", 1);
+  await waitForTimerTime(card, "00:04:59");
   await expect(card).toMatchDualSnapshot("5-minutes");
+  await hass.callService('input_number', 'set_value', { value: 2 }, { entity_id: "input_number.slider" });
+  await waitForTimerTime(dashboard.cards[1], "00:01:57");
+  await expect(dashboard.cards[1]).toMatchDualSnapshot("2-minutes");
 });

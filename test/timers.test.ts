@@ -1,5 +1,5 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchDualSnapshot, synchronizeTimerPaused } from "./util";
+import { synchronizeTimerPaused, toMatchDualSnapshot } from "./util";
 expect.extend({ toMatchDualSnapshot });
 
 const CONFIGURATION_YAML = `
@@ -30,7 +30,7 @@ it("Entity Row Styles", async () => {
   await hass.callService("timer", "start", {}, { entity_id: "timer.test1" });
   await expect(card).toMatchDualSnapshot("running");
 
-  await synchronizeTimerPaused(hass, "timer.test1", 1);
+  await synchronizeTimerPaused(hass, "timer.test1", "00:00:59");
   await hass.callService("timer", "pause", {}, { entity_id: "timer.test1" });
   await expect(card).toMatchDualSnapshot("paused");
 
@@ -46,7 +46,7 @@ it("Card UI Styles", async () => {
   await hass.callService("timer", "start", {}, { entity_id: "timer.test2" });
   await expect(card).toMatchDualSnapshot("running");
 
-  await synchronizeTimerPaused(hass, "timer.test2", 1);
+  await synchronizeTimerPaused(hass, "timer.test2", "00:01:59");
   await hass.callService("timer", "pause", {}, { entity_id: "timer.test2" });
   await expect(card).toMatchDualSnapshot("paused");
 });
