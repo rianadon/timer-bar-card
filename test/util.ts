@@ -27,7 +27,7 @@ export async function synchronizeTimerRunning(hass: Hass, entity_id: string, sec
   if (!state.attributes.finishes_at && state.state !== "on") throw new Error(`Timer ${entity_id} is not running`);
 
   const last_changed = Date.parse(state.last_changed);
-  const target_time = last_changed + seconds*1000 - 500;
+  const target_time = last_changed + seconds*1000 - 800;
 
   if (target_time < Date.now()) throw new Error(`Timer has already advanced past ${seconds} seconds from the beginning`);
 

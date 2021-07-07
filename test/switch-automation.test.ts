@@ -48,6 +48,6 @@ it("Switch with input_number turns off", async () => {
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch" });
   await synchronizeTimerRunning(hass, "input_boolean.switch", 1);
   await expect(card).toMatchDualSnapshot("running");
-  await synchronizeTimerRunning(hass, "input_boolean.switch", 3.5);
+  await synchronizeTimerRunning(hass, "input_boolean.switch", 4);
   await expect(card).toMatchDualSnapshot("idle");
-}, 6000);
+}, 7000);
