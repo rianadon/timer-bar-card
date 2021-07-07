@@ -182,7 +182,7 @@ Duration will be computed as the difference between these two times. You can als
 
 #### 5. My entity has no attributes!
 
-Imagine we have a **switch**, that, through an automation, will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
+Imagine we have a **switch**, that, through an [automation](https://github.com/rianadon/timer-bar-card/blob/main/test/switch-automation.test.ts), will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
 
 <img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
 

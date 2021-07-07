@@ -21,8 +21,7 @@ automation switch_off:
       to: 'on'
   condition: []
   action:
-    - wait_template: ''
-      timeout: '{{ states(''input_number.duration'') }}'
+    - delay: "{{ states('input_number.duration') }}"
     - service: input_boolean.turn_off
       target:
         entity_id: input_boolean.switch
@@ -48,7 +47,10 @@ it("Switch with input_number turns off", async () => {
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch" });
   await waitForTimerTime(card, "00:00:02");
   await expect(card).toMatchDualSnapshot("running");
+
+  // wait for timer to end; by this time automation should turn the switch off
   await waitForTimerTime(card, "00:00:01");
   await new Promise(r => setTimeout(r, 2000));
+
   await expect(card).toMatchDualSnapshot("idle");
 }, 7000);
