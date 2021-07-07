@@ -27,7 +27,7 @@
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/jest": "^26.0.23",
     "@types/jest-image-snapshot": "^4.3.0",
-    "hass-taste-test": "^0.0.7",
+    "hass-taste-test": "^0.0.8",
     "jest": "^27.0.6",
     "jest-image-snapshot": "^4.5.1",
     "playwright": "^1.12.3",

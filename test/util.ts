@@ -1,5 +1,5 @@
 import { durationToSeconds } from "custom-card-helpers";
-import { HomeAssistant, PlaywrightElement } from "hass-taste-test";
+import { HomeAssistant, HassCard, PlaywrightElement } from "hass-taste-test";
 import { entitiesColl } from "home-assistant-js-websocket";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { toMatchSnapshot } from "jest-snapshot";
@@ -15,7 +15,7 @@ export async function getEntity(hass: HomeAssistant<any>, entity_id: string) {
 }
 
 /** Wait for a timer to reach the time specified. */
-export async function waitForTimerTime(card: any, time: string) {
+export async function waitForTimerTime(card: HassCard<any>, time: string) {
   const element: PlaywrightElement = await card.element();
   const textContent = await element.$(".text-content");
   const frame = await element.ownerFrame();
@@ -51,7 +51,7 @@ export async function synchronizeTimerPaused(hass: HomeAssistant<any>, entity_id
 }
 
 /** Match both html and image snapshot */
-export async function toMatchDualSnapshot(this: any, received: any, name?: string) {
+export async function toMatchDualSnapshot(this: any, received: HassCard<any>, name?: string) {
   const html = await received.html({ ignoreAttributes: ["style"] });
   const htmlResult = toMatchSnapshot.call(this, html, name);
 
