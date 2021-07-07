@@ -58,7 +58,4 @@ it("Switch with input_number duration", async () => {
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch2" });
   await synchronizeTimerRunning(hass, "input_boolean.switch2", 1);
   await expect(card).toMatchDualSnapshot("5-minutes");
-  await hass.callService('input_number', 'set_value', { value: 2 }, { entity_id: "input_number.slider" });
-  await synchronizeTimerRunning(hass, "input_boolean.switch2", 3.5);
-  await expect(dashboard.cards[1]).toMatchDualSnapshot("2-minutes");
 });
