@@ -6,8 +6,8 @@ import {
   TemplateResult,
   css,
 } from 'lit';
-import { state, property } from "lit/decorators";
-import { styleMap } from 'lit/directives/style-map';
+import { state, property } from "lit/decorators.js";
+import { styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
 import { findDuration, formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';

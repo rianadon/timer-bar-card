@@ -1,6 +1,6 @@
 import { LitElement, css, html, TemplateResult } from 'lit';
-import { customElement, state, property } from "lit/decorators";
-import { styleMap } from 'lit/directives/style-map';
+import { customElement, state, property } from "lit/decorators.js";
+import { styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
