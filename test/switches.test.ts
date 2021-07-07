@@ -35,7 +35,7 @@ it("Switch with fixed duration", async () => {
   ]);
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch1" });
-  await waitForTimerTime(card, "00:00:59");
+  await waitForTimerTime(card, "00:00:58");
   await expect(card).toMatchDualSnapshot("running");
 });
 

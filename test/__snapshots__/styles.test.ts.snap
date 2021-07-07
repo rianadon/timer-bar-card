@@ -21,7 +21,7 @@ exports[`Colors and icons: running 1`] = `
             </div>
           </div>
           <div class=\\"text-content\\">
-            9
+            8
           </div>
         </hui-generic-entity-row>
       </timer-bar-entity-row>
@@ -52,7 +52,7 @@ exports[`Receding progress bar: running 1`] = `
             </div>
           </div>
           <div class=\\"text-content\\">
-            9
+            8
           </div>
         </hui-generic-entity-row>
       </timer-bar-entity-row>

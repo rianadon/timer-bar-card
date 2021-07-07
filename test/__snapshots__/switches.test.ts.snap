@@ -21,7 +21,7 @@ exports[`Switch with fixed duration: running 1`] = `
             </div>
           </div>
           <div class=\\"text-content\\">
-            59
+            58
           </div>
         </hui-generic-entity-row>
       </timer-bar-entity-row>

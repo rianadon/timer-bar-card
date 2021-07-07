@@ -11,7 +11,7 @@ input_number:
   duration:
     min: 1
     max: 20
-    initial: 3
+    initial: 4
 
 automation switch_off:
   alias: 'Turn switch off after some time, configurable with an input_number'
