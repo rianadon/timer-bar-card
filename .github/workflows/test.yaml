@@ -22,8 +22,14 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm run test
+      - name: Test Firefox
+        run: BROWSER=firefox npm run test
+
+      - name: Test Chromium
+        run: BROWSER=chromium npm run test
+
+      - name: Test Webkit
+        run: BROWSER=webkit npm run test
 
       - name: Upload artifact
         if: ${{ always() }}
