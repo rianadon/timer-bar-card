@@ -50,4 +50,4 @@ it("Switch with input_number turns off", async () => {
   await expect(card).toMatchDualSnapshot("running");
   await synchronizeTimerRunning(hass, "input_boolean.switch", 3.5);
   await expect(card).toMatchDualSnapshot("idle");
-});
+}, 6000);

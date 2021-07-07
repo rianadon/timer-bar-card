@@ -48,7 +48,7 @@ it("Switch with input_number duration", async () => {
       duration: { entity: "input_number.slider", "units": "minutes" },
     },
     {
-      name: "Time is 1:58",
+      name: "Time is 1:57",
       type: "custom:timer-bar-card",
       entities: ["input_boolean.switch2"],
       duration: { entity: "input_number.slider", "units": "minutes" },
@@ -59,6 +59,6 @@ it("Switch with input_number duration", async () => {
   await synchronizeTimerRunning(hass, "input_boolean.switch2", 1);
   await expect(card).toMatchDualSnapshot("5-minutes");
   await hass.callService('input_number', 'set_value', { value: 2 }, { entity_id: "input_number.slider" });
-  await synchronizeTimerRunning(hass, "input_boolean.switch2", 2);
+  await synchronizeTimerRunning(hass, "input_boolean.switch2", 3.5);
   await expect(dashboard.cards[1]).toMatchDualSnapshot("2-minutes");
 });
