@@ -57,7 +57,7 @@ exports[`Card UI Styles: paused 1`] = `
             Paused
           </div>
           <div class=\\"text-content\\">
-            1:59
+            1:58
           </div>
         </hui-generic-entity-row>
       </timer-bar-entity-row>
@@ -161,7 +161,7 @@ exports[`Entity Row Styles: paused 1`] = `
         Paused
       </div>
       <div class=\\"text-content\\">
-        59
+        58
       </div>
     </hui-generic-entity-row>
   </timer-bar-entity-row>
