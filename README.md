@@ -40,7 +40,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | duration      | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
 | debug         | bool           | **Optional** | Show debugging info in card                    | false                                               |
 
-† requires a `start_time` attribute to calculate when in the future the timer will start.
+† requires a `start_time` attribute to calculate when in the future the timer will start. \
 ‡ `waiting_state` and `paused_state` will still have an effect, but the card will disregard `active_state` if it can guess the timer mode.
 
 </details>
