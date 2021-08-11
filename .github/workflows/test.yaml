@@ -16,6 +16,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          cache-dependency-path: package.json
+
       - name: Cache Hass
         id: cache-hass
         uses: actions/cache@v2
@@ -23,8 +28,11 @@ jobs:
           path: /tmp/hasstest-venv
           key: ${{ runner.os }}-hass
 
+      - name: Install NPM Dependencies
+        run: npm install
+
       - name: Install Hass
-        run: npm install && npx hass-taste-test
+        run: npx hass-taste-test
 
       - name: Build
         run: npm run build
