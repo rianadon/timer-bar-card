@@ -135,7 +135,7 @@ You can find a subset of these attributes in the entity popup, and a full list b
 
 <img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
 
-**STEP ONE**: Assign `active_state`, `paused_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above).
+**STEP ONE**: Assign `active_state`, `paused_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above). If your `active_state` is not a constant, the card may automatically figure out its state; leave it blank and check at the end if the card works.
 
 **STEP TWO**: Turn on card debug mode by adding `debug: true` to the yaml configuration.
 

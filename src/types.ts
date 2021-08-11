@@ -1,4 +1,6 @@
-import { LovelaceCardConfig } from 'custom-card-helpers';
+import { LovelaceCardConfig } from "custom-card-helpers";
+
+export type Mode = "active" | "pause" | "waiting" | "idle";
 
 export declare type HassEntity = {
   entity_id: string;
@@ -32,8 +34,13 @@ interface modsConfig extends styleConfig {
   greater_than_eq?: number;
 }
 
-type AttributeType = { attribute: string } | { entity: string } | { fixed: number };
-export type AttributeConfig = AttributeType & { units?: 'duration'|'hours'|'minutes'|'seconds' };
+type AttributeType =
+  | { attribute: string }
+  | { entity: string }
+  | { fixed: number };
+export type AttributeConfig = AttributeType & {
+  units?: "duration" | "hours" | "minutes" | "seconds";
+};
 export type Translations = { [phrase: string]: string };
 
 export interface TimerBarEntityConfig extends styleConfig {

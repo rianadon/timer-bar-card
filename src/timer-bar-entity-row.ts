@@ -10,8 +10,8 @@ import { state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, isState, timerTimeRemaining, timerTimePercent } from './helpers';
-import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig } from './types';
+import { findDuration, formatStartTime, isState, timerTimeRemaining, timerTimePercent, usesLastChanged } from './helpers';
+import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { PropertyValues } from 'lit-element';
 
 export function fillConfig(config: TimerBarEntityConfig) {
@@ -84,6 +84,27 @@ export class TimerBarEntityRow extends LitElement {
     }
   }
 
+  private _autoMode(): Mode | undefined {
+    // Not applicable if the entity uses the last changed attribute, since this changes every
+    // state change, not necessarily only when the entity turns active.
+    const state = this.hass!.states[this.config.entity!];
+    if (usesLastChanged(this.hass!, this.config, state)) return undefined;
+
+    const duration = findDuration(this.hass!, this.config, state);
+    const remaining = timerTimeRemaining(this.hass!, this.config, state);
+    if (!duration || !remaining) return undefined;
+    if (remaining >= 0 && remaining <= duration) return 'active';
+    return undefined;
+  }
+
+  private _stateMode(): Mode  {
+    const state = this.hass!.states[this.config.entity!];
+    if (isState(state, this.config.active_state!) && (this._timeRemaining||0) > 0) return 'active';
+    if (isState(state, this.config.pause_state!)) return 'pause';
+    if (isState(state, this.config.waiting_state!)) return 'waiting';
+    return 'idle';
+  }
+
   protected render(): TemplateResult | void {
     const state = this.hass!.states[this.config.entity!];
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
@@ -97,14 +118,17 @@ export class TimerBarEntityRow extends LitElement {
       icon: this.modConfig.active_icon ?? this.modConfig.icon,
     };
 
-    if (isState(state, this.config.active_state!) && (this._timeRemaining||0) > 0) {
+    const mode = this._autoMode() || this._stateMode();
+    switch (mode) {
+      case 'active':
       return this._renderRow(activeConfig, html`
         ${this._renderBar(percent)}
         <div class="text-content" style=${this._textStyle()}>
           ${secondsToDuration(this._timeRemaining || 0)}
         </div>
-      `, this._renderDebug(state, 'active'));
-    } else if (isState(state, this.config.pause_state!)) {
+      `);
+
+      case 'pause':
       return this._renderRow(activeConfig, html`
         <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
           ${localize(this.hass!, state.state, state, this.config.translations)}
@@ -112,29 +136,31 @@ export class TimerBarEntityRow extends LitElement {
         <div class="text-content" style=${this._textStyle()}>
           ${secondsToDuration(this._timeRemaining || 0)}
         </div>
-      `, this._renderDebug(state, 'pause'));
-    } else if (isState(state, this.config.waiting_state!)) {
+      `);
+
+      case 'waiting':
       return this._renderRow(this.modConfig, html`
         <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
           ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
         </div>
-      `, this._renderDebug(state, 'waiting'));
-    } else {
+      `);
+
+      default:
       const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
       const style = textHidden ? 'visibility: hidden' : '';
       return this._renderRow(this.modConfig, html`
         <div class="text-content" style=${style}>${localize(this.hass!, state?.state, state, this.config.translations)}</div>
-      `, this._renderDebug(state, 'idle'));
+      `);
     }
   }
 
-  private _renderRow(config: TimerBarConfig, contents: TemplateResult, contents2?: TemplateResult) {
-    if (this.modConfig.full_row) return html`<div class="flex">${contents}</div>${contents2}`;
+  private _renderRow(config: TimerBarConfig, contents: TemplateResult) {
+    if (this.modConfig.full_row) return html`<div class="flex">${contents}</div>${this._renderDebug()}`;
     return html`
       <hui-generic-entity-row .hass=${this.hass} .config=${config}>
         ${contents}
       </hui-generic-entity-row>
-      ${contents2}
+      ${this._renderDebug()}
     `;
   }
 
@@ -154,14 +180,19 @@ export class TimerBarEntityRow extends LitElement {
     </div>`;
   }
 
-  private _renderDebug(state: HassEntity | undefined, mode: string) {
+  private _renderDebug() {
     if (!this.config.debug) return undefined;
+    const state = this.hass!.states[this.config.entity!];
     if (!state) return html`<code>No state found</code>`;
+
+    const autoMode = usesLastChanged(this.hass!, this.config, state) ? 'N/A' : this._autoMode();
     return html`<code>
-      State: ${state.state} ( = ${mode} mode)<br>
+      State: ${state.state} (state mode = ${this._stateMode()} mode)<br>
+      Mode: ${this._autoMode() || this._stateMode()} (auto mode = ${autoMode})<br>
       Duration: ${findDuration(this.hass!, this.config, state)} second<br>
       Time remaining: ${timerTimeRemaining(this.hass!, this.config, state)}<br>
-      Counter: ${this._timeRemaining}
+      Counter: ${this._timeRemaining}<br>
+      <small>Attr: ${JSON.stringify(state.attributes)}</small>
     </code>`;
   }
 
@@ -267,6 +298,7 @@ export class TimerBarEntityRow extends LitElement {
         margin: 0.5em 0 0 0;
         padding: 0.7rem;
         font-size: 0.9em;
+        word-break: break-all;
       }
     `;
   }

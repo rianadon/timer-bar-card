@@ -11,6 +11,23 @@ function tryDurationToSeconds(duration: string, field: string) {
   }
 }
 
+export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
+  const duration = durationAttr(hass, stateObj, config.duration);
+  const start_time = attribute(hass, stateObj, config.start_time);
+  const end_time = attribute(hass, stateObj, config.end_time);
+
+  // Last changed is needed if at least 2 of duration, start time, and end time are undefined.
+  return (!duration && !end_time) || (!duration && !start_time) || (!end_time && !start_time);
+}
+
+// (duration OR start + end)
+// AND
+// (start + duration OR end)
+
+// (duration + start + duration) OR (duration + end) OR (start + end + start) OR (start + end + end)
+// (start + duration) OR (end + duration) OR (start + end) OR (start + end)
+// (start + duration) OR (end + duration) OR (start + end)
+
 /** Find the duration of the timer. */
 export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
   const duration = durationAttr(hass, stateObj, config.duration);
