@@ -90,6 +90,10 @@ export class TimerBarEntityRow extends LitElement {
     const state = this.hass!.states[this.config.entity!];
     if (usesLastChanged(this.hass!, this.config, state)) return undefined;
 
+    // Auto mode is not capable of determining whether the entity is paused or waiting
+    const stateMode = this._stateMode();
+    if (stateMode === 'pause' || stateMode === 'waiting') return undefined;
+
     const duration = findDuration(this.hass!, this.config, state);
     const remaining = timerTimeRemaining(this.hass!, this.config, state);
     if (!duration || !remaining) return undefined;
@@ -97,7 +101,7 @@ export class TimerBarEntityRow extends LitElement {
     return undefined;
   }
 
-  private _stateMode(): Mode  {
+  private _stateMode(): Mode {
     const state = this.hass!.states[this.config.entity!];
     if (isState(state, this.config.active_state!) && (this._timeRemaining||0) > 0) return 'active';
     if (isState(state, this.config.pause_state!)) return 'pause';

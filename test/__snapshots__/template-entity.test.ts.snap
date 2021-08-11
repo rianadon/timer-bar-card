@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom entity can pause: idle 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+    <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+      <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+        <ha-icon data-state=\\"idle\\" icon=\\"hass:eye\\">…</ha-icon>
+      </state-badge>
+      <div class=\\"info pointer text-content\\">
+        Fancy timer
+      </div>
+      <slot></slot>
+      <div class=\\"text-content\\">
+        Idle
+      </div>
+    </hui-generic-entity-row>
+  </timer-bar-entity-row>
+</timer-bar-card>
+"
+`;
+
+exports[`Custom entity can pause: paused 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+    <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+      <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+        <ha-icon data-state=\\"paused\\" icon=\\"hass:eye\\">…</ha-icon>
+      </state-badge>
+      <div class=\\"info pointer text-content\\">
+        Fancy timer
+      </div>
+      <slot></slot>
+      <div class=\\"status\\">
+        Paused
+      </div>
+      <div class=\\"text-content\\">
+        59
+      </div>
+    </hui-generic-entity-row>
+  </timer-bar-entity-row>
+</timer-bar-card>
+"
+`;
+
+exports[`Custom entity can pause: running 1`] = `
+"<timer-bar-card hass=\\"[object Object]\\">
+  <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
+    <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+      <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
+        <ha-icon data-state=\\"active\\" icon=\\"hass:eye\\">…</ha-icon>
+      </state-badge>
+      <div class=\\"info pointer text-content\\">
+        Fancy timer
+      </div>
+      <slot></slot>
+      <div class=\\"bar-container\\">
+        <div class=\\"bar\\">
+          <div>
+          </div>
+        </div>
+      </div>
+      <div class=\\"text-content\\">
+        59
+      </div>
+    </hui-generic-entity-row>
+  </timer-bar-entity-row>
+</timer-bar-card>
+"
+`;
