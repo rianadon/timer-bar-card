@@ -9,14 +9,21 @@ on:
       - "**"
 
 jobs:
-  build:
-    name: Run tests
+  ffchromium:
+    name: Firefox and Chromium
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install
+      - name: Cache Hass
+        id: cache-hass
+        uses: actions/cache@v2
+        with:
+          path: /tmp/hasstest-venv
+          key: ${{ runner.os }}-hass
+
+      - name: Install Hass
         run: npm install && npx hass-taste-test
 
       - name: Build
@@ -28,10 +35,40 @@ jobs:
       - name: Test Chromium
         run: BROWSER=chromium npm run test
 
+      - name: Upload artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: |
+            **/__diff_output__/**/
+
+  webkit:
+    name: Webkit
+    runs-on: ubuntu-latest
+    if: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Hass
+        id: cache-hass
+        uses: actions/cache@v2
+        with:
+          path: /tmp/hasstest-venv
+          key: ${{ runner.os }}-hass
+
+      - name: Install Hass
+        run: npm install && npx hass-taste-test
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Libraries
+        run: sudo apt-get -qq install libegl1 libopus0 libwoff1 libharfbuzz-icu0 gstreamer1.0-plugins-base libgstreamer-gl1.0-0 gstreamer1.0-plugins-bad libopenjp2-7 libwebpdemux2 libenchant1c2a libhyphen0 libgles2 gstreamer1.0-libav libevdev-dev
+
       - name: Test Webkit
-        run: |
-          sudo apt-get -qq install libegl1 libopus0 libwoff1 libharfbuzz-icu0 gstreamer1.0-plugins-base libgstreamer-gl1.0-0 gstreamer1.0-plugins-bad libopenjp2-7 libwebpdemux2 libenchant1c2a libhyphen0 libgles2 gstreamer1.0-libav libevdev-dev
-          BROWSER=webkit npm run test
+        run: BROWSER=webkit npm run test
 
       - name: Upload artifact
         if: ${{ always() }}

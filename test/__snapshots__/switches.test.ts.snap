@@ -70,7 +70,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
   <ha-card outlined=\\"false\\">
     <slot></slot>
     <h1 class=\\"card-header\\">
-      Time is 4:59
+      Time is 4:58
     </h1>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
@@ -89,7 +89,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
             </div>
           </div>
           <div class=\\"text-content\\">
-            4:59
+            4:58
           </div>
         </hui-generic-entity-row>
       </timer-bar-entity-row>

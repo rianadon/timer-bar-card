@@ -44,10 +44,13 @@ export async function synchronizeTimerPaused(hass: HomeAssistant<any>, entity_id
   const finishes_at = Date.parse(state.attributes.finishes_at);
   const seconds = durationToSeconds(duration);
   const target_time = finishes_at - seconds*1000 + 500;
+  const delay = target_time - Date.now();
 
   if (target_time < Date.now()) throw new Error(`Timer has already advanced past ${seconds} seconds from the beginning`);
 
-  await new Promise(r => setTimeout(r, target_time - Date.now()));
+  if (delay > 4000) throw new Error(`Timer wants to wait ${delay/1000} seconds, and that's too long`);
+
+  await new Promise(r => setTimeout(r, delay));
 }
 
 /** Match both html and image snapshot */

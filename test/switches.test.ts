@@ -42,7 +42,7 @@ it("Switch with fixed duration", async () => {
 it("Switch with input_number duration", async () => {
   const dashboard = await hass.Dashboard([
     {
-      name: "Time is 4:59",
+      name: "Time is 4:58",
       type: "custom:timer-bar-card",
       entities: ["input_boolean.switch2"],
       duration: { entity: "input_number.slider", "units": "minutes" },
@@ -56,7 +56,7 @@ it("Switch with input_number duration", async () => {
   ]);
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch2" });
-  await waitForTimerTime(card, "00:04:59");
+  await waitForTimerTime(card, "00:04:58");
   await expect(card).toMatchDualSnapshot("5-minutes");
   await hass.callService('input_number', 'set_value', { value: 2 }, { entity_id: "input_number.slider" });
   await waitForTimerTime(dashboard.cards[1], "00:01:57");

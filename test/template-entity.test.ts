@@ -61,5 +61,6 @@ it("Auto mode can guess the active/idle", async () => {
   expect(await element.$$eval(".bar", (els) => els.length)).toBe(0);
 
   await hass.callService("timer", "start", {}, { entity_id: "timer.test2" });
+  await new Promise(r => setTimeout(r, 500)); // Give timer time to update
   expect(await element.$$eval(".bar", (els) => els.length)).toBe(1);
 });
