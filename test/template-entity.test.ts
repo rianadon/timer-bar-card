@@ -54,6 +54,7 @@ it("Auto mode can guess the active/idle", async () => {
   const dashboard = await hass.Dashboard([{
     type: "custom:timer-bar-card",
     entity: "sensor.auto_timer",
+    guess_mode: true,
     end_time: { attribute: "finishes_at" },
   }]);
   const element = await dashboard.cards[0].element();

@@ -19,6 +19,7 @@ export function fillConfig(config: TimerBarEntityConfig) {
     active_state: ['active', 'on', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
     waiting_state: 'waiting',
+    guess_mode: false,
     end_time: { attribute: 'end_time' },
     start_time: { attribute: 'start_time' },
     duration: { attribute: 'duration' },
@@ -109,6 +110,11 @@ export class TimerBarEntityRow extends LitElement {
     return 'idle';
   }
 
+  private _mode(): Mode {
+    if (this.config.guess_mode) return this._autoMode()|| this._stateMode();
+    return this._stateMode();
+  }
+
   protected render(): TemplateResult | void {
     const state = this.hass!.states[this.config.entity!];
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
@@ -122,8 +128,7 @@ export class TimerBarEntityRow extends LitElement {
       icon: this.modConfig.active_icon ?? this.modConfig.icon,
     };
 
-    const mode = this._autoMode() || this._stateMode();
-    switch (mode) {
+    switch (this._mode()) {
       case 'active':
       return this._renderRow(activeConfig, html`
         ${this._renderBar(percent)}
@@ -189,10 +194,10 @@ export class TimerBarEntityRow extends LitElement {
     const state = this.hass!.states[this.config.entity!];
     if (!state) return html`<code>No state found</code>`;
 
-    const autoMode = usesLastChanged(this.hass!, this.config, state) ? 'N/A' : this._autoMode();
+    const auto_used = this.config.guess_mode ? 'used' : 'unused';
     return html`<code>
-      State: ${state.state} (state mode = ${this._stateMode()} mode)<br>
-      Mode: ${this._autoMode() || this._stateMode()} (auto mode = ${autoMode})<br>
+      State: ${state.state} (state mode = ${this._stateMode() || 'N/A'})<br>
+      Mode: ${this._mode()} (auto mode = ${this._autoMode() || 'N/A'}, ${auto_used})<br>
       Duration: ${findDuration(this.hass!, this.config, state)} second<br>
       Time remaining: ${timerTimeRemaining(this.hass!, this.config, state)}<br>
       Counter: ${this._timeRemaining}<br>
