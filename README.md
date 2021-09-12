@@ -211,7 +211,15 @@ duration:
   units: minutes # Since the slider state is a number like 10.0
 ```
 
-#### 7. If your entity doesn't meet these criteria...
+#### 7. My end time comes from the entity's state
+
+End times and durations can use any of the types `attribute`, `fixed`, `entity` (you've seen these 3 before) and `state`! The `state` type uses the entity's current state. Let's say we have a timer who's state is the time it will go off, like `2021-09-07T20:24:13+00:00`! Here's how to configure the card:
+
+```yaml
+end_time: { state: true }
+```
+
+#### 8. If your entity doesn't meet these criteria...
 
 🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
 

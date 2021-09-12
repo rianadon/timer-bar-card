@@ -37,6 +37,7 @@ interface modsConfig extends styleConfig {
 type AttributeType =
   | { attribute: string }
   | { entity: string }
+  | { state: any }
   | { fixed: number };
 export type AttributeConfig = AttributeType & {
   units?: "duration" | "hours" | "minutes" | "seconds";

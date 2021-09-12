@@ -101,6 +101,7 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Att
   if (!attrib) throw new Error('One of duration, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
   if ('entity' in attrib) return hass.states[attrib.entity].state;
+  if ('state' in attrib) return stateObj.state;
   return stateObj.attributes[attrib.attribute];
 }
 
