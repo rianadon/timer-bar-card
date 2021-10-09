@@ -9,6 +9,7 @@ import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig } from './types';
 import { isState } from './helpers';
 import { PropertyValues } from 'lit-element';
+import { version } from '../package.json';
 
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
@@ -19,6 +20,11 @@ import { PropertyValues } from 'lit-element';
 });
 
 window.customElements.define('timer-bar-entity-row', TimerBarEntityRow);
+console.info(
+  `%c TIMER-BAR-CARD %c Version ${version} `,
+  'font-weight: bold; background: #aeb',
+  'font-weight: bold; background: #ddd',
+);
 
 @customElement('timer-bar-card')
 export class TimerBarCard extends LitElement {
@@ -95,9 +101,12 @@ export class TimerBarCard extends LitElement {
   private _renderContent(): TemplateResult[] {
     return this._filteredEntities().map(entity => {
       const style = this.config.compressed ? { height: '36px' } : {};
-      let config = { ...this.config, entity, name: '' };
+      let config: TimerBarEntityConfig = { ...this.config };
+      delete config.name // so card name does not override entity name
       // Merge in per-entity configuration
-      if (typeof entity !== 'string') config = { ...config, ...entity };
+      if (typeof entity === 'string') config.entity = entity;
+      else config = { ...config, ...entity };
+      // Create a entity-row component for every entity
       return html`<timer-bar-entity-row
                     .config=${config}
                     .hass=${this.hass}
