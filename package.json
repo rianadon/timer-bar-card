@@ -1,6 +1,6 @@
 {
   "name": "lovelace-timer-bar-card",
-  "version": "1.12.0rc0",
+  "version": "1.12.0",
   "description": "Progress bar display for Home Assistant timers",
   "keywords": [
     "home-assistant",
@@ -14,28 +14,28 @@
   "repository": "git@github.com:rianadon/timer-bar-card.git",
   "license": "Apache-2.0",
   "dependencies": {
-    "custom-card-helpers": "^1.7.1",
-    "home-assistant-js-websocket": "^5.10.0",
-    "lit": "^2.0.0-rc.2"
+    "custom-card-helpers": "^1.8.0",
+    "home-assistant-js-websocket": "^5.11.1",
+    "lit": "^2.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
+    "@babel/core": "^7.15.8",
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.0",
-    "@rollup/plugin-typescript": "^8.2.1",
-    "@types/jest": "^26.0.23",
-    "@types/jest-image-snapshot": "^4.3.0",
-    "hass-taste-test": "^0.0.8",
-    "jest": "^27.0.6",
+    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@types/jest": "^27.0.2",
+    "@types/jest-image-snapshot": "^4.3.1",
+    "hass-taste-test": "^0.0.9",
+    "jest": "^27.2.5",
     "jest-image-snapshot": "^4.5.1",
-    "playwright": "^1.12.3",
-    "prettier": "^2.3.1",
-    "rollup": "^2.52.2",
+    "playwright": "^1.15.2",
+    "prettier": "^2.4.1",
+    "rollup": "^2.58.0",
     "rollup-plugin-terser": "^7.0.2",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.3.4"
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "start": "rollup -c --watch",
