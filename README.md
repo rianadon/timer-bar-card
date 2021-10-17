@@ -302,18 +302,20 @@ type: custom:timer-bar-card
 entities:
   - timer.alarm
 modifications:
-  - greater_than: 40
+  - elapsed: 40%
     bar_foreground: orange
     active_icon: mdi:fire
     bar_height: 12px
-  - greater_than: 70
+  - elapsed: 70%
     bar_foreground: red
     active_icon: mdi:fire-alert
 ```
 
 All modifications that match are applied, with the last modification having precedence. This means you'll likeley want to list them in increasing order of percentages, so that styles are overridden as the timer progresses farther.
 
-For each modification, you have the option of using `greater_than` (percentage complete > condition) or `greater_than_eq` (percentage complete ≥ condition).
+For each modification, you have the option of using `remaining` or `elapsed` to filter based on the time left or total time remaining in the timer. You can also use percentages (`40%` = 40% of duration) or durations (`0:00:10` = 10 seconds). See [my comment here](https://github.com/rianadon/timer-bar-card/issues/21#issuecomment-940750817) for a more detailed example!
+
+> Do note that `remaining: 1%` is equivalent to `elapsed: 99%`, and that for a 10 second timer `remaining: "00:00:01"` is equivalent to `elapsed: "00:00:09"`.
 
 ### Show only progress bar
 
