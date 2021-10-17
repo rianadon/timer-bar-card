@@ -2,13 +2,42 @@
 
 A progress bar display for [Home Assistant][home-assistant] timers.
 
-The card currently supports **timer** components and stations from [the opensprinkler integration][opensprinkler].
+The card currently supports **timer** components and [a few more integrations](#supported-integrations).
 
 ![Screenshots](https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/readme.png)
 
 With a bit of work, you can also [configure the card](#use-with-unsupported-entities) to suppport other types of entities—even plain switches that have automations.
 
 For numerical quantities or percentages, you may be interested in the unaffiliated [bar card](https://github.com/custom-cards/bar-card).
+
+## Integration support status
+
+<pre><code><b>🚧️ Did you configure the card for another integration? 🚧</b>
+I'd love to add it here! Please submit an issue/PR with the integration name and your configuration!
+</code></pre>
+
+| Integration                    | Status               | Extra configuration required                             |
+|--------------------------------|----------------------|----------------------------------------------------------|
+| [Home Assistant timer]         | *supported & tested* | no! 🎉                                                   |
+| Automation-controlled switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
+| [OpenSprinkler][opensprinkler] | *supported*          | no! 🎊                                                   |
+| [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
+| [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
+| [ThinQ washer/dryer]           | *iffy [[#15]]*       | configure `duration` to `initial_time`                   |
+| [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
+
+[fixed-duration]: #5-my-entity-has-no-attributes
+[#15]: https://github.com/rianadon/timer-bar-card/issues/15
+[#18]: https://github.com/rianadon/timer-bar-card/issues/18
+[#19]: https://github.com/rianadon/timer-bar-card/issues/19#issuecomment-923650295
+[#22]: https://github.com/rianadon/timer-bar-card/issues/22
+[Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
+[ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
+[Google Home Alarm]: https://github.com/leikoilja/ha-google-home
+[Google Home Timer]: https://github.com/leikoilja/ha-google-home
+[Amazon Alexa Timer]: https://github.com/custom-components/alexa_media_player
+
+If your integration is not listed here, there's a high chance you'll need to [look at your entity's attributes and configure the card](#use-with-unsupported-entities) to make the card work with the integration.
 
 ## Install
 
