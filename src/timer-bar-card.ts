@@ -1,4 +1,4 @@
-import { LitElement, css, html, TemplateResult } from 'lit';
+import { LitElement, css, html, TemplateResult, PropertyValues } from 'lit';
 import { customElement, state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
@@ -8,7 +8,6 @@ import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
 import { findMode } from './helpers';
-import { PropertyValues } from 'lit-element';
 import { version } from '../package.json';
 
 // This puts your card into the UI card picker dialog

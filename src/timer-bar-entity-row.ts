@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LitElement, html, CSSResultGroup, TemplateResult, css } from 'lit';
+import { LitElement, html, CSSResultGroup, TemplateResult, css, PropertyValues } from 'lit';
 import { state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
 import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
-import { PropertyValues } from 'lit-element';
 
 export function fillConfig(config: TimerBarEntityConfig) {
   return {
