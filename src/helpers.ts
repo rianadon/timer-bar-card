@@ -1,7 +1,7 @@
 import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
-function tryDurationToSeconds(duration: string, field: string) {
+export function tryDurationToSeconds(duration: string, field: string) {
   try {
     const seconds = durationToSeconds(duration);
     if (isNaN(seconds)) throw new Error(`Error parsing ${field} ${duration}: check it matches the format 0:10:00`);

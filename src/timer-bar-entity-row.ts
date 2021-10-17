@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 
 export function fillConfig(config: TimerBarEntityConfig) {
@@ -90,10 +90,15 @@ export class TimerBarEntityRow extends LitElement {
     if (state) percent = timerTimePercent(this.hass!, this.config, state) ?? 0;
     if (percent > 100) percent = 100;
 
-    const activeConfig = {
-      ...this.modConfig,
-      icon: this.modConfig.active_icon ?? this.modConfig.icon,
-    };
+    let activeConfig: TimerBarEntityConfig
+    try {
+      activeConfig = {
+        ...this.modConfig,
+        icon: this.modConfig.active_icon ?? this.modConfig.icon,
+      };
+    } catch (e) {
+      return html`<div>${e}</div>`
+    }
 
     switch (this._mode()) {
       case 'active':
@@ -283,13 +288,26 @@ export class TimerBarEntityRow extends LitElement {
     if (!this.config.modifications) return this.config;
 
     const state = this.hass!.states[this.config.entity!];
-    const percent = timerTimePercent(this.hass!, this.config, state) ?? 0;
+    const remaining = timerTimeRemaining(this.hass!, this.config, state) ?? Infinity;
+    const elapsed = (findDuration(this.hass!, this.config, state) ?? 0) - remaining;
+    const percentElapsed = timerTimePercent(this.hass!, this.config, state) ?? 0;
+    const percentRemaining = 100 - percentElapsed
 
     let config = this.config;
     for (const mod of this.config.modifications) {
-      if (mod.greater_than_eq && percent >= mod.greater_than_eq
-        || mod.greater_than && percent > mod.greater_than) {
-        config = { ...config, ...mod };
+      // @ts-ignore. Warn on using old config syntax
+      if (mod.greater_than_eq || mod.greater_than) {
+        throw new Error('Mod format has changed! See the release notes and readme for details')
+      }
+
+      if (mod.remaining && mod.remaining.endsWith('%')) {
+        if (percentRemaining <= parseFloat(mod.remaining)) config = { ...config, ...mod };
+      } else if (mod.remaining) {
+        if (remaining <= tryDurationToSeconds(mod.remaining, 'remaining')) config = { ...config, ...mod };
+      } else if (mod.elapsed && mod.elapsed.endsWith('%')) {
+        if (percentElapsed >= parseFloat(mod.elapsed)) config = { ...config, ...mod };
+      } else if (mod.elapsed) {
+        if (elapsed >= tryDurationToSeconds(mod.elapsed, 'elapsed')) config = { ...config, ...mod };
       }
     }
 

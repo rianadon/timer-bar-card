@@ -30,8 +30,8 @@ interface styleConfig {
 }
 
 interface modsConfig extends styleConfig {
-  greater_than?: number;
-  greater_than_eq?: number;
+  remaining?: string;
+  elapsed?: string;
 }
 
 type AttributeType =
