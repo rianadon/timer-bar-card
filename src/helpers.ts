@@ -1,4 +1,4 @@
-import { AttributeConfig, TimerBarConfig, HassEntity } from "./types";
+import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
 function tryDurationToSeconds(duration: string, field: string) {
@@ -119,3 +119,33 @@ const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attribu
 
   return tryDurationToSeconds(duration, 'duration');
 }
+
+export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode | undefined {
+    // Not applicable if the entity uses the last changed attribute, since this changes every
+  // state change, not necessarily only when the entity turns active.
+  const state = hass.states[config.entity!];
+  if (usesLastChanged(hass, config, state)) return undefined;
+
+  // Auto mode is not capable of determining whether the entity is paused or waiting
+  const stMode = stateMode(hass, config);
+  if (stMode === 'pause' || stMode === 'waiting') return undefined;
+
+  const duration = findDuration(hass, config, state);
+  const remaining = timerTimeRemaining(hass, config, state);
+  if (!duration || !remaining) return undefined;
+  if (remaining >= 0 && remaining <= duration) return 'active';
+  return undefined;
+}
+
+export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode {
+  const state = hass.states[config.entity!];
+  if (isState(state, config.active_state!) && (timerTimeRemaining(hass, config, state)||0) > 0) return 'active';
+  if (isState(state, config.pause_state!)) return 'pause';
+  if (isState(state, config.waiting_state!)) return 'waiting';
+  return 'idle';
+}
+
+export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode {
+  if (config.guess_mode) return autoMode(hass, config)|| stateMode(hass, config);
+  return stateMode(hass, config);
+ }

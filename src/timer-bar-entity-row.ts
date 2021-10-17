@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, isState, timerTimeRemaining, timerTimePercent, usesLastChanged } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { PropertyValues } from 'lit-element';
 
@@ -79,34 +79,8 @@ export class TimerBarEntityRow extends LitElement {
     }
   }
 
-  private _autoMode(): Mode | undefined {
-    // Not applicable if the entity uses the last changed attribute, since this changes every
-    // state change, not necessarily only when the entity turns active.
-    const state = this.hass!.states[this.config.entity!];
-    if (usesLastChanged(this.hass!, this.config, state)) return undefined;
-
-    // Auto mode is not capable of determining whether the entity is paused or waiting
-    const stateMode = this._stateMode();
-    if (stateMode === 'pause' || stateMode === 'waiting') return undefined;
-
-    const duration = findDuration(this.hass!, this.config, state);
-    const remaining = timerTimeRemaining(this.hass!, this.config, state);
-    if (!duration || !remaining) return undefined;
-    if (remaining >= 0 && remaining <= duration) return 'active';
-    return undefined;
-  }
-
-  private _stateMode(): Mode {
-    const state = this.hass!.states[this.config.entity!];
-    if (isState(state, this.config.active_state!) && (this._timeRemaining||0) > 0) return 'active';
-    if (isState(state, this.config.pause_state!)) return 'pause';
-    if (isState(state, this.config.waiting_state!)) return 'waiting';
-    return 'idle';
-  }
-
   private _mode(): Mode {
-    if (this.config.guess_mode) return this._autoMode()|| this._stateMode();
-    return this._stateMode();
+    return findMode(this.hass!, this.config);
   }
 
   protected render(): TemplateResult | void {
@@ -190,8 +164,8 @@ export class TimerBarEntityRow extends LitElement {
 
     const auto_used = this.config.guess_mode ? 'used' : 'unused';
     return html`<code>
-      State: ${state.state} (state mode = ${this._stateMode() || 'N/A'})<br>
-      Mode: ${this._mode()} (auto mode = ${this._autoMode() || 'N/A'}, ${auto_used})<br>
+      State: ${state.state} (state mode = ${stateMode(this.hass!, this.config) || 'N/A'})<br>
+      Mode: ${this._mode()} (auto mode = ${autoMode(this.hass!, this.config) || 'N/A'}, ${auto_used})<br>
       Duration: ${findDuration(this.hass!, this.config, state)} second<br>
       Time remaining: ${timerTimeRemaining(this.hass!, this.config, state)}<br>
       Counter: ${this._timeRemaining}<br>
@@ -239,7 +213,7 @@ export class TimerBarEntityRow extends LitElement {
     this._clearInterval();
     this._calculateRemaining(stateObj);
 
-    if (isState(stateObj, this.config.active_state!)) {
+    if (this._mode() === 'active') {
       this._interval = window.setInterval(
         () => this._calculateRemaining(stateObj),
         1000

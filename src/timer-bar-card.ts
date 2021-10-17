@@ -6,8 +6,8 @@ import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 
-import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig } from './types';
-import { isState } from './helpers';
+import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
+import { findMode } from './helpers';
 import { PropertyValues } from 'lit-element';
 import { version } from '../package.json';
 
@@ -98,17 +98,22 @@ export class TimerBarCard extends LitElement {
     return false;
   }
 
+  /** Merges global and per-entity configuration */
+  private _configFor(entity: string | TimerBarEntityConfig) {
+    let config: TimerBarEntityConfig = { ...this.config };
+    delete config.name // so card name does not override entity name
+    // Merge in per-entity configuration
+    if (typeof entity === 'string') config.entity = entity;
+    else config = { ...config, ...entity };
+    return config
+  }
+
   private _renderContent(): TemplateResult[] {
     return this._filteredEntities().map(entity => {
       const style = this.config.compressed ? { height: '36px' } : {};
-      let config: TimerBarEntityConfig = { ...this.config };
-      delete config.name // so card name does not override entity name
-      // Merge in per-entity configuration
-      if (typeof entity === 'string') config.entity = entity;
-      else config = { ...config, ...entity };
       // Create a entity-row component for every entity
       return html`<timer-bar-entity-row
-                    .config=${config}
+                    .config=${this._configFor(entity)}
                     .hass=${this.hass}
                     style=${styleMap(style)}
                   ></timer-bar-entity-row>`;
@@ -143,17 +148,17 @@ export class TimerBarCard extends LitElement {
     }
   }
 
-  private _entitiesOfState(entities: (string|TimerBarEntityConfig)[], state: string | string[]) {
-    return entities.filter(e =>
-      isState(this.hass!.states[(typeof e === 'string') ? e : e.entity!], state));
+  private _entitiesOfMode(entities: (string|TimerBarEntityConfig)[], mode: Mode) {
+    return entities.filter(e => findMode(this.hass!, this._configFor(e)) === mode)
   }
 
   private _filteredEntities() {
     if (!this.config.filter || !this.hass) return this.config.entities!;
 
-    return this._entitiesOfState(this.config.entities!, this.config.active_state!)
-      .concat(this._entitiesOfState(this.config.entities!, this.config.pause_state!))
-      .concat(this._entitiesOfState(this.config.entities!, this.config.waiting_state!))
+    return this._entitiesOfMode(this.config.entities!, 'active')
+      .concat(this._entitiesOfMode(this.config.entities!, 'pause'))
+      .concat(this._entitiesOfMode(this.config.entities!, 'waiting'))
+      .concat(this._entitiesOfMode(this.config.entities!, 'idle'))
     ;
   }
 
