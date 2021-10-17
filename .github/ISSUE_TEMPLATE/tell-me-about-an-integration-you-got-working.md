@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Thank you for taking the time to submit this issue! Feel free to simply describe the integration and changes you made to get it working, but using the structure below and filling in the sections will help me add the changes faster.
+Thank you for taking the time to document your card configuration! Feel free to simply delete this text and describe the integration you set up and changes you made to get the card working. However, using the structure below and filling in all the sections will help me add the changes faster.
 
 **Integration name and link**
 
