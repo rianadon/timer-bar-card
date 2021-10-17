@@ -300,11 +300,11 @@ export class TimerBarEntityRow extends LitElement {
         throw new Error('Mod format has changed! See the release notes and readme for details')
       }
 
-      if (mod.remaining && mod.remaining.endsWith('%')) {
+      if (mod.remaining && typeof mod.remaining === 'string' && mod.remaining.endsWith('%')) {
         if (percentRemaining <= parseFloat(mod.remaining)) config = { ...config, ...mod };
       } else if (mod.remaining) {
         if (remaining <= tryDurationToSeconds(mod.remaining, 'remaining')) config = { ...config, ...mod };
-      } else if (mod.elapsed && mod.elapsed.endsWith('%')) {
+      } else if (mod.elapsed && typeof mod.elapsed === 'string' && mod.elapsed.endsWith('%')) {
         if (percentElapsed >= parseFloat(mod.elapsed)) config = { ...config, ...mod };
       } else if (mod.elapsed) {
         if (elapsed >= tryDurationToSeconds(mod.elapsed, 'elapsed')) config = { ...config, ...mod };
