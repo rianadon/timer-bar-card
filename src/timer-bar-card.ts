@@ -157,7 +157,6 @@ export class TimerBarCard extends LitElement {
     return this._entitiesOfMode(this.config.entities!, 'active')
       .concat(this._entitiesOfMode(this.config.entities!, 'pause'))
       .concat(this._entitiesOfMode(this.config.entities!, 'waiting'))
-      .concat(this._entitiesOfMode(this.config.entities!, 'idle'))
     ;
   }
 
