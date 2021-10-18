@@ -13,7 +13,7 @@ For numerical quantities or percentages, you may be interested in the unaffiliat
 ## Integration support status
 
 <pre><code><b>🚧️ Did you configure the card for another integration? 🚧</b>
-I'd love to add it here! Please submit an [issue][#integration-issue]/PR with the integration name and your configuration!
+I'd love to add it here! Please submit an <a href="https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md">issue</a>/PR with the integration name and your configuration!
 </code></pre>
 
 | Integration                    | Status               | Extra configuration required                             |
@@ -26,7 +26,6 @@ I'd love to add it here! Please submit an [issue][#integration-issue]/PR with th
 | [ThinQ washer/dryer]           | *iffy [[#15]]*       | configure `duration` to `initial_time`                   |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
-[integration-issue]: https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md
 [fixed-duration]: #5-my-entity-has-no-attributes
 [#15]: https://github.com/rianadon/timer-bar-card/issues/15
 [#18]: https://github.com/rianadon/timer-bar-card/issues/18
