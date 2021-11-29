@@ -8,7 +8,7 @@ exports[`Card UI Styles: idle 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"idle\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"test2\\">
             test2
@@ -22,7 +22,7 @@ exports[`Card UI Styles: idle 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"idle\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"test3\\">
             test3
@@ -47,7 +47,7 @@ exports[`Card UI Styles: paused 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"paused\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"paused\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"test2\\">
             test2
@@ -64,7 +64,7 @@ exports[`Card UI Styles: paused 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"idle\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"test3\\">
             test3
@@ -89,7 +89,7 @@ exports[`Card UI Styles: running 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"active\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"test2\\">
             test2
@@ -108,7 +108,7 @@ exports[`Card UI Styles: running 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"idle\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"test3\\">
             test3
@@ -130,7 +130,7 @@ exports[`Entity Row Styles: idle 1`] = `
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
     <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-        <ha-icon data-state=\\"idle\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+        <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
       </state-badge>
       <div class=\\"info pointer text-content\\" title=\\"test1\\">
         test1
@@ -150,7 +150,7 @@ exports[`Entity Row Styles: paused 1`] = `
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
     <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-        <ha-icon data-state=\\"paused\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+        <ha-state-icon data-state=\\"paused\\">…</ha-state-icon>
       </state-badge>
       <div class=\\"info pointer text-content\\" title=\\"test1\\">
         test1
@@ -173,7 +173,7 @@ exports[`Entity Row Styles: running 1`] = `
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
     <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-        <ha-icon data-state=\\"active\\" icon=\\"hass:timer-outline\\">…</ha-icon>
+        <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
       </state-badge>
       <div class=\\"info pointer text-content\\" title=\\"test1\\">
         test1

@@ -8,7 +8,7 @@ exports[`Switch with fixed duration: running 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"on\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"switch1\\">
             switch1
@@ -41,7 +41,7 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"on\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"switch2\\">
             switch2
@@ -74,7 +74,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"on\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"switch2\\">
             switch2

@@ -8,7 +8,7 @@ exports[`Switch with input_number turns off: idle 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"off\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"off\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"switch\\">
             switch
@@ -33,7 +33,7 @@ exports[`Switch with input_number turns off: running 1`] = `
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
         <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-icon data-state=\\"on\\" icon=\\"hass:toggle-switch-outline\\">…</ha-icon>
+            <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
           <div class=\\"info pointer text-content\\" title=\\"switch\\">
             switch
