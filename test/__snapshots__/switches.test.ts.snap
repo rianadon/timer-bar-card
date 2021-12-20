@@ -6,15 +6,14 @@ exports[`Switch with fixed duration: running 1`] = `
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"switch1\\">
+          <div class=\\"info pointer\\" title=\\"switch1\\">
             switch1
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -22,7 +21,7 @@ exports[`Switch with fixed duration: running 1`] = `
           <div class=\\"text-content\\">
             58
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
@@ -39,15 +38,14 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
     </h1>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"switch2\\">
+          <div class=\\"info pointer\\" title=\\"switch2\\">
             switch2
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -55,7 +53,7 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
           <div class=\\"text-content\\">
             1:57
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
@@ -72,15 +70,14 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
     </h1>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"switch2\\">
+          <div class=\\"info pointer\\" title=\\"switch2\\">
             switch2
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -88,7 +85,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
           <div class=\\"text-content\\">
             4:58
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>

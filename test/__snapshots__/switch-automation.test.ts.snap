@@ -6,18 +6,17 @@ exports[`Switch with input_number turns off: idle 1`] = `
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"off\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"switch\\">
+          <div class=\\"info pointer\\" title=\\"switch\\">
             switch
           </div>
-          <slot></slot>
           <div class=\\"text-content\\">
             Off
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
@@ -31,15 +30,14 @@ exports[`Switch with input_number turns off: running 1`] = `
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"on\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"switch\\">
+          <div class=\\"info pointer\\" title=\\"switch\\">
             switch
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -47,7 +45,7 @@ exports[`Switch with input_number turns off: running 1`] = `
           <div class=\\"text-content\\">
             2
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>

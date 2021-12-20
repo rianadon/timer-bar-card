@@ -3,18 +3,17 @@
 exports[`Custom entity can pause: idle 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-    <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+    <div class=\\"generic-entity-row\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
         <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
       </state-badge>
-      <div class=\\"info pointer text-content\\" title=\\"Fancy timer\\">
+      <div class=\\"info pointer\\" title=\\"Fancy timer\\">
         Fancy timer
       </div>
-      <slot></slot>
       <div class=\\"text-content\\">
         Idle
       </div>
-    </hui-generic-entity-row>
+    </div>
   </timer-bar-entity-row>
 </timer-bar-card>
 "
@@ -23,21 +22,20 @@ exports[`Custom entity can pause: idle 1`] = `
 exports[`Custom entity can pause: paused 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-    <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+    <div class=\\"generic-entity-row\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
         <ha-state-icon data-state=\\"paused\\">…</ha-state-icon>
       </state-badge>
-      <div class=\\"info pointer text-content\\" title=\\"Fancy timer\\">
+      <div class=\\"info pointer\\" title=\\"Fancy timer\\">
         Fancy timer
       </div>
-      <slot></slot>
-      <div class=\\"status\\">
+      <div class=\\"pointer status\\">
         Paused
       </div>
       <div class=\\"text-content\\">
         59
       </div>
-    </hui-generic-entity-row>
+    </div>
   </timer-bar-entity-row>
 </timer-bar-card>
 "
@@ -46,15 +44,14 @@ exports[`Custom entity can pause: paused 1`] = `
 exports[`Custom entity can pause: running 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-    <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+    <div class=\\"generic-entity-row\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
         <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
       </state-badge>
-      <div class=\\"info pointer text-content\\" title=\\"Fancy timer\\">
+      <div class=\\"info pointer\\" title=\\"Fancy timer\\">
         Fancy timer
       </div>
-      <slot></slot>
-      <div class=\\"bar-container\\">
+      <div class=\\"bar-container pointer\\">
         <div class=\\"bar\\">
           <div></div>
         </div>
@@ -62,7 +59,7 @@ exports[`Custom entity can pause: running 1`] = `
       <div class=\\"text-content\\">
         59
       </div>
-    </hui-generic-entity-row>
+    </div>
   </timer-bar-entity-row>
 </timer-bar-card>
 "

@@ -6,15 +6,14 @@ exports[`Colors and icons: running 1`] = `
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"test2\\">
+          <div class=\\"info pointer\\" title=\\"test2\\">
             test2
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -22,7 +21,7 @@ exports[`Colors and icons: running 1`] = `
           <div class=\\"text-content\\">
             8
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
@@ -36,15 +35,14 @@ exports[`Receding progress bar: running 1`] = `
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"test3\\">
+          <div class=\\"info pointer\\" title=\\"test3\\">
             test3
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -52,7 +50,7 @@ exports[`Receding progress bar: running 1`] = `
           <div class=\\"text-content\\">
             8
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
@@ -69,18 +67,17 @@ exports[`Widths: idle 1`] = `
     </h1>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"test1\\">
+          <div class=\\"info pointer\\" title=\\"test1\\">
             test1
           </div>
-          <slot></slot>
           <div class=\\"text-content\\">
             Idle
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
@@ -97,15 +94,14 @@ exports[`Widths: running 1`] = `
     </h1>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <hui-generic-entity-row config=\\"[object Object]\\" no-secondary=\\"\\">
+        <div class=\\"generic-entity-row\\">
           <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
             <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer text-content\\" title=\\"test1\\">
+          <div class=\\"info pointer\\" title=\\"test1\\">
             test1
           </div>
-          <slot></slot>
-          <div class=\\"bar-container\\">
+          <div class=\\"bar-container pointer\\">
             <div class=\\"bar\\">
               <div></div>
             </div>
@@ -113,7 +109,7 @@ exports[`Widths: running 1`] = `
           <div class=\\"text-content\\">
             9:59:59
           </div>
-        </hui-generic-entity-row>
+        </div>
       </timer-bar-entity-row>
     </div>
   </ha-card>
