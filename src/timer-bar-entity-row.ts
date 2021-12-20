@@ -6,6 +6,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
 import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
+import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 
 export function fillConfig(config: TimerBarEntityConfig) {
   return {
@@ -111,7 +112,7 @@ export class TimerBarEntityRow extends LitElement {
 
       case 'pause':
       return this._renderRow(activeConfig, html`
-        <div class="status" style=${this._statusStyle()} @click=${this._handleClick}>
+        <div class="status pointer" style=${this._statusStyle()} @click=${this._handleClick}>
           ${localize(this.hass!, state.state, state, this.config.translations)}
         </div>
         <div class="text-content" style=${this._textStyle()}>
@@ -121,7 +122,7 @@ export class TimerBarEntityRow extends LitElement {
 
       case 'waiting':
       return this._renderRow(this.modConfig, html`
-        <div class="status" style=${this._statusStyle(true)} @click=${this._handleClick}>
+        <div class="status pointer" style=${this._statusStyle(true)} @click=${this._handleClick}>
           ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
         </div>
       `);
@@ -138,9 +139,7 @@ export class TimerBarEntityRow extends LitElement {
   private _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     if (this.modConfig.full_row) return html`<div class="flex">${contents}</div>${this._renderDebug()}`;
     return html`
-      <hui-generic-entity-row .hass=${this.hass} .config=${config}>
-        ${contents}
-      </hui-generic-entity-row>
+      ${genericEntityRow(contents, this.hass, config)}
       ${this._renderDebug()}
     `;
   }
@@ -154,7 +153,7 @@ export class TimerBarEntityRow extends LitElement {
     const containerStyle = styleMap({ width: this._bar_width, direction: this.modConfig.bar_direction });
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
-    return html`<div class="bar-container" style=${containerStyle} @click=${this._handleClick}>
+    return html`<div class="bar-container pointer" style=${containerStyle} @click=${this._handleClick}>
       <div class="bar" style=${bgStyle}>
         <div style=${fgStyle}>
       </div>
@@ -256,22 +255,22 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   static get styles(): CSSResultGroup {
-    return css`
+    return [css`
       :host {
         display: flex;
         flex-direction: column;
         justify-content: center;
       }
+      .pointer { cursor: pointer; }
       .flex { display: flex; height: 40px; align-items: center; justify-content: flex-end; }
       .bar-container {
-        cursor: pointer;
         min-height: 1.5em;
         display: flex;
         flex-shrink: 0;
         align-items: center;
       }
       .bar { margin-top: 2px; }
-      .status { cursor: pointer; line-height: 1.5em; flex-shrink: 0; }
+      .status { line-height: 1.5em; flex-shrink: 0; }
       .text-content { text-align: right; text-align: end; overflow: hidden; }
       code {
         display: block;
@@ -281,7 +280,7 @@ export class TimerBarEntityRow extends LitElement {
         font-size: 0.9em;
         word-break: break-all;
       }
-    `;
+    `, genericEntityRowStyles];
   }
 
   private get modConfig(): TimerBarEntityConfig {

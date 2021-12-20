@@ -21,8 +21,8 @@ import { version } from '../package.json';
 window.customElements.define('timer-bar-entity-row', TimerBarEntityRow);
 console.info(
   `%c TIMER-BAR-CARD %c Version ${version} `,
-  'font-weight: bold; background: #aeb',
-  'font-weight: bold; background: #ddd',
+  'font-weight: bold; color: #000; background: #aeb',
+  'font-weight: bold; color: #000; background: #ddd',
 );
 
 @customElement('timer-bar-card')

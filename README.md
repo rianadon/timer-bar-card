@@ -81,7 +81,9 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 | Name           | Type    | Requirement  | Description                                                                                                | Default           |
 |----------------|---------|--------------|------------------------------------------------------------------------------------------------------------|-------------------|
-| icon           | string  | **Optional** | Customize the icon to shown next to the timer                                                              | -                 |
+| icon           | string  | **Optional** | Customize the icon to show next to the timer                                                               | -                 |
+| image          | string  | **Optional** | Customize the image url to show in place of the icon                                                       | -                 |
+| state_color    | boolean | **Optional** | Change the icon's color if the timer is active                                                             | -                 |
 | active_icon    | boolean | **Optional** | Override `icon` when timer is active                                                                       | -                 |
 | text_width     | string  | **Optional** | Space alotted for the time remaining (i.e. right offset of bar)                                            | `3.5em`           |
 | bar_width      | boolean | **Optional** | Width of progress bar (decrease if the entity name is cut off)                                             | `calc(70% - 7em)` |
@@ -94,6 +96,8 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 
 † the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
+
+You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with this card.
 
 </details>
 

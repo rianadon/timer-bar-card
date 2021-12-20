@@ -19,6 +19,8 @@ export declare type HassEntity = {
 interface styleConfig {
   icon?: string;
   active_icon?: string;
+  image?: string;
+  state_color?: boolean;
 
   bar_width?: string;
   bar_height?: string;
@@ -60,6 +62,8 @@ export interface TimerBarEntityConfig extends styleConfig {
 
   modifications?: modsConfig[];
   translations?: Translations;
+  hold_action?: any;
+  double_tap_action?: any;
 }
 
 export interface TimerBarConfig extends TimerBarEntityConfig {
