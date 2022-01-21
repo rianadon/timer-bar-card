@@ -166,12 +166,15 @@ export class TimerBarEntityRow extends LitElement {
     if (!state) return html`<code>No state found</code>`;
 
     const auto_used = this.config.guess_mode ? 'used' : 'unused';
+    const remaining = timerTimeRemaining(this.hass!, this.config, state);
+    const warn_active = remaining && remaining > 0 && this._mode() != 'active';
     return html`<code>
       State: ${state.state} (state mode = ${stateMode(this.hass!, this.config) || 'N/A'})<br>
       Mode: ${this._mode()} (auto mode = ${autoMode(this.hass!, this.config) || 'N/A'}, ${auto_used})<br>
       Duration: ${findDuration(this.hass!, this.config, state)} second<br>
-      Time remaining: ${timerTimeRemaining(this.hass!, this.config, state)}<br>
+      Time remaining: ${remaining}<br>
       Counter: ${this._timeRemaining}<br>
+      ${warn_active ? html`<b>Did you set active_state?</b>` : ''}
       <small>Attr: ${JSON.stringify(state.attributes)}</small>
     </code>`;
   }
