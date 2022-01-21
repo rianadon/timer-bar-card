@@ -2,7 +2,7 @@
 name: Tell me about an integration you got working
 about: Help me fill in the Integration Support Status table!
 title: ''
-labels: ''
+labels: integration doc
 assignees: ''
 
 ---
