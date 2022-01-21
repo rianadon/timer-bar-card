@@ -13,7 +13,7 @@ For numerical quantities or percentages, you may be interested in the unaffiliat
 ## Integration support status
 
 <pre><code><b>🚧️ Did you configure the card for another integration? 🚧</b>
-I'd love to add it here! Please submit an <a href="https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md">issue</a>/PR with the integration name and your configuration!
+I'd love to add it here! Please submit an <a href="https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md">issue</a> with the integration name and your configuration!
 </code></pre>
 
 | Integration                    | Status               | Extra configuration required                             |
@@ -21,6 +21,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Home Assistant timer]         | *supported & tested* | no! 🎉                                                   |
 | Automation-controlled switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
 | [OpenSprinkler][opensprinkler] | *supported*          | no! 🎊                                                   |
+| [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
 | [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
 | [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [ThinQ washer/dryer]           | *iffy [[#15]]*       | configure `duration` to `initial_time`                   |
@@ -31,11 +32,15 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#18]: https://github.com/rianadon/timer-bar-card/issues/18
 [#19]: https://github.com/rianadon/timer-bar-card/issues/19#issuecomment-923650295
 [#22]: https://github.com/rianadon/timer-bar-card/issues/22
+[#36]: https://github.com/rianadon/timer-bar-card/issues/36
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
 [Google Home Timer]: https://github.com/leikoilja/ha-google-home
 [Amazon Alexa Timer]: https://github.com/custom-components/alexa_media_player
+[Home Connect]: https://www.home-assistant.io/integrations/home_connect/
+
+† *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
 If your integration is not listed here, there's a high chance you'll need to [look at your entity's attributes and configure the card](#use-with-unsupported-entities) to make the card work with the integration.
 
@@ -172,6 +177,8 @@ You can find a subset of these attributes in the entity popup, and a full list b
 
 **STEP ONE**: Assign `active_state`, `pause_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above). If your `active_state` is not a constant, set `guess_mode` to true and the card will try to guess the mode.
 
+> This is the most important step! Without `active_state` properly set, the progress bar will not appear.
+ 
 **STEP TWO**: Turn on card debug mode by adding `debug: true` to the yaml configuration.
 
 **STEP THREE**: Then follow these steps in order to figure out what you need:
