@@ -28,7 +28,8 @@ interface styleConfig {
   bar_background?: string;
   bar_direction?: string;
   text_width?: string;
-  full_row?: string;
+  full_row?: boolean;
+  layout?: 'normal' | 'hide_name' | 'full_row';
 }
 
 interface modsConfig extends styleConfig {

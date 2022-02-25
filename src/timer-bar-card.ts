@@ -29,6 +29,7 @@ console.info(
 export class TimerBarCard extends LitElement {
 
   @property() public hass?: HomeAssistant;
+  @property() public editMode?: boolean;
   @state() private config!: TimerBarConfig;
 
   public static getStubConfig(): object {
@@ -50,6 +51,17 @@ export class TimerBarCard extends LitElement {
 
     if (config.entity) {
       return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
+    } else if (config.entities && !this._filteredEntities().length) {
+      if (this.editMode) {
+        return html`<ha-card>
+          <h1 class="card-header">${config.name}</h1>
+          <div class="card-content">
+            No entities match the filter. This card will disappear when you finish editing.
+          </div>
+        </ha-card>`;
+      } else {
+        return html``; // Return a blank card
+      }
     } else if (config.entities) {
       return html`<ha-card>
         ${config.name && !config.header_entity ? html`<h1 class="card-header">${this.config.name}</h1>` : ''}

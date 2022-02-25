@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { LitElement, html, CSSResultGroup, TemplateResult, css, PropertyValues } from 'lit';
 import { state, property } from "lit/decorators.js";
-import { styleMap } from 'lit/directives/style-map.js';
+import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
 import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 
-export function fillConfig(config: TimerBarEntityConfig) {
+export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
     active_state: ['active', 'on', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
@@ -22,6 +22,7 @@ export function fillConfig(config: TimerBarEntityConfig) {
     text_width: '3.5em',
     bar_background: '#eee',
     bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
+    layout: 'normal',
     ...config,
     translations: {
       scheduled_for: 'Scheduled for',
@@ -137,7 +138,9 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderRow(config: TimerBarConfig, contents: TemplateResult) {
-    if (this.modConfig.full_row) return html`<div class="flex">${contents}</div>${this._renderDebug()}`;
+    if (this.modConfig.full_row || this.modConfig.layout === 'full_row') return html`<div class="flex">${contents}</div>${this._renderDebug()}`;
+
+    if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
     return html`
       ${genericEntityRow(contents, this.hass, config)}
       ${this._renderDebug()}
@@ -145,12 +148,15 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private get _bar_width() {
-    if (this.modConfig.full_row) return `calc(100% - ${this.modConfig.text_width})`;
+    if (this.modConfig.full_row || this.modConfig.layout === 'full_row') return `calc(100% - ${this.modConfig.text_width})`;
+    if (this.modConfig.layout === 'hide_name') return 'auto';
     return this.modConfig.bar_width;
   }
 
   private _renderBar(percent: number) {
-    const containerStyle = styleMap({ width: this._bar_width, direction: this.modConfig.bar_direction });
+    let style: StyleInfo = { width: this._bar_width, direction: this.modConfig.bar_direction };
+    if (this.modConfig.layout === 'hide_name') style = { ...style, 'flex-grow': '1', 'margin-left': '8px' };
+    const containerStyle = styleMap(style);
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
     return html`<div class="bar-container pointer" style=${containerStyle} @click=${this._handleClick}>

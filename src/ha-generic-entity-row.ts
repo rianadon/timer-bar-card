@@ -20,7 +20,7 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
   const stateObj = config.entity ? hass.states[config.entity] : undefined;
   if (!stateObj) return html`<hui-warning>Entity ${config.entity} not found</hui-warning>`;
 
-  const name = config.name || computeStateName(stateObj);
+  const name = config.name ?? computeStateName(stateObj);
 
   const _handleAction = (ev: ActionHandlerEvent) => {
     handleAction(ev.target as any, hass!, config!, ev.detail.action!);
@@ -41,7 +41,7 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
       })}
       tabindex="0"
     ></state-badge>
-    <div
+    ${name ? html`<div
       class="info pointer"
       @action=${_handleAction}
       .actionHandler=${actionHandler({
@@ -51,7 +51,7 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
       .title=${name}
     >
       ${name}
-    </div>
+    </div>` : ''}
     ${children}
   </div>`;
 }

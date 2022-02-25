@@ -34,5 +34,6 @@ it("Filters Entities", async () => {
 
   // One timer should show up now that the timer has been started
   await hass.callService("timer", "start", {}, { entity_id: "timer.test2" });
+  await new Promise(r => setTimeout(r, 100));
   expect(await card.$$eval('timer-bar-entity-row', e => e.length)).toBe(1);
 });

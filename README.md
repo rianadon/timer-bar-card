@@ -96,7 +96,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | bar_foreground | string  | **Optional** | Foreground color of progress bar                                                                           | primary color †   |
 | bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
 | bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
-| full_row       | boolean | **Optional** | Hide the name and icon, which widens the progress bar                                                      | `false`           |
+| layout         | string  | **Optional** | Hide the name (`hide_name`) and (optionally icon—`full_row`)                                               | `normal`          |
 | modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 
@@ -178,7 +178,7 @@ You can find a subset of these attributes in the entity popup, and a full list b
 **STEP ONE**: Assign `active_state`, `pause_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above). If your `active_state` is not a constant, set `guess_mode` to true and the card will try to guess the mode.
 
 > This is the most important step! Without `active_state` properly set, the progress bar will not appear.
- 
+
 **STEP TWO**: Turn on card debug mode by adding `debug: true` to the yaml configuration.
 
 **STEP THREE**: Then follow these steps in order to figure out what you need:
@@ -368,9 +368,11 @@ All modifications that match are applied, with the last modification having prec
 type: custom:timer-bar-card
 entities:
   - timer.alarm
-full_row: true  # hides the name and icon, but not time remaining
+layout: full_row  # hides the name and icon, but not time remaining
 text_width: 0px # hide the time remaining
 ```
+
+You can also choose to hide only the entity name with `layout: hide_name`.
 
 ### Even more options
 
