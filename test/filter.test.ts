@@ -28,12 +28,15 @@ it("Filters Entities", async () => {
       filter: true
     },
   ]);
-  // No timers should show up initially
-  const card = await dashboard.cards[0].element();
-  expect(await card.$$eval('timer-bar-entity-row', e => e.length)).toBe(0);
+  // One timer should show up initially
+  await hass.callService("timer", "start", {}, { entity_id: "timer.test1" });
+  await new Promise(r => setTimeout(r, 100));
 
-  // One timer should show up now that the timer has been started
+  const card = await dashboard.cards[0].element();
+  expect(await card.$$eval('timer-bar-entity-row', e => e.length)).toBe(1);
+
+  // Two timers should show up now that the timer has been started
   await hass.callService("timer", "start", {}, { entity_id: "timer.test2" });
   await new Promise(r => setTimeout(r, 100));
-  expect(await card.$$eval('timer-bar-entity-row', e => e.length)).toBe(1);
+  expect(await card.$$eval('timer-bar-entity-row', e => e.length)).toBe(2);
 });

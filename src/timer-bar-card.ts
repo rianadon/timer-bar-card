@@ -29,7 +29,7 @@ console.info(
 export class TimerBarCard extends LitElement {
 
   @property() public hass?: HomeAssistant;
-  @property() public editMode?: boolean;
+  @property({ attribute: false }) public editMode?: boolean;
   @state() private config!: TimerBarConfig;
 
   public static getStubConfig(): object {
