@@ -142,12 +142,12 @@ entities:
 
 ### Receding progress bar
 
-By default, the progress bar will extend from left to right. If you'd like the bar instead to shrink from right to left (as if it were counting down, rather than counting up), reverse the bar direction and invert the percentage:
+By default, the progress bar will expand. If you'd like the bar instead to shrink (as if it were counting down, rather than counting up), reverse the bar direction and invert the percentage:
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/receding.png" width="378" height="42" />
 
 ```yaml
-bar_direction: rtl
+bar_direction: rtl # omit this for a left-aligned progress bar
 invert: true
 ```
 
