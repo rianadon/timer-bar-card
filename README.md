@@ -151,7 +151,7 @@ bar_direction: rtl
 invert: true
 ```
 
-This example uses the `bar_radius` option to round the edges of the progress bar.
+This example uses the `bar_radius` option to round the edges of the progress bar. I like my progress bars advancing from left to right, but you can keep the bar aligned to the left by omitting `bar_direction: rtl`.
 
 ### Use with [OpenSprinkler integration][opensprinkler]
 
