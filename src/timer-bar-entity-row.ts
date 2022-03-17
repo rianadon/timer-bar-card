@@ -154,6 +154,7 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderBar(percent: number) {
+    if (this.modConfig.invert) percent = 100 - percent; // invert if the options say so
     let style: StyleInfo = { width: this._bar_width, direction: this.modConfig.bar_direction };
     if (this.modConfig.layout === 'hide_name') style = { ...style, 'flex-grow': '1', 'margin-left': '8px' };
     const containerStyle = styleMap(style);
@@ -247,6 +248,7 @@ export class TimerBarEntityRow extends LitElement {
     return styleMap({
       width, background,
       height: this.modConfig.bar_height,
+      'border-radius': this.modConfig.bar_radius,
     });
   }
 

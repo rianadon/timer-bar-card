@@ -22,11 +22,13 @@ interface styleConfig {
   image?: string;
   state_color?: boolean;
 
+  invert?: boolean;
   bar_width?: string;
   bar_height?: string;
   bar_foreground?: string;
   bar_background?: string;
   bar_direction?: string;
+  bar_radius?: string;
   text_width?: string;
   full_row?: boolean;
   layout?: 'normal' | 'hide_name' | 'full_row';

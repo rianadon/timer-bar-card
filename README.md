@@ -91,10 +91,12 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | state_color    | boolean | **Optional** | Change the icon's color if the timer is active                                                             | -                 |
 | active_icon    | boolean | **Optional** | Override `icon` when timer is active                                                                       | -                 |
 | text_width     | string  | **Optional** | Space alotted for the time remaining (i.e. right offset of bar)                                            | `3.5em`           |
+| invert         | boolean | **Optional** | Make the progress bar count down (start at 100%, end at 0%)                                                | -                 |
 | bar_width      | boolean | **Optional** | Width of progress bar (decrease if the entity name is cut off)                                             | `calc(70% - 7em)` |
 | bar_height     | string  | **Optional** | Height of progress bar                                                                                     | `8px`             |
 | bar_foreground | string  | **Optional** | Foreground color of progress bar                                                                           | primary color †   |
 | bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
+| bar_radius     | string  | **Optional** | Border radius of the progress bar                                                                          | -                 |
 | bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
 | layout         | string  | **Optional** | Hide the name (`hide_name`) and (optionally icon—`full_row`)                                               | `normal`          |
 | modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
@@ -140,13 +142,16 @@ entities:
 
 ### Receding progress bar
 
-By default, the progress bar will extend from left to right. If you'd like the bar instead to shrink from right to left (as if it were counting down, rather than counting up), reverse the bar direction and invert the colors:
+By default, the progress bar will extend from left to right. If you'd like the bar instead to shrink from right to left (as if it were counting down, rather than counting up), reverse the bar direction and invert the percentage:
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/receding.png" width="378" height="42" />
 
 ```yaml
 bar_direction: rtl
-bar_foreground: '#eee'
-bar_background: 'var(--mdc-theme-primary, #6200ee)'
+invert: true
 ```
+
+This example uses the `bar_radius` option to round the edges of the progress bar.
 
 ### Use with [OpenSprinkler integration][opensprinkler]
 
@@ -229,7 +234,7 @@ Imagine we have a **switch** that will always turn off **five minutes** later af
 <img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
 
 > Make sure you have an automation to turn the switch off! See [this test file](https://github.com/rianadon/timer-bar-card/blob/main/test/switch-automation.test.ts) for an example.
- 
+
 ```yaml
 # Did you make an automation in the Home Assistant configuration?
 type: custom:timer-bar-card
