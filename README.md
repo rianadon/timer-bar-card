@@ -440,3 +440,8 @@ For multicolored icons, you can use this super-duper-hacky frontend module [here
 [opensprinkler]: https://github.com/vinteo/hass-opensprinkler
 [hacs]: https://hacs.xyz/
 [release]: https://github.com/rianadon/timer-bar-card/releases
+ 
+#  Troubleshooting
+ 
+If the bar doesn't show up when it should or shows wrong values, please check your system clock! (both HA host and the viewer device) It may be out of sync.
+
