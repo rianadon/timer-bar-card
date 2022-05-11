@@ -395,11 +395,11 @@ entities:
       idle: Gas, gas, gas!
 ```
 
-## Use with Paper Buttons Row
+### Use with Paper Buttons Row
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/button-row.png" width="474" height="91" />
 
-The card supports usage with the amazing [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) element, when configured both as a card and as an entity row. You can add `extend_paper_buttons_row` to your configuration to add buttons to the side of the card!
+The card supports usage with the amazing [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) element! You can add `extend_paper_buttons_row` to your configuration to add buttons to the side of the card!
 
 > Not all options (namely `hide_badge` and `hide_state`) are not supported. Please create an issue if you need these.
 
@@ -458,8 +458,7 @@ For multicolored icons, you can use this super-duper-hacky frontend module [here
 [opensprinkler]: https://github.com/vinteo/hass-opensprinkler
 [hacs]: https://hacs.xyz/
 [release]: https://github.com/rianadon/timer-bar-card/releases
- 
-#  Troubleshooting
- 
-If the bar doesn't show up when it should or shows wrong values, please check your system clock! (both HA host and the viewer device) It may be out of sync.
 
+#  Troubleshooting
+
+If the bar doesn't show up when it should or shows wrong values, please check your system clock! (both HA host and the viewer device) It may be out of sync.
