@@ -2,7 +2,7 @@
 
 A progress bar display for [Home Assistant][home-assistant] timers.
 
-The card currently supports **timer** components and [a few more integrations](#supported-integrations).
+The card currently supports **timer** components and [a few more integrations](#integration-support-status).
 
 ![Screenshots](https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/readme.png)
 
