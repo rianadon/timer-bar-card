@@ -4,6 +4,8 @@
 
 import { css, html, TemplateResult } from "lit";
 import { ActionHandlerEvent, HomeAssistant, handleAction, hasAction } from "custom-card-helpers";
+import { createEntityRow } from "node_modules/card-tools/src/lovelace-element.js";
+import { provideHass } from "node_modules/card-tools/src/hass.js";
 import { actionHandler } from "./ha-action-handler-directive";
 import { TimerBarEntityConfig } from "./types";
 
@@ -14,6 +16,16 @@ const computeStateName = (stateObj: any): string =>
   stateObj.attributes.friendly_name === undefined
     ? computeObjectId(stateObj.entity_id).replace(/_/g, " ")
     : stateObj.attributes.friendly_name || "";
+
+function createPaperButtons(pbConfig: any, position: string) {
+  if (!pbConfig || pbConfig.position != position) return '';
+  const paperButtons = createEntityRow({
+      type: "custom:paper-buttons-row",
+      ...pbConfig
+  });
+  provideHass(paperButtons);
+  return paperButtons;
+}
 
 export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant, config?: TimerBarEntityConfig): TemplateResult {
   if (!hass || !config) return html``;
@@ -52,7 +64,9 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
     >
       ${name}
     </div>` : ''}
+    ${createPaperButtons(config.extend_paper_buttons_row, 'center')}
     ${children}
+    ${createPaperButtons(config.extend_paper_buttons_row, 'right')}
   </div>`;
 }
 

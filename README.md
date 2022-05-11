@@ -395,6 +395,24 @@ entities:
       idle: Gas, gas, gas!
 ```
 
+## Use with Paper Buttons Row
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/button-row.png" width="474" height="91" />
+
+The card supports usage with the amazing [Paper Buttons Row](https://github.com/jcwillox/lovelace-paper-buttons-row) element, when configured both as a card and as an entity row. You can add `extend_paper_buttons_row` to your configuration to add buttons to the side of the card!
+
+> Not all options (namely `hide_badge` and `hide_state`) are not supported. Please create an issue if you need these.
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - timer.alarm
+extend_paper_buttons_row:
+  position: right
+  buttons:
+    - icon: mdi:party-popper
+```
+
 ## Manual installation
 
 1. Download `timer-bar-card.js` from the [latest release][release] and move this file to the `config/www` folder.
