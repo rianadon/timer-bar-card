@@ -57,6 +57,7 @@ export interface TimerBarEntityConfig extends styleConfig {
   active_state?: string | string[];
   pause_state?: string | string[];
   waiting_state?: string | string[];
+  state_attribute?: string;
   guess_mode?: boolean;
   duration?: AttributeConfig;
   start_time?: AttributeConfig;

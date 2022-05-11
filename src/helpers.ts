@@ -49,7 +49,7 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
   if (stateObj.attributes.remaining) { // For Home Assistant timers
     let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
 
-    if (isState(stateObj, config.active_state!)) {
+    if (isState(stateObj, config.active_state!, config)) {
       const now = new Date().getTime();
       // Why timeRemaining and not duration?
       timeRemaining = Math.max(timeRemaining - (now - madeActive) / 1000, 0);
@@ -90,11 +90,12 @@ export const formatStartTime = (stateObj: HassEntity) => {
   return formatTime(start, lang);
 }
 
-export const isState = (stateObj: HassEntity | undefined, checkState: string | string[]) => {
+export const isState = (stateObj: HassEntity | undefined, checkState: string | string[], config: TimerBarConfig) => {
   if (!stateObj) return false;
-  if (typeof checkState === 'string') return stateObj.state === checkState;
+  const state = config.state_attribute ? stateObj.attributes[config.state_attribute] : stateObj.state;
+  if (typeof checkState === 'string') return state === checkState;
 
-  return checkState.includes(stateObj.state);
+  return checkState.includes(state);
 }
 
 export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
@@ -139,9 +140,9 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mod
 
 export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode {
   const state = hass.states[config.entity!];
-  if (isState(state, config.active_state!) && (timerTimeRemaining(hass, config, state)||0) > 0) return 'active';
-  if (isState(state, config.pause_state!)) return 'pause';
-  if (isState(state, config.waiting_state!)) return 'waiting';
+  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state)||0) > 0) return 'active';
+  if (isState(state, config.pause_state!, config)) return 'pause';
+  if (isState(state, config.waiting_state!, config)) return 'waiting';
   return 'idle';
 }
 

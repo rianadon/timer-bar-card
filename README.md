@@ -63,16 +63,17 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 <details>
 <summary>Expand: Configure for entities that use a different set of status states</summary>
 
-| Name          | Type           | Requirement  | Description                                    | Default                                             |
-|---------------|----------------|--------------|------------------------------------------------|-----------------------------------------------------|
-| active_state  | string or list | **Optional** | State(s) used to indicate a timer is running   | `active`, `on`, `manual`, `program`, `once-program` |
-| pause_state  | string or list | **Optional** | State(s) used to indicate a timer is paused    | `paused`                                            |
-| waiting_state | string or list | **Optional** | State(s) when a timer is scheduled for later † | `waiting`                                           |
-| guess_mode    | bool           | **Optional** | Attempt to guess mode=active. ‡                | false                                               |
-| start_time    | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                           |
-| end_time      | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                             |
-| duration      | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
-| debug         | bool           | **Optional** | Show debugging info in card                    | false                                               |
+| Name            | Type           | Requirement  | Description                                    | Default                                             |
+|-----------------|----------------|--------------|------------------------------------------------|-----------------------------------------------------|
+| active_state    | string or list | **Optional** | State(s) used to indicate a timer is running   | `active`, `on`, `manual`, `program`, `once-program` |
+| pause_state     | string or list | **Optional** | State(s) used to indicate a timer is paused    | `paused`                                            |
+| waiting_state   | string or list | **Optional** | State(s) when a timer is scheduled for later † | `waiting`                                           |
+| state_attribute | string         | **Optional** | Use an attribute when calculating the above.   | -                                                   |
+| guess_mode      | bool           | **Optional** | Attempt to guess mode=active. ‡                | false                                               |
+| start_time      | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                           |
+| end_time        | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                             |
+| duration        | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
+| debug           | bool           | **Optional** | Show debugging info in card                    | false                                               |
 
 † requires a `start_time` attribute to calculate when in the future the timer will start. \
 ‡ `waiting_state` and `pause_state` will still have an effect, but the card will disregard `active_state` if it can guess the timer mode.
@@ -180,7 +181,7 @@ You can find a subset of these attributes in the entity popup, and a full list b
 
 <img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
 
-**STEP ONE**: Assign `active_state`, `pause_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above). If your `active_state` is not a constant, set `guess_mode` to true and the card will try to guess the mode.
+**STEP ONE**: Assign `active_state`, `pause_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above). If your `active_state` is not a constant, set `guess_mode` to true and the card will try to guess the mode. You can also use `state_attribute` to fetch the state from a specific attribute.
 
 > This is the most important step! Without `active_state` properly set, the progress bar will not appear.
 
