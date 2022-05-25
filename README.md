@@ -455,7 +455,7 @@ The green and reddish-orange theme (which I called Earth) as well as the gradien
 
 For multicolored icons, you can use this super-duper-hacky frontend module [here](https://gist.github.com/rianadon/83a341fbbf94c7dedd60d7f58b6d84e0) until some form of support officially lands in Home Assistant. I would not rely on my module. Its purpose is merely to produce pretty screenshots so everyone is convinced I have the best dashboards.
 
-[home-assistant]: https://github.com/home-assistant/home-assistant
+[home-assistant]: https://www.home-assistant.io/
 [opensprinkler]: https://github.com/vinteo/hass-opensprinkler
 [hacs]: https://hacs.xyz/
 [release]: https://github.com/rianadon/timer-bar-card/releases
