@@ -24,6 +24,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
 | [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
 | [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
+| [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!) |
 | [ThinQ washer/dryer]           | *iffy [[#15]]*       | configure `duration` to `initial_time`                   |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
@@ -33,12 +34,14 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#19]: https://github.com/rianadon/timer-bar-card/issues/19#issuecomment-923650295
 [#22]: https://github.com/rianadon/timer-bar-card/issues/22
 [#36]: https://github.com/rianadon/timer-bar-card/issues/36
+[#45]: https://github.com/rianadon/timer-bar-card/issues/45
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
 [Google Home Timer]: https://github.com/leikoilja/ha-google-home
 [Amazon Alexa Timer]: https://github.com/custom-components/alexa_media_player
 [Home Connect]: https://www.home-assistant.io/integrations/home_connect/
+[SmartThings]: https://www.home-assistant.io/integrations/smartthings/
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
