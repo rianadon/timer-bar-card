@@ -60,6 +60,7 @@ export interface TimerBarEntityConfig extends styleConfig {
   state_attribute?: string;
   guess_mode?: boolean;
   duration?: AttributeConfig;
+  remaining?: AttributeConfig;
   start_time?: AttributeConfig;
   end_time?: AttributeConfig;
   debug?: boolean;
