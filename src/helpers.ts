@@ -13,11 +13,12 @@ export function tryDurationToSeconds(duration: string, field: string) {
 
 export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
   const duration = durationAttr(hass, stateObj, config.duration);
+  const remaining = durationAttr(hass, stateObj, config.remaining);
   const start_time = attribute(hass, stateObj, config.start_time);
   const end_time = attribute(hass, stateObj, config.end_time);
 
   // Last changed is needed if at least 2 of duration, start time, and end time are undefined.
-  return (!duration && !end_time) || (!duration && !start_time) || (!end_time && !start_time);
+  return (!duration && !end_time) || (!duration && !start_time) || (!duration && !remaining) || (!end_time && !start_time);
 }
 
 // (duration OR start + end)
@@ -45,9 +46,13 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 /** Calculate the most accurate estimate of time remaining for the timer. */
 export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity): undefined | number => {
   const madeActive = new Date(stateObj.last_changed).getTime();
+  var remaining = remainingAttr(hass, stateObj, config.remaining);
+  if (!remaining) {
+    remaining = stateObj.attributes.remaining
+  }
 
-  if (stateObj.attributes.remaining) { // For Home Assistant timers
-    let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
+  if (remaining) { // For Home Assistant timers
+    let timeRemaining = tryDurationToSeconds(remaining, 'remaining');
 
     if (isState(stateObj, config.active_state!, config)) {
       const now = new Date().getTime();
@@ -99,7 +104,7 @@ export const isState = (stateObj: HassEntity | undefined, checkState: string | s
 }
 
 export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
-  if (!attrib) throw new Error('One of duration, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
+  if (!attrib) throw new Error('One of duration, remaining, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
   if ('entity' in attrib) return hass.states[attrib.entity].state;
   if ('state' in attrib) return stateObj.state;
@@ -119,6 +124,21 @@ const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attribu
   }
 
   return tryDurationToSeconds(duration, 'duration');
+}
+
+const remainingAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
+  const remaining = attribute(hass, stateObj, attrib);
+  if (!remaining) return remaining;
+
+  if (attrib!.units === 'hours' || attrib!.units === 'minutes' || attrib!.units === 'seconds') {
+    const numeric = Number(remaining);
+    if (isNaN(numeric)) throw new Error(`Expected remaining ${remaining} to be a number since units is ${attrib!.units}`);
+    if (attrib!.units == 'hours') return numeric * 3600;
+    if (attrib!.units == 'minutes') return numeric * 60;
+    if (attrib!.units == 'seconds')  return numeric * 1;
+  }
+
+  return tryDurationToSeconds(remaining, 'remaining');
 }
 
 export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode | undefined {
