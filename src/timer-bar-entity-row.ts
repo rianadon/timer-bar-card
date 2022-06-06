@@ -17,6 +17,7 @@ export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
     end_time: { attribute: 'end_time' },
     start_time: { attribute: 'start_time' },
     duration: { attribute: 'duration' },
+    remaining: { attribute: 'remaining' },
     bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
     text_width: '3.5em',
