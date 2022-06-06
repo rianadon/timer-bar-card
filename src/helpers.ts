@@ -47,7 +47,7 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity): undefined | number => {
   const madeActive = new Date(stateObj.last_changed).getTime();
   var remaining = remainingAttr(hass, stateObj, config.remaining);
-  if (!remaining) {
+  if (remaining == undefined) {
     remaining = stateObj.attributes.remaining
   }
 
