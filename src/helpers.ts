@@ -46,13 +46,15 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 /** Calculate the most accurate estimate of time remaining for the timer. */
 export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity): undefined | number => {
   const madeActive = new Date(stateObj.last_changed).getTime();
-  var remaining = remainingAttr(hass, stateObj, config.remaining);
-  if (remaining == undefined) {
-    remaining = stateObj.attributes.remaining
+  const duration = durationAttr(hass, stateObj, config.duration);
+  const remaining = remainingAttr(hass, stateObj, config.remaining);
+
+  if (remaining != undefined) {
+    return remaining
   }
 
-  if (remaining) { // For Home Assistant timers
-    let timeRemaining = tryDurationToSeconds(remaining, 'remaining');
+  if (stateObj.attributes.remaining) { // For Home Assistant timers
+    let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
 
     if (isState(stateObj, config.active_state!, config)) {
       const now = new Date().getTime();
@@ -67,8 +69,6 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
     return (Date.parse(end_time) - Date.now()) / 1000;
 
   const start_time = attribute(hass, stateObj, config.start_time);
-  const duration = durationAttr(hass, stateObj, config.duration);
-
   if (start_time && duration)
     return (Date.parse(start_time) - Date.now()) / 1000 + duration;
 
