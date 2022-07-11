@@ -122,11 +122,6 @@ const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attribu
 }
 
 export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode | undefined {
-    // Not applicable if the entity uses the last changed attribute, since this changes every
-  // state change, not necessarily only when the entity turns active.
-  const state = hass.states[config.entity!];
-  if (usesLastChanged(hass, config, state)) return undefined;
-
   // Auto mode is not capable of determining whether the entity is paused or waiting
   const stMode = stateMode(hass, config);
   if (stMode === 'pause' || stMode === 'waiting') return undefined;
