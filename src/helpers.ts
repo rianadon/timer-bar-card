@@ -122,7 +122,11 @@ const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attribu
 }
 
 export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode | undefined {
+  // Disable if the last modified date is used and there is no end time
+  // Otherwise, auto mode might be enabled when it's not supposed to be!
   const state = hass.states[config.entity!];
+  const end_time = attribute(hass, state, config.end_time);
+  if (usesLastChanged(hass, config, state) && !end_time) return undefined;
 
   // Auto mode is not capable of determining whether the entity is paused or waiting
   const stMode = stateMode(hass, config);
