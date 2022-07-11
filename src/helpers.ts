@@ -122,6 +122,8 @@ const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attribu
 }
 
 export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode | undefined {
+  const state = hass.states[config.entity!];
+
   // Auto mode is not capable of determining whether the entity is paused or waiting
   const stMode = stateMode(hass, config);
   if (stMode === 'pause' || stMode === 'waiting') return undefined;
