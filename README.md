@@ -1,4 +1,4 @@
-# Lovelace Timer Bar Card
+# Timer Bar Card
 
 A progress bar display for [Home Assistant][home-assistant] timers.
 
