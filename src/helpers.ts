@@ -13,11 +13,12 @@ export function tryDurationToSeconds(duration: string, field: string) {
 
 export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
   const duration = durationAttr(hass, stateObj, config.duration);
+  const remain_time = durationAttr(hass, stateObj, config.remain_time);
   const start_time = attribute(hass, stateObj, config.start_time);
   const end_time = attribute(hass, stateObj, config.end_time);
 
   // Last changed is needed if at least 2 of duration, start time, and end time are undefined.
-  return (!duration && !end_time) || (!duration && !start_time) || (!end_time && !start_time);
+  return (!duration && !end_time) || (!duration && !start_time) || (!duration && !remain_time) || (!end_time && !start_time);
 }
 
 // (duration OR start + end)
@@ -45,6 +46,8 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 /** Calculate the most accurate estimate of time remaining for the timer. */
 export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity): undefined | number => {
   const madeActive = new Date(stateObj.last_changed).getTime();
+  const duration = durationAttr(hass, stateObj, config.duration);
+  const remain_time = durationAttr(hass, stateObj, config.remain_time);
 
   if (stateObj.attributes.remaining) { // For Home Assistant timers
     let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
@@ -57,13 +60,15 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
     return timeRemaining;
   }
 
+  if (remain_time != undefined) {
+        return remain_time
+  }
+
   const end_time = attribute(hass, stateObj, config.end_time!);
   if (end_time) // For OpenSprinkler timers + others
     return (Date.parse(end_time) - Date.now()) / 1000;
 
   const start_time = attribute(hass, stateObj, config.start_time);
-  const duration = durationAttr(hass, stateObj, config.duration);
-
   if (start_time && duration)
     return (Date.parse(start_time) - Date.now()) / 1000 + duration;
 
@@ -99,7 +104,7 @@ export const isState = (stateObj: HassEntity | undefined, checkState: string | s
 }
 
 export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
-  if (!attrib) throw new Error('One of duration, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
+  if (!attrib) throw new Error('One of duration, remain_time, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
   if ('entity' in attrib) return hass.states[attrib.entity].state;
   if ('state' in attrib) return stateObj.state;

@@ -26,7 +26,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
 | [RainMachine]                  | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
-| [ThinQ washer/dryer]           | *iffy [[#15]]*       | configure `duration` to `initial_time`                   |
+| [ThinQ washer/dryer]           | *supported [[#47]]*  | configure `duration` to `initial_time` and `remain_time` to `remain_time` |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
 [fixed-duration]: #5-my-entity-has-no-attributes
@@ -78,6 +78,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | guess_mode      | bool           | **Optional** | Attempt to guess mode=active. ‡                | false                                               |
 | start_time      | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                           |
 | end_time        | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                             |
+| remain_time     | dict           | **Optional** | How the timer's remaining tim is found         | `{attribute: remain_time}`                          |
 | duration        | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
 | debug           | bool           | **Optional** | Show debugging info in card                    | false                                               |
 
@@ -177,6 +178,20 @@ active_state: # This option isn't needed due to the defaults
 bar_width: 35%
 compressed: true
 filter: true # So only the running and scheduled stations are shown
+```
+
+### Use with LG Washer Dryer:
+
+For LG Washer Dryers to work, `duration` and `remain_time` need to be configured:
+
+```yaml
+entity: sensor.washer_dryer
+type: custom:timer-bar-card
+debug: false
+duration:
+  attribute: initial_time
+remain_time:
+  attribute: remain_time
 ```
 
 ### Use with unsupported entities
