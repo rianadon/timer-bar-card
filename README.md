@@ -28,6 +28,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [OctoPrint][octoprint]         | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
 | [RainMachine]                  | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
 | [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
+| [Miele]                        | *supported*          | [template entity required: see #62][#62]                 |
 | [ThinQ washer/dryer]           | *iffy [[#15]]*       | configure `duration` to `initial_time`                   |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
@@ -41,6 +42,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#46]: https://github.com/rianadon/timer-bar-card/issues/46
 [#58]: https://github.com/rianadon/timer-bar-card/issues/58
 [#60]: https://github.com/rianadon/timer-bar-card/issues/60
+[#62]: https://github.com/rianadon/timer-bar-card/issues/62
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
@@ -51,6 +53,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [RainMachine]: https://www.home-assistant.io/integrations/rainmachine/
 [Octoprint]: https://www.home-assistant.io/integrations/octoprint/
 [bmw]: https://www.home-assistant.io/integrations/bmw_connected_drive
+[Miele]: https://github.com/HomeAssistant-Mods/home-assistant-miele/
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
