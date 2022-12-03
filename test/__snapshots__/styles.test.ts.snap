@@ -2,7 +2,7 @@
 
 exports[`Colors and icons: running 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
@@ -31,7 +31,7 @@ exports[`Colors and icons: running 1`] = `
 
 exports[`Receding progress bar: running 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
@@ -60,7 +60,7 @@ exports[`Receding progress bar: running 1`] = `
 
 exports[`Widths: idle 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <h1 class=\\"card-header\\">
       Progress bar should be munched
@@ -87,7 +87,7 @@ exports[`Widths: idle 1`] = `
 
 exports[`Widths: running 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <h1 class=\\"card-header\\">
       Progress bar should be munched

@@ -2,7 +2,7 @@
 
 exports[`Switch with fixed duration: running 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
@@ -31,7 +31,7 @@ exports[`Switch with fixed duration: running 1`] = `
 
 exports[`Switch with input_number duration: 2-minutes 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <h1 class=\\"card-header\\">
       Time is 1:57
@@ -63,7 +63,7 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
 
 exports[`Switch with input_number duration: 5-minutes 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <h1 class=\\"card-header\\">
       Time is 4:58

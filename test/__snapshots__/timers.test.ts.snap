@@ -2,7 +2,7 @@
 
 exports[`Card UI Styles: idle 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
@@ -39,7 +39,7 @@ exports[`Card UI Styles: idle 1`] = `
 
 exports[`Card UI Styles: paused 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
@@ -79,7 +79,7 @@ exports[`Card UI Styles: paused 1`] = `
 
 exports[`Card UI Styles: running 1`] = `
 "<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card outlined=\\"false\\">
+  <ha-card raised=\\"false\\">
     <slot></slot>
     <div class=\\"card-content\\">
       <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
