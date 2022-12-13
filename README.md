@@ -120,8 +120,6 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 † the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
 
-You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with this card.
-
 </details>
 
 ### Card options
@@ -141,6 +139,10 @@ You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with
 ‡ See the `secondary_info` parameter in the [entities documentation](<https://www.home-assistant.io/lovelace/entities/#secondary_info>) for a list of possible values.
 
 </details>
+
+### Actions
+
+You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with this card to trigger services or perform actions in the dashboard when the card is clicked. The action configuration options are `hold_action`, `tap_action`, and `double_tap_action`.
 
 ## Examples
 

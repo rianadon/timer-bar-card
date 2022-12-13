@@ -67,6 +67,7 @@ export interface TimerBarEntityConfig extends styleConfig {
   modifications?: modsConfig[];
   translations?: Translations;
   hold_action?: any;
+  tap_action?: any;
   double_tap_action?: any;
   extend_paper_buttons_row?: any;
 }
