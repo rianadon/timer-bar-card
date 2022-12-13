@@ -79,4 +79,5 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
   header_secondary?: string;
   compressed?: boolean;
   filter?: boolean;
+  show_empty?: string;
 }

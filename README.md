@@ -132,6 +132,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
  | name             | string  | **Optional** | Card name / title                                       | -       |
  | compressed       | boolean | **Optional** | Decrease vertical spacing between entities              | `false` |
  | filter           | boolean | **Optional** | Only show non-idle timers and sort them by their status | `false` |
+ | show_empty       | string  | **Optional** | If `filter` selects no entities, show this text instead | -       |
  | header_entity    | string  | **Optional** | Replace title with the icon & name of an entity †       | -       |
  | header_secondary | string  | **Optional** | Show additional information under header_entity ‡       | -       |
 
