@@ -1,6 +1,8 @@
 import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
+export const MAX_SYNC_DIFFERENCE = 500; // Allow local and HA times to be 500ms different
+
 export function tryDurationToSeconds(duration: string, field: string) {
   try {
     const seconds = durationToSeconds(duration);
@@ -135,7 +137,7 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mod
   const duration = findDuration(hass, config, state);
   const remaining = timerTimeRemaining(hass, config, state);
   if (!duration || !remaining) return undefined;
-  if (remaining >= 0 && remaining <= duration) return 'active';
+  if (remaining >= 0 && remaining <= duration + MAX_SYNC_DIFFERENCE) return 'active';
   return undefined;
 }
 
@@ -150,4 +152,4 @@ export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mo
 export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode {
   if (config.guess_mode) return autoMode(hass, config)|| stateMode(hass, config);
   return stateMode(hass, config);
- }
+}

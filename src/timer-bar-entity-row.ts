@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MAX_SYNC_DIFFERENCE } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 
@@ -64,6 +64,7 @@ export class TimerBarEntityRow extends LitElement {
   @state() private _interval?: number;
   @state() private _timeRemaining?: number;
   @state() private _error?: Error;
+  @state() private _warning?: string;
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -138,10 +139,14 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderRow(config: TimerBarConfig, contents: TemplateResult) {
-    if (this.modConfig.full_row || this.modConfig.layout === 'full_row') return html`<div class="flex">${contents}</div>${this._renderDebug()}`;
+    const warning = this._warning ? html`<hui-warning>${this._warning}</hui-warning>` : '';
+
+    if (this.modConfig.full_row || this.modConfig.layout === 'full_row')
+      return html`${warning}<div class="flex">${contents}</div>${this._renderDebug()}`;
 
     if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
     return html`
+      ${warning}
       ${genericEntityRow(contents, this.hass, config)}
       ${this._renderDebug()}
     `;
@@ -192,9 +197,24 @@ export class TimerBarEntityRow extends LitElement {
     this.dispatchEvent(e);
   }
 
+  /** Check if Home Assistant and local time are out of sync */
+  private _checkForSyncIssues(oldHass?: HomeAssistant) {
+    if (!oldHass || !this.config.entity) return;
+    const newState = this.hass!.states[this.config.entity];
+    if (oldHass.states[this.config.entity] == newState) return;
+
+    const ahead = Date.parse(newState.last_changed) - Date.now();
+    if (ahead > MAX_SYNC_DIFFERENCE) {
+      this._warning = `Detected sync issues: Home Assistant clock is ${ahead}ms ahead of local time.`;
+    } else if (ahead < -MAX_SYNC_DIFFERENCE) {
+      this._warning = `Detected sync issues: Home Assistant clock is ${ahead}ms behind local time.`;
+    }
+  }
+
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) return false;
     if (changedProps.has('_timeRemaining')) return true;
+    this._checkForSyncIssues(changedProps.get('hass'));
 
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
