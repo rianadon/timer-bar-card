@@ -159,7 +159,10 @@ export class TimerBarCard extends LitElement {
   }
 
   private _entitiesOfMode(entities: (string|TimerBarEntityConfig)[], mode: Mode) {
-    return entities.filter(e => findMode(this.hass!, this._configFor(e)) === mode)
+    // FIXME: The browser-home assistant time offset is assumed to be zero.
+    // Should I watch the states of every entity in the entities list?
+    // Or should there be a single offset for the whole card?
+    return entities.filter(e => findMode(this.hass!, this._configFor(e), 0) === mode)
   }
 
   private _filteredEntities() {

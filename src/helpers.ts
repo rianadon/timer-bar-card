@@ -3,6 +3,11 @@ import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helper
 
 export const MAX_SYNC_DIFFERENCE = 500; // Allow local and HA times to be 500ms different
 
+/** Date.now(), but with a specified correction in ms. */
+function now(correction: number) {
+  return Date.now() + correction
+}
+
 export function tryDurationToSeconds(duration: string, field: string) {
   try {
     const seconds = durationToSeconds(duration);
@@ -45,39 +50,38 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 }
 
 /** Calculate the most accurate estimate of time remaining for the timer. */
-export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity): undefined | number => {
-  const madeActive = new Date(stateObj.last_changed).getTime();
+export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity, correction: number): undefined | number => {
+  const madeActive = Date.parse(stateObj.last_changed);
 
   if (stateObj.attributes.remaining) { // For Home Assistant timers
     let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
 
     if (isState(stateObj, config.active_state!, config)) {
-      const now = new Date().getTime();
       // Why timeRemaining and not duration?
-      timeRemaining = Math.max(timeRemaining - (now - madeActive) / 1000, 0);
+      timeRemaining = Math.max(timeRemaining - (now(correction) - madeActive) / 1000, 0);
     }
     return timeRemaining;
   }
 
   const end_time = attribute(hass, stateObj, config.end_time!);
   if (end_time) // For OpenSprinkler timers + others
-    return (Date.parse(end_time) - Date.now()) / 1000;
+    return (Date.parse(end_time) - now(correction)) / 1000;
 
   const start_time = attribute(hass, stateObj, config.start_time);
   const duration = durationAttr(hass, stateObj, config.duration);
 
   if (start_time && duration)
-    return (Date.parse(start_time) - Date.now()) / 1000 + duration;
+    return (Date.parse(start_time) - now(correction)) / 1000 + duration;
 
   if (duration)
-    return (madeActive - Date.now()) / 1000 + duration;
+    return (madeActive - now(correction)) / 1000 + duration;
 
   return undefined;
 };
 
 /** Calculate what percent of the timer's duration has passed. */
-export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity): undefined | number => {
-  const remaining = timerTimeRemaining(hass, config, stateObj);
+export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity, correction: number): undefined | number => {
+  const remaining = timerTimeRemaining(hass, config, stateObj, correction);
   const duration = findDuration(hass, config, stateObj);
 
   if (!duration || !remaining) return undefined;
@@ -123,7 +127,7 @@ const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attribu
   return tryDurationToSeconds(duration, 'duration');
 }
 
-export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode | undefined {
+export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode | undefined {
   // Disable if the last modified date is used and there is no end time
   // Otherwise, auto mode might be enabled when it's not supposed to be!
   const state = hass.states[config.entity!];
@@ -131,25 +135,25 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mod
   if (usesLastChanged(hass, config, state) && !end_time) return undefined;
 
   // Auto mode is not capable of determining whether the entity is paused or waiting
-  const stMode = stateMode(hass, config);
+  const stMode = stateMode(hass, config, correction);
   if (stMode === 'pause' || stMode === 'waiting') return undefined;
 
   const duration = findDuration(hass, config, state);
-  const remaining = timerTimeRemaining(hass, config, state);
+  const remaining = timerTimeRemaining(hass, config, state, correction);
   if (!duration || !remaining) return undefined;
   if (remaining >= 0 && remaining <= duration + MAX_SYNC_DIFFERENCE) return 'active';
   return undefined;
 }
 
-export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode {
+export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode {
   const state = hass.states[config.entity!];
-  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state)||0) > 0) return 'active';
+  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state, correction)||0) > 0) return 'active';
   if (isState(state, config.pause_state!, config)) return 'pause';
   if (isState(state, config.waiting_state!, config)) return 'waiting';
   return 'idle';
 }
 
-export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig): Mode {
-  if (config.guess_mode) return autoMode(hass, config)|| stateMode(hass, config);
-  return stateMode(hass, config);
+export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode {
+  if (config.guess_mode) return autoMode(hass, config, correction)|| stateMode(hass, config, correction);
+  return stateMode(hass, config, correction);
 }

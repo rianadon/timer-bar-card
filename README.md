@@ -471,7 +471,7 @@ For an example of using the timer bar card as a dependency, you can view [the so
 
 The green and reddish-orange theme (which I called Earth) as well as the gradient theme can be found [here](https://gist.github.com/rianadon/b2b798cf27c6c609d19855abb9ed61f7). Neither are polished and both need work.
 
-For multicolored icons, you can use this super-duper-hacky frontend module [here](https://gist.github.com/rianadon/83a341fbbf94c7dedd60d7f58b6d84e0) until some form of support officially lands in Home Assistant. I would not rely on my module. Its purpose is merely to produce pretty screenshots so everyone is convinced I have the best dashboards.
+For multicolored icons, you can use this super-duper-hacky frontend module [here](https://gist.github.com/rianadon/83a341fbbf94c7dedd60d7f58b6d84e0) until some form of support officially lands in Home Assistant. I would not rely on my module. Its purpose is merely to produce pretty screenshots.
 
 [home-assistant]: https://www.home-assistant.io/
 [opensprinkler]: https://github.com/vinteo/hass-opensprinkler
@@ -480,4 +480,21 @@ For multicolored icons, you can use this super-duper-hacky frontend module [here
 
 #  Troubleshooting
 
-If the bar doesn't show up when it should or shows wrong values, please check your system clock! (both HA host and the viewer device) It may be out of sync.
+## Sync Issues
+**Home Assistant Time**: All Home Assistant timers, automations, etc. are run using the local time of whatever device is running Home Assistant, be it a Raspberry Pi, virtual machine, etc. If the timer will do something important at 5 PM, it will happen whenever your Home Assistant device thinks 5 PM is.
+
+**App Time**: One often views the Home Assistant dashboard on another device like a phone or tablet. These devices have separate clocks, and often they are synced using the [Network Time Protocol](https://en.wikipedia.org/wiki/Network_Time_Protocol). If the syncing is set up correctly, the two clocks will never drift more than 10 or so milliseconds apart.
+
+Home Assistant does not provide any API to figure out what it believes the time to be. Instead, the card reads the time from the app (Home Assistant App or browser) to calculate how much time remains in a timer. Any discrepancies between the two times will affect the accuracy of the card. If the clocks are more than one second out of sync, *the card will display an incorrect amount of time remaining*.
+
+If the Home Assistant and App Times are more than 0.5 seconds out of sync, the card will display a warning to alert you of the problem. In this case, I suggest you first visit a website such as [time.is](https://time.is/) or [use the command line](https://askubuntu.com/questions/741298/how-to-get-datetime-using-curl-command) to compare each device's time to a trustworthy source (such as time.is or Google's server). Usually, one device will have an accurate time while the other won't. Make sure the inaccurate device has NTP correctly set up (here's a guide for [Raspberry Pi](https://raspberrytips.com/time-sync-raspberry-pi/)). For other devices, the system preferences will often have a setting like "Set time and date automatically" that should be enabled).
+
+If you cannot synchronize the clocks, you can configure the card to calculate how out-of-sync they are and adjust its clock to match Home Assistant's clock. Please note this option may not be a reliable solution for the problem:
+```yaml
+sync_issues: fix
+```
+
+You can also simply disable the card's warning using the following configuration option:
+```yaml
+sync_issues: ignore
+```

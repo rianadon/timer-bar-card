@@ -3,13 +3,14 @@ import { Browser, BrowserContext } from "playwright";
 
 const CONFIGURATION_YAML = `
 timer:
-  ${multiply(3, (i) => `
+  ${multiply(6, (i) => `
   test${i}:
-    duration: "00:${i}:00"
+    duration: "00:01:00"
 `)}
 `;
 
 let hass: HomeAssistant<PlaywrightElement>;
+let testNumber = 0;
 
 /** Override the local time by a specified offset */
 function overrideDate() {
@@ -34,6 +35,18 @@ class ModPlaywrightBrowser extends PlaywrightBrowser {
   }
 }
 
+async function setupTest(offset: number, sync_issues?: string) {
+  const entity = `timer.test${++testNumber}`
+  const dashboard = await hass.Dashboard([
+    { type: "custom:timer-bar-card", entity, sync_issues, debug: true },
+  ], { title: String(offset)});
+
+  await new Promise(r => setTimeout(r, 500)); // Wait for time offset to update
+  await hass.callService("timer", "start", {}, { entity_id: entity });
+  return dashboard.cards[0];
+}
+
+
 beforeAll(async () => {
   hass = await HomeAssistant.create(CONFIGURATION_YAML, {
     browser: new ModPlaywrightBrowser(process.env.BROWSER || "firefox"),
@@ -42,27 +55,36 @@ beforeAll(async () => {
 }, 30000);
 afterAll(async () => await hass.close());
 
-
 it("Browser behind", async () => {
-  const dashboard = await hass.Dashboard([
-    { type: "custom:timer-bar-card", entity: "timer.test1", debug: true },
-  ], { title: '1000'});
-  const card = dashboard.cards[0];
-
-  await new Promise(r => setTimeout(r, 500)); // Wait for time offset to update
-  await hass.callService("timer", "start", {}, { entity_id: "timer.test1" });
+  const card = await setupTest(1000);
   expect(await card.html()).toContain('Detected sync issues');
-  expect(await card.html()).toContain('behind local time');
+  expect(await card.html()).toContain('behind app time');
+});
+
+it("Browser behind, ignored", async () => {
+  const card = await setupTest(1000, 'ignore');
+  expect(await card.html()).not.toContain('Detected sync issues');
+  expect(await card.html()).not.toContain('behind app time');
+});
+
+it("Browser behind, fixed", async () => {
+  const card = await setupTest(5000, 'fix');
+  expect(await card.narrow(".text-content").text()).toBe('59');
 });
 
 it("Browser ahead", async () => {
-  const dashboard = await hass.Dashboard([
-    { type: "custom:timer-bar-card", entity: "timer.test1", debug: true },
-  ], { title: '-1000'});
-  const card = dashboard.cards[0];
-
-  await new Promise(r => setTimeout(r, 500)); // Wait for time offset to update
-  await hass.callService("timer", "start", {}, { entity_id: "timer.test1" });
+  const card = await setupTest(-1000);
   expect(await card.html()).toContain('Detected sync issues');
-  expect(await card.html()).toContain('ahead of local time');
+  expect(await card.html()).toContain('ahead of app time');
+});
+
+it("Browser ahead, ignored", async () => {
+  const card = await setupTest(-1000, 'ignore');
+  expect(await card.html()).not.toContain('Detected sync issues');
+  expect(await card.html()).not.toContain('behind app time');
+});
+
+it("Browser ahead, fixed", async () => {
+  const card = await setupTest(-5000, 'fix');
+  expect(await card.narrow(".text-content").text()).toBe('59');
 });
