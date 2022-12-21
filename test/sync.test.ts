@@ -44,6 +44,7 @@ async function setupTest(offset: number, sync_issues?: string) {
 
   const page = (dashboard.page as PlaywrightPage).playwright;
   await page.waitForFunction(() => (window as any).offset != 0); // Wait for offset to update
+  await new Promise(r => setTimeout(r, 1000)) // Wait for the card to load
 
   await hass.callService("timer", "start", {}, { entity_id: entity });
   return dashboard.cards[0];
