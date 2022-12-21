@@ -192,20 +192,6 @@ compressed: true
 filter: true # So only the running and scheduled stations are shown
 ```
 
-### Use with LG Washer Dryer:
-
-For LG Washer Dryers to work, `duration` and `remain_time` need to be configured:
-
-```yaml
-entity: sensor.washer_dryer
-type: custom:timer-bar-card
-debug: false
-duration:
-  attribute: initial_time
-remain_time:
-  attribute: remain_time
-```
-
 ### Use with unsupported entities
 
 By default, the card will look for `duration`, `remaining`, `start_time`, or `end_time` attribute on your entity.
@@ -251,7 +237,17 @@ start_time: { attribute: "start" }
 debug: true
 ```
 
-#### 4. The entity has no duration attribute but it has start time and end time (`finishes_at`) attributes.
+#### 4. The entity has a duration attribute and a remaining time attribute (called `remaining`).
+
+It's not great that the entity will be spamming Home Assistant with a new state every second, but I suppose it's better than nothing. Just make sure you aren't saving this entity's state to the history database otherwise it will increase in size quickly.
+
+```yaml
+duration: { attribute: "timespan" }
+remain_time: { attribute: "remaining" }
+debug: true
+```
+
+#### 5. The entity has no duration attribute but it has start time and end time (`finishes_at`) attributes.
 
 ```yaml
 start_time: { attribute: "start" }
@@ -261,7 +257,7 @@ debug: true
 
 Duration will be computed as the difference between these two times. You can also omit start time if you only have an `end_time`, in which case the `last_changed` property is used as the start time.
 
-#### 5. My entity has no attributes!
+#### 6. My entity has no attributes!
 
 Imagine we have a **switch** that will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
 
@@ -279,7 +275,7 @@ duration: { fixed: 0:05:00 } # 5 min
 
 Like in step 1, there is no `start_time` configured so the card will use the time the switch was last toggled as the start time.
 
-#### 6. My duration actually comes from another entity
+#### 7. My duration actually comes from another entity
 
 So far, `duration` has taken on type `attribute` and `fixed`. But there's a third type: `entity`! Assume there's a duration slider with id `input_number.slider1`.
 
@@ -293,7 +289,7 @@ duration:
   units: minutes # Since the slider state is a number like 10.0
 ```
 
-#### 7. My end time comes from the entity's state
+#### 8. My end time comes from the entity's state
 
 End times and durations can use any of the types `attribute`, `fixed`, `entity` (you've seen these 3 before) and `state`! The `state` type uses the entity's current state. Let's say we have a timer who's state is the time it will go off, like `2021-09-07T20:24:13+00:00`! Here's how to configure the card:
 
@@ -301,7 +297,7 @@ End times and durations can use any of the types `attribute`, `fixed`, `entity` 
 end_time: { state: true }
 ```
 
-#### 8. If your entity doesn't meet these criteria...
+#### 9. If your entity doesn't meet these criteria...
 
 🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
 

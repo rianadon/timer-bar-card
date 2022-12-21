@@ -19,8 +19,8 @@ export function tryDurationToSeconds(duration: string, field: string) {
 }
 
 export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
-  const duration = durationAttr(hass, stateObj, config.duration);
-  const remain_time = durationAttr(hass, stateObj, config.remain_time);
+  const duration = timeAttribute(hass, stateObj, config.duration);
+  const remain_time = timeAttribute(hass, stateObj, config.remain_time);
   const start_time = attribute(hass, stateObj, config.start_time);
   const end_time = attribute(hass, stateObj, config.end_time);
 
@@ -38,7 +38,7 @@ export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, sta
 
 /** Find the duration of the timer. */
 export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
-  const duration = durationAttr(hass, stateObj, config.duration);
+  const duration = timeAttribute(hass, stateObj, config.duration);
   if (duration) return duration;
 
   const start_time = attribute(hass, stateObj, config.start_time);
@@ -64,7 +64,7 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
     return timeRemaining;
   }
 
-  const remain_time = durationAttr(hass, stateObj, config.remain_time);
+  const remain_time = timeAttribute(hass, stateObj, config.remain_time);
   if (remain_time != undefined) {
     return remain_time
   }
@@ -74,7 +74,7 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
     return (Date.parse(end_time) - now(correction)) / 1000;
 
   const start_time = attribute(hass, stateObj, config.start_time);
-  const duration = durationAttr(hass, stateObj, config.duration);
+  const duration = timeAttribute(hass, stateObj, config.duration);
   if (start_time && duration)
     return (Date.parse(start_time) - now(correction)) / 1000 + duration;
 
@@ -117,7 +117,7 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Att
   return stateObj.attributes[attrib.attribute];
 }
 
-const durationAttr = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
+const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
   const duration = attribute(hass, stateObj, attrib);
   if (!duration) return duration;
 
