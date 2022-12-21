@@ -87,7 +87,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | guess_mode      | bool           | **Optional** | Attempt to guess mode=active. ‡                | false                                               |
 | start_time      | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                           |
 | end_time        | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                             |
-| remain_time     | dict           | **Optional** | How the timer's remaining tim is found         | `{attribute: remain_time}`                          |
+| remain_time     | dict           | **Optional** | How the timer's remaining time is found        | `{attribute: remain_time}`                          |
 | duration        | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
 | debug           | bool           | **Optional** | Show debugging info in card                    | false                                               |
 
