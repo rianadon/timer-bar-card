@@ -220,7 +220,7 @@ export class TimerBarEntityRow extends LitElement {
     const phrase = homeAssistantAhead > 0 ? 'ahead of' : 'behind';
     const difference = Math.abs(homeAssistantAhead) / 1000;
     const message = `Detected sync issues: Home Assistant clock is ${difference}s ${phrase} app time.`;
-    return html`${message}<a href="https://github.com/rianadon/timer-bar-card#sync-issues">Learn more.</a>`;
+    return html`${message} <a href="https://github.com/rianadon/timer-bar-card#sync-issues">Learn more.</a>`;
   }
 
   protected shouldUpdate(changedProps: PropertyValues): boolean {

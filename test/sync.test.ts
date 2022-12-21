@@ -1,4 +1,5 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
+import { PlaywrightPage } from "hass-taste-test/lib/integrations/playwright";
 import { Browser, BrowserContext } from "playwright";
 
 const CONFIGURATION_YAML = `
@@ -41,7 +42,9 @@ async function setupTest(offset: number, sync_issues?: string) {
     { type: "custom:timer-bar-card", entity, sync_issues, debug: true },
   ], { title: String(offset)});
 
-  await new Promise(r => setTimeout(r, 500)); // Wait for time offset to update
+  const page = (dashboard.page as PlaywrightPage).playwright;
+  await page.waitForFunction(() => (window as any).offset != 0); // Wait for offset to update
+
   await hass.callService("timer", "start", {}, { entity_id: entity });
   return dashboard.cards[0];
 }
