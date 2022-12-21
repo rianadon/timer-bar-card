@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Colors and icons: running 1`] = `
-"<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card raised=\\"false\\">
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
     <slot></slot>
-    <div class=\\"card-content\\">
-      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <div class=\\"generic-entity-row\\">
-          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-state-icon data-domain=\\"timer\\" data-state=\\"active\\">…</ha-state-icon>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer\\" title=\\"test2\\">
+          <div class="info pointer" title="test2">
             test2
           </div>
-          <div class=\\"bar-container pointer\\">
-            <div class=\\"bar\\">
+          <div class="bar-container pointer">
+            <div class="bar">
               <div></div>
             </div>
           </div>
-          <div class=\\"text-content\\">
+          <div class="text-content">
             8
           </div>
         </div>
@@ -30,24 +30,24 @@ exports[`Colors and icons: running 1`] = `
 `;
 
 exports[`Receding progress bar: running 1`] = `
-"<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card raised=\\"false\\">
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
     <slot></slot>
-    <div class=\\"card-content\\">
-      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <div class=\\"generic-entity-row\\">
-          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-state-icon data-domain=\\"timer\\" data-state=\\"active\\">…</ha-state-icon>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer\\" title=\\"test3\\">
+          <div class="info pointer" title="test3">
             test3
           </div>
-          <div class=\\"bar-container pointer\\">
-            <div class=\\"bar\\">
+          <div class="bar-container pointer">
+            <div class="bar">
               <div></div>
             </div>
           </div>
-          <div class=\\"text-content\\">
+          <div class="text-content">
             8
           </div>
         </div>
@@ -59,22 +59,22 @@ exports[`Receding progress bar: running 1`] = `
 `;
 
 exports[`Widths: idle 1`] = `
-"<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card raised=\\"false\\">
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
     <slot></slot>
-    <h1 class=\\"card-header\\">
+    <h1 class="card-header">
       Progress bar should be munched
     </h1>
-    <div class=\\"card-content\\">
-      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <div class=\\"generic-entity-row\\">
-          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-state-icon data-domain=\\"timer\\" data-state=\\"idle\\">…</ha-state-icon>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer\\" title=\\"test1\\">
+          <div class="info pointer" title="test1">
             test1
           </div>
-          <div class=\\"text-content\\">
+          <div class="text-content">
             Idle
           </div>
         </div>
@@ -86,27 +86,27 @@ exports[`Widths: idle 1`] = `
 `;
 
 exports[`Widths: running 1`] = `
-"<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card raised=\\"false\\">
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
     <slot></slot>
-    <h1 class=\\"card-header\\">
+    <h1 class="card-header">
       Progress bar should be munched
     </h1>
-    <div class=\\"card-content\\">
-      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <div class=\\"generic-entity-row\\">
-          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-state-icon data-domain=\\"timer\\" data-state=\\"active\\">…</ha-state-icon>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer\\" title=\\"test1\\">
+          <div class="info pointer" title="test1">
             test1
           </div>
-          <div class=\\"bar-container pointer\\">
-            <div class=\\"bar\\">
+          <div class="bar-container pointer">
+            <div class="bar">
               <div></div>
             </div>
           </div>
-          <div class=\\"text-content\\">
+          <div class="text-content">
             9:59:59
           </div>
         </div>

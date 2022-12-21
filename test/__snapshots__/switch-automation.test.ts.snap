@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Switch with input_number turns off: idle 1`] = `
-"<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card raised=\\"false\\">
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
     <slot></slot>
-    <div class=\\"card-content\\">
-      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <div class=\\"generic-entity-row\\">
-          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-state-icon data-domain=\\"input_boolean\\" data-state=\\"off\\">…</ha-state-icon>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="input_boolean" data-state="off">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer\\" title=\\"switch\\">
+          <div class="info pointer" title="switch">
             switch
           </div>
-          <div class=\\"text-content\\">
+          <div class="text-content">
             Off
           </div>
         </div>
@@ -25,24 +25,24 @@ exports[`Switch with input_number turns off: idle 1`] = `
 `;
 
 exports[`Switch with input_number turns off: running 1`] = `
-"<timer-bar-card hass=\\"[object Object]\\">
-  <ha-card raised=\\"false\\">
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
     <slot></slot>
-    <div class=\\"card-content\\">
-      <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
-        <div class=\\"generic-entity-row\\">
-          <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-            <ha-state-icon data-domain=\\"input_boolean\\" data-state=\\"on\\">…</ha-state-icon>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
           </state-badge>
-          <div class=\\"info pointer\\" title=\\"switch\\">
+          <div class="info pointer" title="switch">
             switch
           </div>
-          <div class=\\"bar-container pointer\\">
-            <div class=\\"bar\\">
+          <div class="bar-container pointer">
+            <div class="bar">
               <div></div>
             </div>
           </div>
-          <div class=\\"text-content\\">
+          <div class="text-content">
             2
           </div>
         </div>

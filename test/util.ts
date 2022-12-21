@@ -56,7 +56,7 @@ export async function synchronizeTimerPaused(hass: HomeAssistant<any>, entity_id
 /** Match both html and image snapshot */
 export async function toMatchDualSnapshot(this: any, received: HassCard<any>, name?: string) {
   const html = await received.html({ ignoreAttributes: ["style"] });
-  const htmlResult = toMatchSnapshot.call(this, html, name);
+  const htmlResult = toMatchSnapshot.call(this, html, name) as any;
 
   const imgResult = (toMatchImageSnapshot as any).call(this, await received.screenshot(), {
     customSnapshotIdentifier: name ? ({ defaultIdentifier }) => `${defaultIdentifier}-${name}` : undefined,

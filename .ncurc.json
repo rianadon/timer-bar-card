@@ -1,0 +1,7 @@
+{
+  "reject": [
+    "home-assistant-js-websocket",
+    "custom-card-helpers"
+  ]
+}
+
