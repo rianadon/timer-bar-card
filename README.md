@@ -1,4 +1,4 @@
-# Lovelace Timer Bar Card
+# Timer Bar Card
 
 A progress bar display for [Home Assistant][home-assistant] timers.
 
@@ -21,12 +21,15 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Home Assistant timer]         | *supported & tested* | no! 🎉                                                   |
 | Automation-controlled switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
 | [OpenSprinkler][opensprinkler] | *supported*          | no! 🎊                                                   |
-| [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
 | [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
+| [BMW Connected Drive][bmw]     | *supported*          | `active_state`, `end_time` [[#60]] (thanks @hoeni!)      |
 | [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
-| [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
+| [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
+| [OctoPrint][octoprint]         | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
 | [RainMachine]                  | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
-| [ThinQ washer/dryer]           | *supported [[#47]]*  | configure `duration` to `initial_time` and `remain_time` to `remain_time` |
+| [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
+| [Miele]                        | *supported*          | [template entity required: see #62][#62]                 |
+| [ThinQ washer/dryer]           | *supported*          | configure `duration` to `initial_time` [[#15]]           |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
 [fixed-duration]: #5-my-entity-has-no-attributes
@@ -37,6 +40,9 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#36]: https://github.com/rianadon/timer-bar-card/issues/36
 [#45]: https://github.com/rianadon/timer-bar-card/issues/45
 [#46]: https://github.com/rianadon/timer-bar-card/issues/46
+[#58]: https://github.com/rianadon/timer-bar-card/issues/58
+[#60]: https://github.com/rianadon/timer-bar-card/issues/60
+[#62]: https://github.com/rianadon/timer-bar-card/issues/62
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
@@ -45,6 +51,9 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Home Connect]: https://www.home-assistant.io/integrations/home_connect/
 [SmartThings]: https://www.home-assistant.io/integrations/smartthings/
 [RainMachine]: https://www.home-assistant.io/integrations/rainmachine/
+[Octoprint]: https://www.home-assistant.io/integrations/octoprint/
+[bmw]: https://www.home-assistant.io/integrations/bmw_connected_drive
+[Miele]: https://github.com/HomeAssistant-Mods/home-assistant-miele/
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
@@ -97,10 +106,10 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | icon           | string  | **Optional** | Customize the icon to show next to the timer                                                               | -                 |
 | image          | string  | **Optional** | Customize the image url to show in place of the icon                                                       | -                 |
 | state_color    | boolean | **Optional** | Change the icon's color if the timer is active                                                             | -                 |
-| active_icon    | boolean | **Optional** | Override `icon` when timer is active                                                                       | -                 |
+| active_icon    | string  | **Optional** | Override `icon` when timer is active                                                                       | -                 |
 | text_width     | string  | **Optional** | Space alotted for the time remaining (i.e. right offset of bar)                                            | `3.5em`           |
 | invert         | boolean | **Optional** | Make the progress bar count down (start at 100%, end at 0%)                                                | -                 |
-| bar_width      | boolean | **Optional** | Width of progress bar (decrease if the entity name is cut off)                                             | `calc(70% - 7em)` |
+| bar_width      | string  | **Optional** | Width of progress bar (decrease if the entity name is cut off)                                             | `calc(70% - 7em)` |
 | bar_height     | string  | **Optional** | Height of progress bar                                                                                     | `8px`             |
 | bar_foreground | string  | **Optional** | Foreground color of progress bar                                                                           | primary color †   |
 | bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
@@ -111,8 +120,6 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 
 † the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
-
-You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with this card.
 
 </details>
 
@@ -126,6 +133,7 @@ You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with
  | name             | string  | **Optional** | Card name / title                                       | -       |
  | compressed       | boolean | **Optional** | Decrease vertical spacing between entities              | `false` |
  | filter           | boolean | **Optional** | Only show non-idle timers and sort them by their status | `false` |
+ | show_empty       | string  | **Optional** | If `filter` selects no entities, show this text instead | -       |
  | header_entity    | string  | **Optional** | Replace title with the icon & name of an entity †       | -       |
  | header_secondary | string  | **Optional** | Show additional information under header_entity ‡       | -       |
 
@@ -133,6 +141,10 @@ You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with
 ‡ See the `secondary_info` parameter in the [entities documentation](<https://www.home-assistant.io/lovelace/entities/#secondary_info>) for a list of possible values.
 
 </details>
+
+### Actions
+
+You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with this card to trigger services or perform actions in the dashboard when the card is clicked. The action configuration options are `hold_action`, `tap_action`, and `double_tap_action`.
 
 ## Examples
 
@@ -474,7 +486,7 @@ For an example of using the timer bar card as a dependency, you can view [the so
 
 The green and reddish-orange theme (which I called Earth) as well as the gradient theme can be found [here](https://gist.github.com/rianadon/b2b798cf27c6c609d19855abb9ed61f7). Neither are polished and both need work.
 
-For multicolored icons, you can use this super-duper-hacky frontend module [here](https://gist.github.com/rianadon/83a341fbbf94c7dedd60d7f58b6d84e0) until some form of support officially lands in Home Assistant. I would not rely on my module. Its purpose is merely to produce pretty screenshots so everyone is convinced I have the best dashboards.
+For multicolored icons, you can use this super-duper-hacky frontend module [here](https://gist.github.com/rianadon/83a341fbbf94c7dedd60d7f58b6d84e0) until some form of support officially lands in Home Assistant. I would not rely on my module. Its purpose is merely to produce pretty screenshots.
 
 [home-assistant]: https://www.home-assistant.io/
 [opensprinkler]: https://github.com/vinteo/hass-opensprinkler
@@ -483,4 +495,21 @@ For multicolored icons, you can use this super-duper-hacky frontend module [here
 
 #  Troubleshooting
 
-If the bar doesn't show up when it should or shows wrong values, please check your system clock! (both HA host and the viewer device) It may be out of sync.
+## Sync Issues
+**Home Assistant Time**: All Home Assistant timers, automations, etc. are run using the local time of whatever device is running Home Assistant, be it a Raspberry Pi, virtual machine, etc. If the timer will do something important at 5 PM, it will happen whenever your Home Assistant device thinks 5 PM is.
+
+**App Time**: One often views the Home Assistant dashboard on another device like a phone or tablet. These devices have separate clocks, and often they are synced using the [Network Time Protocol](https://en.wikipedia.org/wiki/Network_Time_Protocol). If the syncing is set up correctly, the two clocks will never drift more than 10 or so milliseconds apart.
+
+Home Assistant does not provide any API to figure out what it believes the time to be. Instead, the card reads the time from the app (Home Assistant App or browser) to calculate how much time remains in a timer. Any discrepancies between the two times will affect the accuracy of the card. If the clocks are more than one second out of sync, *the card will display an incorrect amount of time remaining*.
+
+If the Home Assistant and App Times are more than 0.5 seconds out of sync, the card will display a warning to alert you of the problem. In this case, I suggest you first visit a website such as [time.is](https://time.is/) or [use the command line](https://askubuntu.com/questions/741298/how-to-get-datetime-using-curl-command) to compare each device's time to a trustworthy source (such as time.is or Google's server). Usually, one device will have an accurate time while the other won't. Make sure the inaccurate device has NTP correctly set up (here's a guide for [Raspberry Pi](https://raspberrytips.com/time-sync-raspberry-pi/)). For other devices, the system preferences will often have a setting like "Set time and date automatically" that should be enabled).
+
+If you cannot synchronize the clocks, you can configure the card to calculate how out-of-sync they are and adjust its clock to match Home Assistant's clock. Please note this option may not be a reliable solution for the problem:
+```yaml
+sync_issues: fix
+```
+
+You can also simply disable the card's warning using the following configuration option:
+```yaml
+sync_issues: ignore
+```

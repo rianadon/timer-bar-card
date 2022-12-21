@@ -1,6 +1,6 @@
 {
   "name": "lovelace-timer-bar-card",
-  "version": "1.18.0",
+  "version": "1.23.0",
   "description": "Progress bar display for Home Assistant timers",
   "keywords": [
     "home-assistant",
@@ -28,20 +28,22 @@
     "@rollup/plugin-typescript": "^8.3.2",
     "@types/jest": "^27.5.0",
     "@types/jest-image-snapshot": "^4.3.1",
-    "hass-taste-test": "^0.0.14",
+    "hass-taste-test": "^0.2.1",
     "jest": "^27.5.1",
     "jest-image-snapshot": "^4.5.1",
     "playwright": "^1.21.1",
     "prettier": "^2.6.2",
     "rollup": "^2.72.1",
     "rollup-plugin-terser": "^7.0.2",
+    "semantic-release": "^19.0.5",
     "ts-jest": "^27.1.3",
     "typescript": "^4.6.4"
   },
   "scripts": {
     "start": "rollup -c --watch",
     "build": "rollup -c",
-    "test": "hass-taste-test && jest"
+    "test": "hass-taste-test && jest",
+    "semantic-release": "semantic-release"
   },
   "jest": {
     "rootDir": "test",

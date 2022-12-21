@@ -5,7 +5,7 @@ exports[`Custom entity can pause: idle 1`] = `
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
     <div class=\\"generic-entity-row\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-        <ha-state-icon data-state=\\"idle\\">…</ha-state-icon>
+        <ha-state-icon data-domain=\\"sensor\\" data-state=\\"idle\\">…</ha-state-icon>
       </state-badge>
       <div class=\\"info pointer\\" title=\\"Fancy timer\\">
         Fancy timer
@@ -24,7 +24,7 @@ exports[`Custom entity can pause: paused 1`] = `
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
     <div class=\\"generic-entity-row\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-        <ha-state-icon data-state=\\"paused\\">…</ha-state-icon>
+        <ha-state-icon data-domain=\\"sensor\\" data-state=\\"paused\\">…</ha-state-icon>
       </state-badge>
       <div class=\\"info pointer\\" title=\\"Fancy timer\\">
         Fancy timer
@@ -46,7 +46,7 @@ exports[`Custom entity can pause: running 1`] = `
   <timer-bar-entity-row config=\\"[object Object]\\" hass=\\"[object Object]\\">
     <div class=\\"generic-entity-row\\">
       <state-badge _showIcon=\\"true\\" class=\\"pointer\\" stateObj=\\"[object Object]\\" tabindex=\\"0\\">
-        <ha-state-icon data-state=\\"active\\">…</ha-state-icon>
+        <ha-state-icon data-domain=\\"sensor\\" data-state=\\"active\\">…</ha-state-icon>
       </state-badge>
       <div class=\\"info pointer\\" title=\\"Fancy timer\\">
         Fancy timer

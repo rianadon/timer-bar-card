@@ -64,10 +64,12 @@ export interface TimerBarEntityConfig extends styleConfig {
   start_time?: AttributeConfig;
   end_time?: AttributeConfig;
   debug?: boolean;
+  sync_issues?: "show" | "ignore" | "fix",
 
   modifications?: modsConfig[];
   translations?: Translations;
   hold_action?: any;
+  tap_action?: any;
   double_tap_action?: any;
   extend_paper_buttons_row?: any;
 }
@@ -79,4 +81,5 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
   header_secondary?: string;
   compressed?: boolean;
   filter?: boolean;
+  show_empty?: string;
 }

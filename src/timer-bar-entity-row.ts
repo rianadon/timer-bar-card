@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MAX_SYNC_DIFFERENCE } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 
@@ -18,6 +18,7 @@ export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
     start_time: { attribute: 'start_time' },
     duration: { attribute: 'duration' },
     remain_time: { attribute: 'remain_time' },
+    sync_issues: 'show',
     bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
     text_width: '3.5em',
@@ -64,7 +65,9 @@ export class TimerBarEntityRow extends LitElement {
 
   @state() private _interval?: number;
   @state() private _timeRemaining?: number;
+  @state() private _browserClockCorrection: number = 0;
   @state() private _error?: Error;
+  @state() private _warning?: TemplateResult;
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -82,7 +85,7 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _mode(): Mode {
-    return findMode(this.hass!, this.config);
+    return findMode(this.hass!, this.config, this._browserClockCorrection);
   }
 
   protected render(): TemplateResult | void {
@@ -90,7 +93,7 @@ export class TimerBarEntityRow extends LitElement {
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
 
     let percent = 0;
-    if (state) percent = timerTimePercent(this.hass!, this.config, state) ?? 0;
+    if (state) percent = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
     if (percent > 100) percent = 100;
 
     let activeConfig: TimerBarEntityConfig
@@ -139,10 +142,14 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   private _renderRow(config: TimerBarConfig, contents: TemplateResult) {
-    if (this.modConfig.full_row || this.modConfig.layout === 'full_row') return html`<div class="flex">${contents}</div>${this._renderDebug()}`;
+    const warning = this._warning ? html`<hui-warning>${this._warning}</hui-warning>` : '';
+
+    if (this.modConfig.full_row || this.modConfig.layout === 'full_row')
+      return html`${warning}<div class="flex">${contents}</div>${this._renderDebug()}`;
 
     if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
     return html`
+      ${warning}
       ${genericEntityRow(contents, this.hass, config)}
       ${this._renderDebug()}
     `;
@@ -174,11 +181,14 @@ export class TimerBarEntityRow extends LitElement {
     if (!state) return html`<code>No state found</code>`;
 
     const auto_used = this.config.guess_mode ? 'used' : 'unused';
-    const remaining = timerTimeRemaining(this.hass!, this.config, state);
+    const remaining = timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection);
     const warn_active = remaining && remaining > 0 && this._mode() != 'active';
+
+    const stMode = stateMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
+    const aoMode = autoMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
     return html`<code>
-      State: ${state.state} (state mode = ${stateMode(this.hass!, this.config) || 'N/A'})<br>
-      Mode: ${this._mode()} (auto mode = ${autoMode(this.hass!, this.config) || 'N/A'}, ${auto_used})<br>
+      State: ${state.state} (state mode = ${stMode})<br>
+      Mode: ${this._mode()} (auto mode = ${aoMode}, ${auto_used})<br>
       Duration: ${findDuration(this.hass!, this.config, state)} second<br>
       Time remaining: ${remaining}<br>
       Counter: ${this._timeRemaining}<br>
@@ -193,9 +203,31 @@ export class TimerBarEntityRow extends LitElement {
     this.dispatchEvent(e);
   }
 
+  /** Check if Home Assistant and local time are out of sync */
+  private _checkForSyncIssues(oldHass?: HomeAssistant) {
+    if (!oldHass || !this.config.entity) return;
+    const newState = this.hass!.states[this.config.entity];
+    if (oldHass.states[this.config.entity] == newState) return;
+
+    const homeAssistantAhead = Date.parse(newState.last_changed) - Date.now();
+    if (this.config.sync_issues == 'show' && Math.abs(homeAssistantAhead) > MAX_SYNC_DIFFERENCE) {
+      this._warning = this._generateSyncWarning(homeAssistantAhead);
+    } else if (this.config.sync_issues == 'fix') {
+      this._browserClockCorrection = homeAssistantAhead;
+    }
+  }
+
+  private _generateSyncWarning(homeAssistantAhead: number) {
+    const phrase = homeAssistantAhead > 0 ? 'ahead of' : 'behind';
+    const difference = Math.abs(homeAssistantAhead) / 1000;
+    const message = `Detected sync issues: Home Assistant clock is ${difference}s ${phrase} app time.`;
+    return html`${message} <a href="https://github.com/rianadon/timer-bar-card#sync-issues">Learn more.</a>`;
+  }
+
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) return false;
     if (changedProps.has('_timeRemaining')) return true;
+    this._checkForSyncIssues(changedProps.get('hass'));
 
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
@@ -237,7 +269,7 @@ export class TimerBarEntityRow extends LitElement {
 
   private _calculateRemaining(stateObj: HassEntity): void {
     try {
-      this._timeRemaining = timerTimeRemaining(this.hass!, this.config, stateObj);
+      this._timeRemaining = timerTimeRemaining(this.hass!, this.config, stateObj, this._browserClockCorrection);
       this._error = undefined;
     } catch (e) {
       console.error(e);
@@ -299,9 +331,9 @@ export class TimerBarEntityRow extends LitElement {
     if (!this.config.modifications) return this.config;
 
     const state = this.hass!.states[this.config.entity!];
-    const remaining = timerTimeRemaining(this.hass!, this.config, state) ?? Infinity;
+    const remaining = timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) ?? Infinity;
     const elapsed = (findDuration(this.hass!, this.config, state) ?? 0) - remaining;
-    const percentElapsed = timerTimePercent(this.hass!, this.config, state) ?? 0;
+    const percentElapsed = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
     const percentRemaining = 100 - percentElapsed
 
     let config = this.config;

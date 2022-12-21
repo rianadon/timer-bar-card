@@ -52,12 +52,11 @@ export class TimerBarCard extends LitElement {
     if (config.entity) {
       return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
     } else if (config.entities && !this._filteredEntities().length) {
-      if (this.editMode) {
+      if (this.editMode || config.show_empty) {
+        const content = typeof config.show_empty == 'undefined' ? 'No entities match the filter. This card will disappear when you finish editing.' : config.show_empty;
         return html`<ha-card>
           <h1 class="card-header">${config.name}</h1>
-          <div class="card-content">
-            No entities match the filter. This card will disappear when you finish editing.
-          </div>
+          <div class="card-content">${content}</div>
         </ha-card>`;
       } else {
         return html``; // Return a blank card
@@ -160,7 +159,10 @@ export class TimerBarCard extends LitElement {
   }
 
   private _entitiesOfMode(entities: (string|TimerBarEntityConfig)[], mode: Mode) {
-    return entities.filter(e => findMode(this.hass!, this._configFor(e)) === mode)
+    // FIXME: The browser-home assistant time offset is assumed to be zero.
+    // Should I watch the states of every entity in the entities list?
+    // Or should there be a single offset for the whole card?
+    return entities.filter(e => findMode(this.hass!, this._configFor(e), 0) === mode)
   }
 
   private _filteredEntities() {
