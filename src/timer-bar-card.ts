@@ -102,10 +102,9 @@ export class TimerBarCard extends LitElement {
       if (this._hasEntityChanged(oldHass, entity)) return true;
     }
 
-    if (this._hasEntityChanged(oldHass, this.config.header_entity,
-        this.config.duration, this.config.start_time, this.config.end_time)) return true;
-
-    return false;
+    return this._hasEntityChanged(oldHass, this.config.header_entity,
+                                  this.config.duration, this.config.start_time,
+                                  this.config.end_time, this.config.remain_time);
   }
 
   /** Merges global and per-entity configuration */
