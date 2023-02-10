@@ -3,10 +3,11 @@
  */
 
 import { css, html, TemplateResult } from "lit";
-import { ActionHandlerEvent, HomeAssistant, handleAction, hasAction } from "custom-card-helpers";
+import { ActionHandlerEvent, HomeAssistant, hasAction } from "custom-card-helpers";
 import { createEntityRow } from "node_modules/card-tools/src/lovelace-element.js";
 import { provideHass } from "node_modules/card-tools/src/hass.js";
-import { actionHandler } from "./ha-action-handler-directive";
+import { actionHandler } from "./lib/ha-action-handler-directive";
+import { handleAction } from "./lib/handle-action";
 import { TimerBarEntityConfig } from "./types";
 
 const computeObjectId = (entityId: string): string =>
