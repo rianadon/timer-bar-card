@@ -20,6 +20,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 |--------------------------------|----------------------|----------------------------------------------------------|
 | [Home Assistant timer]         | *supported & tested* | no! 🎉                                                   |
 | Automation-controlled switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
+| [Sun]                          | *supported*          | [See the example](#sun)                                  |
 | [OpenSprinkler][opensprinkler] | *supported*          | no! 🎊                                                   |
 | [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
 | [BMW Connected Drive][bmw]     | *supported*          | `active_state`, `end_time` [[#60]] (thanks @hoeni!)      |
@@ -43,6 +44,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#58]: https://github.com/rianadon/timer-bar-card/issues/58
 [#60]: https://github.com/rianadon/timer-bar-card/issues/60
 [#62]: https://github.com/rianadon/timer-bar-card/issues/62
+[Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
@@ -303,6 +305,7 @@ end_time: { state: true }
 
 > You may notice you cannot set `remaining`. This is because for Home Assistant timers, `remaining`  behaves much like `duration`, so to keep my own sanity I assume `remaining`=`duration`. Since they are equal, you don't need both! Just use `duration`!
 
+<a name="sun"></a>
 ### Using `active_state`, `end_time`, etc: The sun integration
 
 I adore this example because it uses so many configuration options at once to create a timer I never would have dreamed of until [#71](https://github.com/rianadon/timer-bar-card/issues/71). The sun entity has two states: above horizon or below horizon. The configuration defines only an `end_time`, letting the card pick up when the sun entity last changed states as its start times. The `translations` option provides alternate text to show when the timer is not running.
