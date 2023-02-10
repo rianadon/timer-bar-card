@@ -24,6 +24,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [OpenSprinkler][opensprinkler] | *supported*          | no! 🎊                                                   |
 | [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
 | [BMW Connected Drive][bmw]     | *supported*          | `active_state`, `end_time` [[#60]] (thanks @hoeni!)      |
+| [Cleverio Sous Vide (Tuya)]    | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
 | [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
 | [OctoPrint][octoprint]         | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
@@ -34,16 +35,17 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
 [fixed-duration]: #5-my-entity-has-no-attributes
-[#15]: https://github.com/rianadon/timer-bar-card/issues/15
-[#18]: https://github.com/rianadon/timer-bar-card/issues/18
+[#15]: https://github.com/rianadon/timer-bar-card/issues/15#issuecomment-1361079381
+[#18]: https://github.com/rianadon/timer-bar-card/issues/18#issuecomment-1179868528
 [#19]: https://github.com/rianadon/timer-bar-card/issues/19#issuecomment-923650295
-[#22]: https://github.com/rianadon/timer-bar-card/issues/22
+[#22]: https://github.com/rianadon/timer-bar-card/issues/22#issue-997903510
 [#36]: https://github.com/rianadon/timer-bar-card/issues/36
 [#45]: https://github.com/rianadon/timer-bar-card/issues/45
 [#46]: https://github.com/rianadon/timer-bar-card/issues/46
 [#58]: https://github.com/rianadon/timer-bar-card/issues/58
 [#60]: https://github.com/rianadon/timer-bar-card/issues/60
-[#62]: https://github.com/rianadon/timer-bar-card/issues/62
+[#62]: https://github.com/rianadon/timer-bar-card/issues/62#issuecomment-1331493239
+[#67]: https://github.com/rianadon/timer-bar-card/issues/67
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
@@ -56,6 +58,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Octoprint]: https://www.home-assistant.io/integrations/octoprint/
 [bmw]: https://www.home-assistant.io/integrations/bmw_connected_drive
 [Miele]: https://github.com/HomeAssistant-Mods/home-assistant-miele/
+[Cleverio Sous Vide (Tuya)]: https://www.home-assistant.io/integrations/tuya/
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
