@@ -64,11 +64,6 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
     return timeRemaining;
   }
 
-  const remain_time = timeAttribute(hass, stateObj, config.remain_time);
-  if (remain_time != undefined) {
-    return remain_time
-  }
-
   const end_time = attribute(hass, stateObj, config.end_time!);
   if (end_time) // For OpenSprinkler timers + others
     return (Date.parse(end_time) - now(correction)) / 1000;
@@ -78,6 +73,13 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
   if (start_time && duration)
     return (Date.parse(start_time) - now(correction)) / 1000 + duration;
 
+  // Second-to-last fallback: remain time attribute
+  const remain_time = timeAttribute(hass, stateObj, config.remain_time);
+  if (remain_time != undefined) {
+    return remain_time
+  }
+
+  // Final fallback: assume madeActive is the start time
   if (duration)
     return (madeActive - now(correction)) / 1000 + duration;
 
