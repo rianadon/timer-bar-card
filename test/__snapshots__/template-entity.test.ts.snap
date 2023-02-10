@@ -10,7 +10,7 @@ exports[`Custom entity can pause: idle 1`] = `
       <div class="info pointer" title="Fancy timer">
         Fancy timer
       </div>
-      <div class="text-content">
+      <div class="pointer text-content value">
         Idle
       </div>
     </div>
@@ -32,7 +32,7 @@ exports[`Custom entity can pause: paused 1`] = `
       <div class="pointer status">
         Paused
       </div>
-      <div class="text-content">
+      <div class="pointer text-content value">
         59
       </div>
     </div>
@@ -56,7 +56,7 @@ exports[`Custom entity can pause: running 1`] = `
           <div></div>
         </div>
       </div>
-      <div class="text-content">
+      <div class="pointer text-content value">
         59
       </div>
     </div>

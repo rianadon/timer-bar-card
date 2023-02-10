@@ -13,7 +13,7 @@ exports[`Card UI Styles: idle 1`] = `
           <div class="info pointer" title="test2">
             test2
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             Idle
           </div>
         </div>
@@ -26,7 +26,7 @@ exports[`Card UI Styles: idle 1`] = `
           <div class="info pointer" title="test3">
             test3
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             Idle
           </div>
         </div>
@@ -53,7 +53,7 @@ exports[`Card UI Styles: paused 1`] = `
           <div class="pointer status">
             Paused
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             1:58
           </div>
         </div>
@@ -66,7 +66,7 @@ exports[`Card UI Styles: paused 1`] = `
           <div class="info pointer" title="test3">
             test3
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             Idle
           </div>
         </div>
@@ -95,7 +95,7 @@ exports[`Card UI Styles: running 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             1:59
           </div>
         </div>
@@ -108,7 +108,7 @@ exports[`Card UI Styles: running 1`] = `
           <div class="info pointer" title="test3">
             test3
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             Idle
           </div>
         </div>
@@ -129,7 +129,7 @@ exports[`Entity Row Styles: idle 1`] = `
       <div class="info pointer" title="test1">
         test1
       </div>
-      <div class="text-content">
+      <div class="pointer text-content value">
         Idle
       </div>
     </div>
@@ -151,7 +151,7 @@ exports[`Entity Row Styles: paused 1`] = `
       <div class="pointer status">
         Paused
       </div>
-      <div class="text-content">
+      <div class="pointer text-content value">
         58
       </div>
     </div>
@@ -175,7 +175,7 @@ exports[`Entity Row Styles: running 1`] = `
           <div></div>
         </div>
       </div>
-      <div class="text-content">
+      <div class="pointer text-content value">
         59
       </div>
     </div>

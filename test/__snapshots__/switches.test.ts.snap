@@ -18,7 +18,7 @@ exports[`Switch with fixed duration: running 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             58
           </div>
         </div>
@@ -50,7 +50,7 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             1:57
           </div>
         </div>
@@ -82,7 +82,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             4:58
           </div>
         </div>

@@ -18,7 +18,7 @@ exports[`Colors and icons: running 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             8
           </div>
         </div>
@@ -47,7 +47,7 @@ exports[`Receding progress bar: running 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             8
           </div>
         </div>
@@ -74,7 +74,7 @@ exports[`Widths: idle 1`] = `
           <div class="info pointer" title="test1">
             test1
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             Idle
           </div>
         </div>
@@ -106,7 +106,7 @@ exports[`Widths: running 1`] = `
               <div></div>
             </div>
           </div>
-          <div class="text-content">
+          <div class="pointer text-content value">
             9:59:59
           </div>
         </div>
