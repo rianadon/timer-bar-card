@@ -106,28 +106,31 @@ export class TimerBarEntityRow extends LitElement {
       return html`<div>${e}</div>`
     }
 
+    // Hide the pointer if tap action is none
+    const pointer = activeConfig.tap_action?.action !== "none" ? "pointer" : "";
+
     switch (this._mode()) {
       case 'active':
       return this._renderRow(activeConfig, html`
         ${this._renderBar(percent)}
-        <div class="text-content" style=${this._textStyle()}>
+        <div class="text-content value ${pointer}" style=${this._textStyle()}>
           ${secondsToDuration(this._timeRemaining || 0)}
         </div>
       `);
 
       case 'pause':
       return this._renderRow(activeConfig, html`
-        <div class="status pointer" style=${this._statusStyle()} @click=${this._handleClick}>
+        <div class="status ${pointer}" style=${this._statusStyle()}>
           ${localize(this.hass!, state.state, state, this.config.translations)}
         </div>
-        <div class="text-content" style=${this._textStyle()}>
+        <div class="text-content value ${pointer}" style=${this._textStyle()}>
           ${secondsToDuration(this._timeRemaining || 0)}
         </div>
       `);
 
       case 'waiting':
       return this._renderRow(this.modConfig, html`
-        <div class="status pointer" style=${this._statusStyle(true)} @click=${this._handleClick}>
+        <div class="status ${pointer}" style=${this._statusStyle(true)}>
           ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
         </div>
       `);
@@ -136,7 +139,7 @@ export class TimerBarEntityRow extends LitElement {
       const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
       const style = textHidden ? 'visibility: hidden' : '';
       return this._renderRow(this.modConfig, html`
-        <div class="text-content" style=${style}>${localize(this.hass!, state?.state, state, this.config.translations)}</div>
+        <div class="text-content value ${pointer}" style=${style}>${localize(this.hass!, state?.state, state, this.config.translations)}</div>
       `);
     }
   }
@@ -168,7 +171,8 @@ export class TimerBarEntityRow extends LitElement {
     const containerStyle = styleMap(style);
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
-    return html`<div class="bar-container pointer" style=${containerStyle} @click=${this._handleClick}>
+    const pointer = this.config.tap_action?.action !== "none" ? "pointer" : "";
+    return html`<div class="bar-container ${pointer}" style=${containerStyle}>
       <div class="bar" style=${bgStyle}>
         <div style=${fgStyle}>
       </div>
@@ -195,12 +199,6 @@ export class TimerBarEntityRow extends LitElement {
       ${warn_active ? html`<b>Did you set active_state?</b>` : ''}
       <small>Attr: ${JSON.stringify(state.attributes)}</small>
     </code>`;
-  }
-
-  private _handleClick() {
-    const e = new Event('hass-more-info', { composed: true }) as any;
-    e.detail = { entityId: this.config.entity };
-    this.dispatchEvent(e);
   }
 
   /** Check if Home Assistant and local time are out of sync */
@@ -313,7 +311,7 @@ export class TimerBarEntityRow extends LitElement {
         flex-shrink: 0;
         align-items: center;
       }
-      .bar { margin-top: 2px; }
+      .bar { margin-top: 2px; overflow: hidden; }
       .status { line-height: 1.5em; flex-shrink: 0; }
       .text-content { text-align: right; text-align: end; overflow: hidden; }
       code {

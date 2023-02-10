@@ -38,32 +38,27 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
     handleAction(ev.target as any, hass!, config!, ev.detail.action!);
   }
 
-  return html`<div class="generic-entity-row">
+  // Hide the pointer if tap action is none
+  const pointer = config.tap_action?.action !== "none" ? "pointer" : "";
+
+  return html`<div class="generic-entity-row"
+      @action=${_handleAction}
+      .actionHandler=${actionHandler({
+        hasHold: hasAction(config!.hold_action),
+        hasDoubleClick: hasAction(config!.double_tap_action),
+      })}
+    >
+
     <state-badge
-      class="pointer"
+      class="${pointer}"
       .hass=${hass}
       .stateObj=${stateObj}
       .overrideIcon=${config.icon}
       .overrideImage=${config.image}
       .stateColor=${config.state_color}
-      @action=${_handleAction}
-      .actionHandler=${actionHandler({
-        hasHold: hasAction(config!.hold_action),
-        hasDoubleClick: hasAction(config!.double_tap_action),
-      })}
       tabindex="0"
     ></state-badge>
-    ${name ? html`<div
-      class="info pointer"
-      @action=${_handleAction}
-      .actionHandler=${actionHandler({
-        hasHold: hasAction(config!.hold_action),
-        hasDoubleClick: hasAction(config!.double_tap_action),
-      })}
-      .title=${name}
-    >
-      ${name}
-    </div>` : ''}
+    ${name ? html`<div class="info ${pointer}" .title=${name}>${name}</div>` : ''}
     ${createPaperButtons(config.extend_paper_buttons_row, 'center')}
     ${children}
     ${createPaperButtons(config.extend_paper_buttons_row, 'right')}
