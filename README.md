@@ -303,6 +303,39 @@ end_time: { state: true }
 
 > You may notice you cannot set `remaining`. This is because for Home Assistant timers, `remaining`  behaves much like `duration`, so to keep my own sanity I assume `remaining`=`duration`. Since they are equal, you don't need both! Just use `duration`!
 
+### Using `active_state`, `end_time`, etc: The sun integration
+
+I adore this example because it uses so many configuration options at once to create a timer I never would have dreamed of until [#71](https://github.com/rianadon/timer-bar-card/issues/71). The sun entity has two states: above horizon or below horizon. The configuration defines only an `end_time`, letting the card pick up when the sun entity last changed states as its start times. The `translations` option provides alternate text to show when the timer is not running.
+
+<img  alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/sunrise.png" width="430" height="176" />
+
+Even though I took this screenshot in the dark theme, it's still daytime.
+
+```yaml
+type: custom:timer-bar-card
+name: Sun
+entities:
+  - entity: sun.sun
+    name: Sunrise
+    icon: mdi:weather-sunset-up
+    active_state: below_horizon
+    end_time:
+      attribute: next_rising
+    translations:
+      above_horizon: Not yet ☀️
+  - entity: sun.sun
+    name: Sunset
+    icon: mdi:weather-sunset-down
+    active_state: above_horizon
+    end_time:
+      attribute: next_setting
+    translations:
+      below_horizon: Not yet 🌙
+text_width: 5em
+bar_radius: 4px
+```
+
+
 ### Embedded in an entities card
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/entities-card.png" width="462" height="231" />
