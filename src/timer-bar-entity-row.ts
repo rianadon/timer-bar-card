@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MAX_SYNC_DIFFERENCE } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 
@@ -65,6 +65,7 @@ export class TimerBarEntityRow extends LitElement {
 
   @state() private _interval?: number;
   @state() private _timeRemaining?: number;
+  @state() private _previousClockCorrection: number = 0;
   @state() private _browserClockCorrection: number = 0;
   @state() private _error?: Error;
   @state() private _warning?: TemplateResult;
@@ -208,9 +209,13 @@ export class TimerBarEntityRow extends LitElement {
     if (oldHass.states[this.config.entity] == newState) return;
 
     const homeAssistantAhead = Date.parse(newState.last_changed) - Date.now();
-    if (this.config.sync_issues == 'show' && Math.abs(homeAssistantAhead) > MAX_SYNC_DIFFERENCE) {
-      this._warning = this._generateSyncWarning(homeAssistantAhead);
-    } else if (this.config.sync_issues == 'fix') {
+    if (this.config.sync_issues == 'show' && Math.abs(homeAssistantAhead) > MIN_SYNC_ERROR) {
+      // Only show sync errors after the clock correction can be precisely measured twice.
+      if (Math.abs(homeAssistantAhead - this._previousClockCorrection) < MIN_SYNC_ERROR) {
+        this._warning = this._generateSyncWarning(homeAssistantAhead);
+      }
+      this._previousClockCorrection = homeAssistantAhead;
+    } else if (this.config.sync_issues == 'fix' && Math.abs(homeAssistantAhead) < MAX_FIX_SYNC_ERROR) {
       this._browserClockCorrection = homeAssistantAhead;
     }
   }
