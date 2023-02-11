@@ -47,6 +47,9 @@ async function setupTest(offset: number, sync_issues?: string) {
   await new Promise(r => setTimeout(r, 1000)) // Wait for the card to load
 
   await hass.callService("timer", "start", {}, { entity_id: entity });
+  await new Promise(r => setTimeout(r, 1000)) // Wait for the card to process the event
+  // Update the timer state twice so that the card catches the sync error
+  await hass.callService("timer", "pause", {}, { entity_id: entity });
   return dashboard.cards[0];
 }
 
