@@ -539,7 +539,7 @@ Home Assistant does not provide any API to figure out what it believes the time 
 
 If the Home Assistant and App Times are more than 0.5 seconds out of sync, the card will display a warning to alert you of the problem. In this case, I suggest you first visit a website such as [time.is](https://time.is/) or [use the command line](https://askubuntu.com/questions/741298/how-to-get-datetime-using-curl-command) to compare each device's time to a trustworthy source (such as time.is or Google's server). Usually, one device will have an accurate time while the other won't. Make sure the inaccurate device has NTP correctly set up (here's a guide for [Raspberry Pi](https://raspberrytips.com/time-sync-raspberry-pi/)). For other devices, the system preferences will often have a setting like "Set time and date automatically" that should be enabled).
 
-If you cannot synchronize the clocks, you can configure the card to calculate how out-of-sync they are and adjust its clock to match Home Assistant's clock. Please note this option may not be a reliable solution for the problem:
+If you cannot synchronize the clocks, you can configure the card to calculate how out-of-sync they are (up to 1 hour) and adjust its clock to match Home Assistant's clock. Please note this option may not be a reliable solution for the problem:
 ```yaml
 sync_issues: fix
 ```
