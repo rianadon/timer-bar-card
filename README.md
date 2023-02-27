@@ -32,6 +32,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
 | [Miele]                        | *supported*          | [template entity required: see #62][#62]                 |
 | [ThinQ washer/dryer]           | *supported*          | configure `duration` to `initial_time` [[#15]]           |
+| [ThinQ dishwasher]             | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
 [fixed-duration]: #5-my-entity-has-no-attributes
@@ -46,9 +47,11 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#60]: https://github.com/rianadon/timer-bar-card/issues/60
 [#62]: https://github.com/rianadon/timer-bar-card/issues/62#issuecomment-1331493239
 [#67]: https://github.com/rianadon/timer-bar-card/issues/67
+[#70]: https://github.com/rianadon/timer-bar-card/issues/70#issuecomment-1439493141
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
+[ThinQ dishwasher]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
 [Google Home Timer]: https://github.com/leikoilja/ha-google-home
 [Amazon Alexa Timer]: https://github.com/custom-components/alexa_media_player
