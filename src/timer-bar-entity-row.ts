@@ -7,6 +7,7 @@ import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStat
 import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
+import { createActionHandler, createHandleAction } from './helpers-actions';
 
 export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
@@ -149,7 +150,7 @@ export class TimerBarEntityRow extends LitElement {
     const warning = this._warning ? html`<hui-warning>${this._warning}</hui-warning>` : '';
 
     if (this.modConfig.full_row || this.modConfig.layout === 'full_row')
-      return html`${warning}<div class="flex">${contents}</div>${this._renderDebug()}`;
+      return html`${warning}<div class="flex" @action=${createHandleAction(this.hass!, config)} .actionHandler=${createActionHandler (config)}> ${contents}</div>${this._renderDebug()}`;
 
     if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
     return html`

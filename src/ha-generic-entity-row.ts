@@ -3,15 +3,14 @@
  */
 
 import { css, html, TemplateResult } from "lit";
-import { ActionHandlerEvent, HomeAssistant, hasAction } from "custom-card-helpers";
+import { HomeAssistant } from "custom-card-helpers";
 import { createEntityRow } from "node_modules/card-tools/src/lovelace-element.js";
 import { provideHass } from "node_modules/card-tools/src/hass.js";
-import { actionHandler } from "./lib/ha-action-handler-directive";
-import { handleAction } from "./lib/handle-action";
 import { TimerBarEntityConfig } from "./types";
+import { createActionHandler, createHandleAction } from "./helpers-actions";
 
 const computeObjectId = (entityId: string): string =>
-  entityId.substr(entityId.indexOf(".") + 1);
+  entityId.substring(entityId.indexOf(".") + 1);
 
 const computeStateName = (stateObj: any): string =>
   stateObj.attributes.friendly_name === undefined
@@ -35,19 +34,12 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
 
   const name = config.name ?? computeStateName(stateObj);
 
-  const _handleAction = (ev: ActionHandlerEvent) => {
-    handleAction(ev.target as any, hass!, config!, ev.detail.action!);
-  }
-
   // Hide the pointer if tap action is none
   const pointer = config.tap_action?.action !== "none" ? "pointer" : "";
 
   return html`<div class="generic-entity-row"
-      @action=${_handleAction}
-      .actionHandler=${actionHandler({
-        hasHold: hasAction(config!.hold_action),
-        hasDoubleClick: hasAction(config!.double_tap_action),
-      })}
+      @action=${createHandleAction(hass, config)}
+      .actionHandler=${createActionHandler (config)}
     >
 
     <state-badge
