@@ -8,7 +8,9 @@ The card currently supports **timer** components and [a few more integrations](#
 
 With a bit of work, you can also [configure the card](#use-with-unsupported-entities) to suppport other types of entities—even plain switches that have automations.
 
-For numerical quantities or percentages, you may be interested in the unaffiliated [bar card](https://github.com/custom-cards/bar-card).
+You may also be interested in these other related but unaffiliated cards:
+- @Gluwc's [Bar Card](https://github.com/custom-cards/bar-card) for numerical quantities or percentages
+- @pmongloid's [Flipdown Timer Card](https://github.com/pmongloid/flipdown-timer-card) for timers but it has a cool flip effect!
 
 ## Integration support status
 
