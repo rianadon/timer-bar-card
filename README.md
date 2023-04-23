@@ -29,15 +29,17 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Cleverio Sous Vide (Tuya)]    | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
 | [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
+| [Irrigation Unlimited]         | *supported*          | `duration` and `start_time` [[#5]]                       |
+| [Miele]                        | *supported*          | [template entity required: see #62][#62]                 |
 | [OctoPrint][octoprint]         | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
 | [RainMachine]                  | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
 | [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
-| [Miele]                        | *supported*          | [template entity required: see #62][#62]                 |
 | [ThinQ washer/dryer]           | *supported*          | configure `duration` to `initial_time` [[#15]]           |
 | [ThinQ dishwasher]             | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
 | [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
 
 [fixed-duration]: #5-my-entity-has-no-attributes
+[#5]: https://github.com/rianadon/timer-bar-card/issues/5#issuecomment-868267817
 [#15]: https://github.com/rianadon/timer-bar-card/issues/15#issuecomment-1361079381
 [#18]: https://github.com/rianadon/timer-bar-card/issues/18#issuecomment-1179868528
 [#19]: https://github.com/rianadon/timer-bar-card/issues/19#issuecomment-923650295
@@ -58,6 +60,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Google Home Timer]: https://github.com/leikoilja/ha-google-home
 [Amazon Alexa Timer]: https://github.com/custom-components/alexa_media_player
 [Home Connect]: https://www.home-assistant.io/integrations/home_connect/
+[Irrigation Unlimited]: https://github.com/rgc99/irrigation_unlimited
 [SmartThings]: https://www.home-assistant.io/integrations/smartthings/
 [RainMachine]: https://www.home-assistant.io/integrations/rainmachine/
 [Octoprint]: https://www.home-assistant.io/integrations/octoprint/
@@ -201,6 +204,8 @@ bar_width: 35%
 compressed: true
 filter: true # So only the running and scheduled stations are shown
 ```
+
+Be sure to check out the Irrigation Unlimited and RainMachine [examples](https://github.com/rianadon/timer-bar-card#integration-support-status) if you use a different irrigation controller.
 
 ### Use with unsupported entities
 
