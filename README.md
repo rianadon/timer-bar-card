@@ -18,25 +18,26 @@ You may also be interested in these other related but unaffiliated cards:
 I'd love to add it here! Please submit an <a href="https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md">issue</a> with the integration name and your configuration!
 </code></pre>
 
-| Integration                    | Status               | Extra configuration required                             |
-|--------------------------------|----------------------|----------------------------------------------------------|
-| [Home Assistant timer]         | *supported & tested* | no! 🎉                                                   |
-| Automation-controlled switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
-| [Sun]                          | *supported*          | [See the example](#sun)                                  |
-| [OpenSprinkler][opensprinkler] | *supported*          | no! 🎊                                                   |
-| [Amazon Alexa Timer]           | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
-| [BMW Connected Drive][bmw]     | *supported*          | `active_state`, `end_time` [[#60]] (thanks @hoeni!)      |
-| [Cleverio Sous Vide (Tuya)]    | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
-| [Google Home Timer]            | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
-| [Home Connect] †               | *supported*          | `active_state`, `end_time` [[#36]] (thanks @rickdeck!)   |
-| [Irrigation Unlimited]         | *supported*          | `duration` and `start_time` [[#5]]                       |
-| [Miele]                        | *supported*          | [template entity required: see #62][#62]                 |
-| [OctoPrint][octoprint]         | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
-| [RainMachine]                  | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
-| [SmartThings]                  | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
-| [ThinQ washer/dryer]           | *supported*          | configure `duration` to `initial_time` [[#15]]           |
-| [ThinQ dishwasher]             | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
-| [Google Home Alarm]            | *not really [[#18]]* | template entity required                                 |
+| Integration                       | Status               | Extra configuration required                             |
+|-----------------------------------|----------------------|----------------------------------------------------------|
+| [Home Assistant timer]            | *supported & tested* | no! 🎉                                                   |
+| Automation-controlled<br>switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
+| [Sun]                             | *supported*          | [See the example](#sun)                                  |
+| [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊                                                   |
+| [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
+| [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
+| [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
+| [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)       |
+| [Google Home Timer]               | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
+| [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
+| [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
+| [Miele]                           | *supported*          | [template entity required: see #62][#62]                 |
+| [OctoPrint][octoprint]            | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
+| [RainMachine]                     | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
+| [SmartThings]                     | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
+| [ThinQ washer/dryer]              | *supported*          | configure `duration` to `initial_time` [[#15]]           |
+| [ThinQ dishwasher]                | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
+| [Google Home Alarm]               | *not really [[#18]]* | template entity required                                 |
 
 [fixed-duration]: #5-my-entity-has-no-attributes
 [#5]: https://github.com/rianadon/timer-bar-card/issues/5#issuecomment-868267817
@@ -52,6 +53,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#62]: https://github.com/rianadon/timer-bar-card/issues/62#issuecomment-1331493239
 [#67]: https://github.com/rianadon/timer-bar-card/issues/67
 [#70]: https://github.com/rianadon/timer-bar-card/issues/70#issuecomment-1439493141
+[#80]: https://github.com/rianadon/timer-bar-card/issues/80
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
@@ -67,6 +69,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [bmw]: https://www.home-assistant.io/integrations/bmw_connected_drive
 [Miele]: https://github.com/HomeAssistant-Mods/home-assistant-miele/
 [Cleverio Sous Vide (Tuya)]: https://www.home-assistant.io/integrations/tuya/
+[Daily Schedule]: https://github.com/amitfin/daily_schedule
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
