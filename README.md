@@ -39,7 +39,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [ThinQ dishwasher]                | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
 | [Google Home Alarm]               | *not really [[#18]]* | template entity required                                 |
 
-[fixed-duration]: #5-my-entity-has-no-attributes
+[fixed-duration]: #6-my-entity-has-no-attributes
 [#5]: https://github.com/rianadon/timer-bar-card/issues/5#issuecomment-868267817
 [#15]: https://github.com/rianadon/timer-bar-card/issues/15#issuecomment-1361079381
 [#18]: https://github.com/rianadon/timer-bar-card/issues/18#issuecomment-1179868528
