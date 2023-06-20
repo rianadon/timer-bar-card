@@ -3,6 +3,7 @@ import { toMatchDualSnapshot, waitForTimerTime } from "./util";
 
 expect.extend({ toMatchDualSnapshot });
 
+/** Home Assistant Configuration */
 const CONFIGURATION_YAML = `
 input_boolean:
   switch:
@@ -27,6 +28,13 @@ automation switch_off:
         entity_id: input_boolean.switch
 `;
 
+/** Timer Bar Card Configuration */
+const CONFIGURATION_CARD = {
+  type: "custom:timer-bar-card",
+  entities: ["input_boolean.switch"],
+  duration: { entity: "input_number.duration", "units": "seconds" },
+}
+
 let hass: HomeAssistant<PlaywrightElement>;
 
 beforeAll(async () => {
@@ -38,11 +46,7 @@ beforeAll(async () => {
 afterAll(async () => await hass.close());
 
 it("Switch with input_number turns off", async () => {
-  const dashboard = await hass.Dashboard([{
-    type: "custom:timer-bar-card",
-    entities: ["input_boolean.switch"],
-    duration: { entity: "input_number.duration", "units": "seconds" },
-  }]);
+  const dashboard = await hass.Dashboard([CONFIGURATION_CARD]);
   const card = dashboard.cards[0];
   await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch" });
   await waitForTimerTime(card, "00:00:02");
