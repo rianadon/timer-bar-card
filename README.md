@@ -132,6 +132,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | bar_radius     | string  | **Optional** | Border radius of the progress bar                                                                          | -                 |
 | bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
 | layout         | string  | **Optional** | Hide the name (`hide_name`) and (optionally icon—`full_row`)                                               | `normal`          |
+| resolution     | string  | **Optional** | Set to `seconds`, `minutes`, or `automatic` to switch between `h:m:s` and `h:m` formats.                   | `seconds`         |
 | modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 

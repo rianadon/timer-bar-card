@@ -3,11 +3,12 @@ import { LitElement, html, CSSResultGroup, TemplateResult, css, PropertyValues }
 import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
-import { HomeAssistant, hasConfigOrEntityChanged, secondsToDuration, computeStateDisplay } from 'custom-card-helpers';
+import { HomeAssistant, hasConfigOrEntityChanged, computeStateDisplay } from 'custom-card-helpers';
 import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 import { createActionHandler, createHandleAction } from './helpers-actions';
+import secondsToDuration from './lib/seconds-to-duration';
 
 export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
@@ -26,6 +27,7 @@ export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
     bar_background: '#eee',
     bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
     layout: 'normal',
+    resolution: 'seconds',
     ...config,
     translations: {
       scheduled_for: 'Scheduled for',
@@ -115,33 +117,28 @@ export class TimerBarEntityRow extends LitElement {
       case 'active':
       return this._renderRow(activeConfig, html`
         ${this._renderBar(percent)}
-        <div class="text-content value ${pointer}" style=${this._textStyle()}>
-          ${secondsToDuration(this._timeRemaining || 0)}
-        </div>
+        ${this._renderTime(pointer)}
       `);
 
       case 'pause':
       return this._renderRow(activeConfig, html`
-        <div class="status ${pointer}" style=${this._statusStyle()}>
-          ${localize(this.hass!, state.state, state, this.config.translations)}
-        </div>
-        <div class="text-content value ${pointer}" style=${this._textStyle()}>
-          ${secondsToDuration(this._timeRemaining || 0)}
-        </div>
+        ${this._renderStatus(pointer, '')}
+        ${this._renderTime(pointer)}
       `);
 
       case 'waiting':
       return this._renderRow(this.modConfig, html`
-        <div class="status ${pointer}" style=${this._statusStyle(true)}>
-          ${localize(this.hass!, "scheduled_for", undefined, this.config.translations)} ${formatStartTime(state)}
-        </div>
+        ${this._renderStatus(pointer, formatStartTime(state))}
       `);
 
       default:
       const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
       const style = textHidden ? 'visibility: hidden' : '';
       return this._renderRow(this.modConfig, html`
-        <div class="text-content value ${pointer}" style=${style}>${localize(this.hass!, state?.state, state, this.config.translations)}</div>
+        <div class="text-content value ${pointer}" style=${style}
+        @action=${createHandleAction(this.hass!, this.config)}
+       .actionHandler=${createActionHandler(this.config)}
+        >${localize(this.hass!, state?.state, state, this.config.translations)}</div>
       `);
     }
   }
@@ -151,13 +148,31 @@ export class TimerBarEntityRow extends LitElement {
 
     if (this.modConfig.full_row || this.modConfig.layout === 'full_row')
       return html`${warning}<div class="flex" @action=${createHandleAction(this.hass!, config)} .actionHandler=${createActionHandler (config)}> ${contents}</div>${this._renderDebug()}`;
-
     if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
     return html`
       ${warning}
       ${genericEntityRow(contents, this.hass, config)}
       ${this._renderDebug()}
     `;
+  }
+
+  private _renderTime(pointer: string) {
+    return html`<div class="text-content value ${pointer}" style=${this._textStyle()}
+      @action=${createHandleAction(this.hass!, this.config)}
+      .actionHandler=${createActionHandler(this.config)}>
+      ${secondsToDuration(this._timeRemaining || 0, this.modConfig.resolution!)}
+    </div>`;
+  }
+
+  private _renderStatus(pointer: string, content: TemplateResult|string) {
+    const state = this.hass!.states[this.config.entity!];
+    return html`
+      <div class="status ${pointer}" style=${this._statusStyle(!!content)}
+        @action=${createHandleAction(this.hass!, this.config)}
+        .actionHandler=${createActionHandler(this.config)}>
+      ${localize(this.hass!, state.state, state, this.config.translations)}
+      ${content}
+    </div>`;
   }
 
   private get _bar_width() {
@@ -174,7 +189,9 @@ export class TimerBarEntityRow extends LitElement {
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
     const pointer = this.config.tap_action?.action !== "none" ? "pointer" : "";
-    return html`<div class="bar-container ${pointer}" style=${containerStyle}>
+    return html`<div class="bar-container ${pointer}" style=${containerStyle}
+      @action=${createHandleAction(this.hass!, this.config)}
+      .actionHandler=${createActionHandler(this.config)}>
       <div class="bar" style=${bgStyle}>
         <div style=${fgStyle}>
       </div>

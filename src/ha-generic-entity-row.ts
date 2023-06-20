@@ -37,11 +37,7 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
   // Hide the pointer if tap action is none
   const pointer = config.tap_action?.action !== "none" ? "pointer" : "";
 
-  return html`<div class="generic-entity-row"
-      @action=${createHandleAction(hass, config)}
-      .actionHandler=${createActionHandler (config)}
-    >
-
+  return html`<div class="generic-entity-row">
     <state-badge
       class="${pointer}"
       .hass=${hass}
@@ -49,9 +45,16 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
       .overrideIcon=${config.icon}
       .overrideImage=${config.image}
       .stateColor=${config.state_color}
-      tabindex="0"
+      tabindex="${pointer ? "0" : undefined}"
+      @action=${createHandleAction(hass, config)}
+      .actionHandler=${createActionHandler(config)}
     ></state-badge>
-    ${name ? html`<div class="info ${pointer}" .title=${name}>${name}</div>` : ''}
+    ${name
+      ? html`<div class="info ${pointer}" .title=${name}
+        @action=${createHandleAction(hass, config)}
+        .actionHandler=${createActionHandler(config)}
+        >${name}</div>`
+      : ''}
     ${createPaperButtons(config.extend_paper_buttons_row, 'center')}
     ${children}
     ${createPaperButtons(config.extend_paper_buttons_row, 'right')}
