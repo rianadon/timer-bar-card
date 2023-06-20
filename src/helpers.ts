@@ -115,6 +115,7 @@ export const isState = (stateObj: HassEntity | undefined, checkState: string | s
 export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
   if (!attrib) throw new Error('One of duration, remain_time, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
+  if ('script' in attrib) return hass.states[attrib.script].attributes['last_action']?.split('delay ')[1];
   if ('entity' in attrib) return hass.states[attrib.entity].state;
   if ('state' in attrib) return stateObj.state;
   return stateObj.attributes[attrib.attribute];
@@ -123,6 +124,8 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Att
 const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
   const duration = attribute(hass, stateObj, attrib);
   if (!duration) return duration;
+
+  console.log('parsing', duration, attrib)
 
   if (attrib!.units === 'hours' || attrib!.units === 'minutes' || attrib!.units === 'seconds') {
     const numeric = Number(duration);

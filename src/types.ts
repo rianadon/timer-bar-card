@@ -43,7 +43,8 @@ type AttributeType =
   | { attribute: string }
   | { entity: string }
   | { state: any }
-  | { fixed: number };
+  | { fixed: number }
+  | { script: string };
 export type AttributeConfig = AttributeType & {
   units?: "duration" | "hours" | "minutes" | "seconds";
 };

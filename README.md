@@ -110,6 +110,8 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 † requires a `start_time` attribute to calculate when in the future the timer will start. \
 ‡ `waiting_state` and `pause_state` will still have an effect, but the card will disregard `active_state` if it can guess the timer mode.
 
+**Attribute format**:  `{ attribute: string } | { entity: string } | { state: any } | { fixed: number } | { script: string }`
+
 </details>
 
 ### Customization
@@ -293,6 +295,8 @@ duration: { fixed: 0:05:00 } # 5 min
 ```
 
 Like in step 1, there is no `start_time` configured so the card will use the time the switch was last toggled as the start time.
+
+If your automation calls a script, you can replaced `{ fixed: 0:05:00 }` with `{ script: 'script.yourscriptname' }` to figure out the duration from the `delay` action in the script.
 
 #### 7. My duration actually comes from another entity
 
