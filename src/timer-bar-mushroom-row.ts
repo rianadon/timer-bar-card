@@ -6,7 +6,7 @@ import { computeDomain, computeRTL } from 'custom-card-helpers';
 import { HassEntity, TimerBarConfig } from './types';
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import { TimerBarEntityRow } from './timer-bar-entity-row';
-import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, isActive, domainIcon } from './lib/mushroom';
+import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, isActive, domainIcon, computeRgbColor } from './lib/mushroom';
 
 const computeObjectId = (entityId: string): string =>
   entityId.substring(entityId.indexOf(".") + 1);
@@ -64,7 +64,13 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
   protected _renderIcon(stateObj: HassEntity): TemplateResult {
     const icon = this._icon(stateObj);
     const active = isActive(stateObj);
-    return html`<mushroom-shape-icon slot="icon" .disabled=${!active} .icon=${icon} ></mushroom-shape-icon>`;
+    let style = ''
+    if (this.mushroom.icon_color) {
+      const iconRgbColor = computeRgbColor(this.mushroom.icon_color);
+      style += `--icon-color:rgb(${iconRgbColor});`;
+      style += `--shape-color:rgba(${iconRgbColor}, 0.2);`;
+    }
+    return html`<mushroom-shape-icon slot="icon" .disabled=${!active} .icon=${icon} style=${style}></mushroom-shape-icon>`;
   }
 
   protected _renderBadge(stateObj: HassEntity) {
@@ -84,7 +90,6 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
   }
 
   protected localize(state: HassEntity, _: boolean) {
-    console.log('localize', state)
     return super.localize(state, false)
   }
 

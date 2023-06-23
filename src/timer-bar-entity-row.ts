@@ -267,13 +267,10 @@ export class TimerBarEntityRow extends LitElement {
 
     if (changedProps.has("hass")) {
       const stateObj = this.hass!.states[this.config!.entity!];
-      const oldHass = changedProps.get("hass") as HomeAssistant;
-      const oldStateObj = oldHass?.states[this.config!.entity!];
-
-      if (oldStateObj !== stateObj) {
-        this._startInterval(stateObj);
-      } else if (!stateObj) {
+      if (!stateObj) {
         this._clearInterval();
+      } else {
+        this._startInterval(stateObj);
       }
     }
   }

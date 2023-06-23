@@ -835,3 +835,44 @@ export function domainIcon(domain: string, stateObj?: HassEntity, state?: string
 
     return DEFAULT_DOMAIN_ICON;
 }
+
+export const COLORS = [
+    "primary",
+    "accent",
+    "red",
+    "pink",
+    "purple",
+    "deep-purple",
+    "indigo",
+    "blue",
+    "light-blue",
+    "cyan",
+    "teal",
+    "green",
+    "light-green",
+    "lime",
+    "yellow",
+    "amber",
+    "orange",
+    "deep-orange",
+    "brown",
+    "grey",
+    "blue-grey",
+    "black",
+    "white",
+    "disabled",
+];
+
+export function computeRgbColor(color: string): string {
+    if (color === "primary" || color === "accent") {
+        return `var(--rgb-${color}-color)`;
+    }
+    if (COLORS.includes(color)) {
+        return `var(--rgb-${color})`;
+    } else if (color.startsWith("#")) {
+        const b = parseInt(color.substring(1), 16);
+        if (isNaN(b)) return ""
+        return [(b >> 16) & 255, (b >> 8) & 255, b & 255].join(", ")
+    }
+    return color;
+}
