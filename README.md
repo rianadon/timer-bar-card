@@ -21,8 +21,10 @@ I've been really enjoying Paul Bottein's beautiful [Mushroom card collection](ht
 
 *Jump to:  [[Integration Support Status](#integration-support-status)]
 [[Turn On/Turn Off Switch](#turn-on-a-switch-for-some-time-then-turn-it-off)]
-[[Styling Examples](#-styling-examples)]
-[[Working with New Integrations](#-working-with-new-integrations)]*
+[[Styling Examples](#-styling-examples)]<br>
+[[Working with New Integrations](#-working-with-new-integrations)]
+[[Examples](#examples)]
+[[Troubleshooting](#troubleshooting)]*
 
 ## Installation
 
@@ -163,16 +165,57 @@ The card is given two actions: clicking/tapping it will calll the script, and ho
 
 > ⚠️ Make sure that if you're creating the script from the UI, you do not rename the delay action. The delay needs to have the duration in its name—this is how the card knows how long the timer is.
 
-![Video of the card created by the configurations](images/scripted-switch.gif)
-
 Using a script has several advantages:
 - It does not interfere with manual operation of the switch.
 - You can create multiple buttons to turn the same switch on for different amounts of time.
 - If you create a new script for each button, the timer bar will only show on the button that was pressed.
 
-However, you may wish to ensure that even under manual operation, the switch is never turned on for more than ten seconds. In this case, you can add an automation that is trigggered when `switch.cat_toy`'s *state* changes to *on*  and that calls the `script.turn_on` service with entity `script.script_on_10s`.
+However, you may wish to ensure that even under manual operation, the switch is never turned on for more than ten seconds.
+In this case, you can add an automation that is trigggered when `switch.cat_toy`'s *state* changes to *on*  and that calls the `script.turn_on` service with entity `script.script_on_10s`.
 
-If both the automation and the button are going to keep the switch on for the same amount of time, you can simplify the setup and **not use a script**. Add the delay and switch off services to the automation (or set the automation to only trigger when the switch is on for 10s) and change the card's `duration: script` option to `duration: fixed: "00:00:10"`. Also change the tap action to call the switch's turn on service. If you change the automation's delay in the future, make sure to update the card too.
+![Video of the card created by the configurations](images/scripted-switch.gif)
+
+#### Simplifying with only an Automation + Card
+
+If both the automation and the button are going to keep the switch on for the same amount of time, you can simplify the setup and **not use a script**.
+Add the delay and switch off services to the automation (or set the automation to only trigger when the switch is on for 10s) and change the card's `duration: script` option to `duration: fixed: "00:00:10"`.
+Also change the tap action to either call the switch's turn on service or toggle the switch. If you change the automation's delay in the future, make sure to update the card too.
+
+
+<table><tr><th>Card Configuration</th><th>Automation Configuration</th></tr><tr><td><p></p>
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - switch.cat_toy
+duration:
+  fixed: 00:00:10
+tap_action:
+  action: toggle
+hold_action:
+  action: more-info
+
+```
+
+</td><td><p></p>
+
+```yaml
+alias: Turn the switch off after it is turned on
+trigger:
+  - platform: state
+    entity_id: switch.cat_toy
+    to: "on"
+condition: []
+action:
+  - delay: "00:00:10"
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: switch.cat_toy
+mode: single # also consider restart
+```
+
+</td></tr></table>
 
 ### 🎨 Styling Examples
 
