@@ -5,7 +5,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
-import { TimerBarMushroomRow } from './timer-bar-mushroom-row';
+import { fillMushroomConfig, TimerBarMushroomRow } from './timer-bar-mushroom-row';
 
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
 import { findMode, gatherEntitiesFromConfig, haveEntitiesChanged } from './helpers';
@@ -42,7 +42,10 @@ export class TimerBarCard extends LitElement {
     if (!config) {
       throw new Error("Invalid configuration");
     }
-    this.config = fillConfig(config, 'mushroom' in config);
+    if ('mushroom' in config && config.mushroom)
+      this.config = fillMushroomConfig(config, config.mushroom);
+    else
+      this.config = fillConfig(config);
   }
 
   protected render(): TemplateResult | void {

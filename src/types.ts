@@ -84,5 +84,13 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
   compressed?: boolean;
   filter?: boolean;
   show_empty?: string;
-  mushroom?: any;
+  mushroom?: Mushroom;
+}
+
+export interface Mushroom {
+  icon_color?: string;
+  layout?: string;
+  fill_container?: string;
+  primary_info?: string;
+  icon_type?: string;
 }

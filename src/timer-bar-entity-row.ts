@@ -10,7 +10,7 @@ import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-ro
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import secondsToDuration from './lib/seconds-to-duration';
 
-export function fillConfig(config: TimerBarEntityConfig, mushroom=false): TimerBarConfig {
+export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
     active_state: ['active', 'on', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
@@ -24,13 +24,13 @@ export function fillConfig(config: TimerBarEntityConfig, mushroom=false): TimerB
     bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
     text_width: '3.5em',
-    bar_background: mushroom ? 'rgba(var(--rgb-state-entity), 0.2)' : '#eee',
-    bar_foreground: mushroom ? 'rgb(var(--rgb-state-entity))' : 'var(--mdc-theme-primary, #6200ee);',
-    bar_radius: mushroom ? '2px' : '0',
+    bar_background: '#eee',
+    bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
+    bar_radius: '0',
     layout: 'normal',
     resolution: 'seconds',
     ...config,
-    translations: mushroom ? config.translations : {
+    translations: {
       scheduled_for: 'Scheduled for',
       once_program: 'Once Program',
       program: 'Program',

@@ -599,10 +599,12 @@ extend_paper_buttons_row:
 
 ### Mushroom Style
 
-> 🍄 These styles require having the [Mushroom Card collection](https://github.com/piitaya/lovelace-mushroom) installed first.
+> 🍄 These styles require the [Mushroom Card collection](https://github.com/piitaya/lovelace-mushroom) to be installed.
 
 To enable the mushroom style, you'll need to configure the card with `entity` rather than `entities` and add the `mushroom` option.
 You can show multiple cards side by side using the [Grid Card](https://www.home-assistant.io/dashboards/grid/).
+
+Setting `mushroom:` changes some of the card defaults, including rounded corners and the bar color, to reduce the amount of configuration you need to make the card look mushroomy. Nevertheless, you can still customize these options!
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-one.png" width="257" height="79" />
 
@@ -621,16 +623,14 @@ What you get instead is a Frankenstein baby of both cards.
 ```yaml
 type: custom:timer-bar-card
 entity: switch.my_switch
-mushroom:
-  layout: vertical
-  icon_color: green
+duration:
+  fixed: '00:10:00'
 invert: true
 bar_direction: rtl
 bar_width: 60%
-bar_background: rgba(var(--rgb-green), 0.2)
-bar_foreground: rgb(var(--rgb-green))
-duration:
-  fixed: '00:10:00'
+mushroom:
+  layout: vertical
+  icon_color: green
 ```
 
 ## Manual installation

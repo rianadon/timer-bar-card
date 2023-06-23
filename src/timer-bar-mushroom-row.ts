@@ -3,9 +3,9 @@ import { html, CSSResultGroup, TemplateResult, css, nothing } from 'lit';
 import { property } from "lit/decorators.js";
 
 import { computeDomain, computeRTL } from 'custom-card-helpers';
-import { HassEntity, TimerBarConfig } from './types';
+import { HassEntity, Mushroom, TimerBarConfig, TimerBarEntityConfig } from './types';
 import { createActionHandler, createHandleAction } from './helpers-actions';
-import { TimerBarEntityRow } from './timer-bar-entity-row';
+import { TimerBarEntityRow, fillConfig } from './timer-bar-entity-row';
 import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, isActive, domainIcon, computeRgbColor } from './lib/mushroom';
 
 const computeObjectId = (entityId: string): string =>
@@ -14,11 +14,24 @@ const computeObjectId = (entityId: string): string =>
 const computeStateName = (stateObj: any): string =>
   stateObj.attributes.friendly_name === undefined
     ? computeObjectId(stateObj.entity_id).replace(/_/g, " ")
-    : stateObj.attributes.friendly_name || "";
+  : stateObj.attributes.friendly_name || "";
+
+export function fillMushroomConfig(config: TimerBarEntityConfig, mushroom: Mushroom): TimerBarConfig {
+  let color = 'var(--rgb-state-entity)'
+  if (mushroom.icon_color) color = computeRgbColor(mushroom.icon_color)
+  return {
+    ...fillConfig(config),
+    bar_background: `rgba(${color}, 0.2)`,
+    bar_foreground: `rgb(${color})`,
+    bar_radius: '2px',
+    translations: config.translations,
+    ...config
+  };
+}
 
 export class TimerBarMushroomRow extends TimerBarEntityRow {
 
-  @property() public mushroom: any;
+  @property() public mushroom: Mushroom = {};
 
   protected _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     if (!this.hass) return html``;
@@ -84,7 +97,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
       layout: this.mushroom.layout ?? 'default',
       fill_container: this.mushroom.fill_container ?? false,
       primary_info: this.mushroom.primary_info ?? "name",
-      secondary_info: this.mushroom.secondary_info ?? "state",
+      secondary_info: "state",
       icon_type: this.mushroom.icon_type ?? "icon"
     };
   }
