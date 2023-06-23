@@ -20,7 +20,7 @@ export async function waitForTimerTime(card: HassCard<any>, time: string) {
   const textContent = await element.$(".text-content");
   const frame = await element.ownerFrame();
 
-  await frame!.waitForFunction(([text, duration]) => {
+  const actualH = await frame!.waitForFunction(([text, duration]) => {
     function durationToSeconds(duration: string) {
       const parts = duration.split(":").map(Number).reverse();
       return (parts[2]||0) * 3600 + (parts[1]||0) * 60 + parts[0];
@@ -30,9 +30,13 @@ export async function waitForTimerTime(card: HassCard<any>, time: string) {
     const actual = durationToSeconds(text.textContent.trim());
     const expected = durationToSeconds(duration as string);
 
-    if (actual < expected) throw new Error(`Already passed time ${duration}`);
-    return actual === expected;
+    if (actual > expected) return false
+    return [actual] // hack to make it truthy
   }, [textContent, time]);
+
+  const actual = (await actualH.jsonValue())[0]
+  if (actual < durationToSeconds(time))
+    throw new Error(`Already passed time ${time}`);
 }
 
 /** Wait for a timer to advance the given diruation

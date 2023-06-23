@@ -27,7 +27,7 @@ script:
       - delay:
           hours: 0
           minutes: 0
-          seconds: 4
+          seconds: 5
           milliseconds: 0
       - service: input_boolean.turn_off
         data: {}
