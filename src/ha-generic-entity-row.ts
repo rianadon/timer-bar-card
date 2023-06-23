@@ -54,7 +54,7 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
         @action=${createHandleAction(hass, config)}
         .actionHandler=${createActionHandler(config)}
         >${name}</div>`
-      : ''}
+      : html`<div class="info"></div>` /* info element must be present to take up space */ }
     ${createPaperButtons(config.extend_paper_buttons_row, 'center')}
     ${children}
     ${createPaperButtons(config.extend_paper_buttons_row, 'right')}
