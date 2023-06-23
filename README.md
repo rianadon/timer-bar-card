@@ -14,6 +14,7 @@ I've been really enjoying Paul Bottein's beautiful [Mushroom card collection](ht
 
 </td></tr></table>
 
+The card is also well tested. There's [19 tests](https://github.com/rianadon/timer-bar-card/tree/main/test), and they've helped me catch a few bugs already. 🐞
 
 **You may also be interested in these other related but unaffiliated cards:**
 - @Gluwc's [Bar Card](https://github.com/custom-cards/bar-card) for numerical quantities or percentages
@@ -304,7 +305,7 @@ debug: true
 
 ##### 2. My `duration` isn't in the `0:10:00` format! I need to use different units!
 
-Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects the `hh:mm:ss` format.
+Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects the `hh:mm:ss` (duration/remaining) or `2021-09-07T20:24:13+00:00` (start/end time) format.
 
 ```yaml
 duration:
@@ -329,12 +330,10 @@ debug: true
 
 ##### 4. My duration comes from the entity's state
 
-Set `duration: { state: true }`. However, since having the end time in the state is more common than putting the duration in the state, I'll show you an `end_time` example.
-
-If the state is in the format `2021-09-07T20:24:13+00:00`, here's how to configure the card:
+Set `duration: { state: true }`. This is less common for duration, but some integrations give the *End Time* as an entity with format like `2021-09-07T20:24:13+00:00` (you don't need `units` for start/end time).
 
 ```yaml
-end_time:
+duration:
   state: true
 debug: true
 ```
