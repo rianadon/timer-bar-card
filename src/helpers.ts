@@ -125,8 +125,6 @@ const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attrib
   const duration = attribute(hass, stateObj, attrib);
   if (!duration) return duration;
 
-  console.log('parsing', duration, attrib)
-
   if (attrib!.units === 'hours' || attrib!.units === 'minutes' || attrib!.units === 'seconds') {
     const numeric = Number(duration);
     if (isNaN(numeric)) throw new Error(`Expected duration ${duration} to be a number since units is ${attrib!.units}`);

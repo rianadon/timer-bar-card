@@ -10,7 +10,7 @@ import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-ro
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import secondsToDuration from './lib/seconds-to-duration';
 
-export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
+export function fillConfig(config: TimerBarEntityConfig, mushroom=false): TimerBarConfig {
   return {
     active_state: ['active', 'on', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
@@ -24,12 +24,13 @@ export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
     bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
     text_width: '3.5em',
-    bar_background: '#eee',
-    bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
+    bar_background: mushroom ? 'rgba(var(--rgb-state-entity), 0.2)' : '#eee',
+    bar_foreground: mushroom ? 'rgb(var(--rgb-state-entity))' : 'var(--mdc-theme-primary, #6200ee);',
+    bar_radius: mushroom ? '2px' : '0',
     layout: 'normal',
     resolution: 'seconds',
     ...config,
-    translations: {
+    translations: mushroom ? config.translations : {
       scheduled_for: 'Scheduled for',
       once_program: 'Once Program',
       program: 'Program',
@@ -48,16 +49,17 @@ function tryTranslate(hass: HomeAssistant, state: string) {
   return;
 }
 
-export function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations) {
+function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations, capitalize=true) {
   if (!state) return '';
   if (translations && translations[state]) return translations[state];
   if (stateObj) {
     const translation = computeStateDisplay(hass.localize, stateObj, hass.locale!, state);
-    if (translation !== state) return translation;
+    if (translation !== state) return capitalize ? translation : translation.toLowerCase();
   }
   const translation = tryTranslate(hass, state);
-  if (translation) return translation;
+  if (translation) return capitalize ? translation : translation.toLowerCase();
 
+  if (!capitalize) return state
   return state[0].toUpperCase() + state.substring(1);
 }
 
@@ -71,7 +73,7 @@ export class TimerBarEntityRow extends LitElement {
   @state() private _previousClockCorrection: number = 0;
   @state() private _browserClockCorrection: number = 0;
   @state() private _error?: Error;
-  @state() private _warning?: TemplateResult;
+  @state() protected _warning?: TemplateResult;
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -138,12 +140,16 @@ export class TimerBarEntityRow extends LitElement {
         <div class="text-content value ${pointer}" style=${style}
         @action=${createHandleAction(this.hass!, this.config)}
        .actionHandler=${createActionHandler(this.config)}
-        >${localize(this.hass!, state?.state, state, this.config.translations)}</div>
+        >${this.localize(state)}</div>
       `);
     }
   }
 
-  private _renderRow(config: TimerBarConfig, contents: TemplateResult) {
+  protected localize(state: HassEntity, capitalize=true) {
+    return localize(this.hass!, state?.state, state, this.config.translations, capitalize)
+  }
+
+  protected _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     const warning = this._warning ? html`<hui-warning>${this._warning}</hui-warning>` : '';
 
     if (this.modConfig.full_row || this.modConfig.layout === 'full_row')
@@ -156,7 +162,7 @@ export class TimerBarEntityRow extends LitElement {
     `;
   }
 
-  private _renderTime(pointer: string) {
+  protected _renderTime(pointer: string) {
     return html`<div class="text-content value ${pointer}" style=${this._textStyle()}
       @action=${createHandleAction(this.hass!, this.config)}
       .actionHandler=${createActionHandler(this.config)}>
@@ -164,13 +170,13 @@ export class TimerBarEntityRow extends LitElement {
     </div>`;
   }
 
-  private _renderStatus(pointer: string, content: TemplateResult|string) {
+  protected _renderStatus(pointer: string, content: TemplateResult|string) {
     const state = this.hass!.states[this.config.entity!];
     return html`
       <div class="status ${pointer}" style=${this._statusStyle(!!content)}
         @action=${createHandleAction(this.hass!, this.config)}
         .actionHandler=${createActionHandler(this.config)}>
-      ${localize(this.hass!, state.state, state, this.config.translations)}
+      ${this.localize(state)}
       ${content}
     </div>`;
   }
@@ -181,7 +187,7 @@ export class TimerBarEntityRow extends LitElement {
     return this.modConfig.bar_width;
   }
 
-  private _renderBar(percent: number) {
+  protected _renderBar(percent: number) {
     if (this.modConfig.invert) percent = 100 - percent; // invert if the options say so
     let style: StyleInfo = { width: this._bar_width, direction: this.modConfig.bar_direction };
     if (this.modConfig.layout === 'hide_name') style = { ...style, 'flex-grow': '1', 'margin-left': '8px' };
@@ -198,7 +204,7 @@ export class TimerBarEntityRow extends LitElement {
     </div>`;
   }
 
-  private _renderDebug() {
+  protected _renderDebug() {
     if (!this.config.debug) return undefined;
     const state = this.hass!.states[this.config.entity!];
     if (!state) return html`<code>No state found</code>`;
@@ -348,7 +354,7 @@ export class TimerBarEntityRow extends LitElement {
     `, genericEntityRowStyles];
   }
 
-  private get modConfig(): TimerBarEntityConfig {
+  protected get modConfig(): TimerBarEntityConfig {
     if (!this.config.modifications) return this.config;
 
     const state = this.hass!.states[this.config.entity!];

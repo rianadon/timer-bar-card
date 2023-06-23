@@ -84,4 +84,5 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
   compressed?: boolean;
   filter?: boolean;
   show_empty?: string;
+  mushroom?: any;
 }

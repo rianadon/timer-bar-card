@@ -5,6 +5,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
+import { TimerBarMushroomRow } from './timer-bar-mushroom-row';
 
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
 import { findMode } from './helpers';
@@ -19,6 +20,7 @@ import { version } from '../package.json';
 });
 
 window.customElements.define('timer-bar-entity-row', TimerBarEntityRow);
+window.customElements.define('timer-bar-mushroom-row', TimerBarMushroomRow);
 console.info(
   `%c TIMER-BAR-CARD %c Version ${version} `,
   'font-weight: bold; color: #000; background: #aeb',
@@ -40,7 +42,7 @@ export class TimerBarCard extends LitElement {
     if (!config) {
       throw new Error("Invalid configuration");
     }
-    this.config = fillConfig(config);
+    this.config = fillConfig(config, 'mushroom' in config);
   }
 
   protected render(): TemplateResult | void {
@@ -50,7 +52,10 @@ export class TimerBarCard extends LitElement {
     }
 
     if (config.entity) {
-      return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
+      if ('mushroom' in config)
+        return html`<timer-bar-mushroom-row .config=${config} .mushroom=${config.mushroom??{}} .hass=${this.hass}></timer-bar-mushroom-row>`
+      else
+        return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
     } else if (config.entities && !this._filteredEntities().length) {
       if (this.editMode || config.show_empty) {
         const content = typeof config.show_empty == 'undefined' ? 'No entities match the filter. This card will disappear when you finish editing.' : config.show_empty;
