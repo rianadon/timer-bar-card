@@ -1,20 +1,58 @@
 # Timer Bar Card
 
-A progress bar display for [Home Assistant][home-assistant] timers.
-
-The card currently supports **timer** components and [a few more integrations](#integration-support-status).
+A progress bar display for [Home Assistant][home-assistant] timers. Show the time left on your dishwasher, kitchen timer, 3D Printer, sprinklers, time-controlled lights *(even plain ol' switches with automations)*, washing machine, and [much more](#integration-support-status)!
 
 ![Screenshots](https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/readme.png)
 
-With a bit of work, you can also [configure the card](#use-with-unsupported-entities) to suppport other types of entities—even plain switches that have automations.
+<table><tr><td>
 
-You may also be interested in these other related but unaffiliated cards:
+### 🍄 Newly Added: Mushroom Styling 🍄
+
+I've been really enjoying Paul Bottein's beautiful [Mushroom card collection](https://github.com/piitaya/lovelace-mushroom), so I've added new styles to make the card feel at home in your mushroom garden. Jump to [Configuring the Mushroom Style](#mushroom-style) for examples.
+
+![Examples of mushroom-styled cards](images/mushroom.png)
+
+</td></tr></table>
+
+
+**You may also be interested in these other related but unaffiliated cards:**
 - @Gluwc's [Bar Card](https://github.com/custom-cards/bar-card) for numerical quantities or percentages
 - @pmongloid's [Flipdown Timer Card](https://github.com/pmongloid/flipdown-timer-card) for timers but it has a cool flip effect!
 
-## Integration support status
+*Jump to:  [[Integration Support Status](#integration-support-status)]
+[[Turn On/Turn Off Switch](#turn-on-a-switch-for-some-time-then-turn-it-off)]
+[[Styling Examples](#-styling-examples)]
+[[Working with New Integrations](#-working-with-new-integrations)]*
 
-<pre><code><b>🚧️ Did you configure the card for another integration? 🚧</b>
+## Installation
+
+Timer Bar Card is available from [HACS][hacs], the Home Assisstant Community Store.
+
+If you don't have HACS installed, follow the [manual installation](#manual-installation) instructions.
+
+## Configure the Card
+
+The card displays [Home Assistant timers][Home Assistant timer] with minimal configuration.
+
+<table><tr><th>YAML Configuration</th><th>Timer Bar Card</th></tr><tr><td><p></p>
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - timer.alarm
+  - timer.alarm_two
+  - timer.alarm_three
+```
+
+</td><td>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/basic.png" width="445" height="165" />
+</td></tr></table>
+
+Most integrations require adding at least one or two additional lines of YAML configuration so the card knows the format of the timer. For more information on how these options work, see [Working with New Integrations](#-working-with-new-integrations).
+
+### Integration Support Status
+
+<pre><code><b>🌈 Did you configure the card for another integration? 🌈</b>
 I'd love to add it here! Please submit an <a href="https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md">issue</a> with the integration name and your configuration!
 </code></pre>
 
@@ -23,11 +61,11 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Home Assistant timer]            | *supported & tested* | no! 🎉                                                   |
 | Automation-controlled<br>switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
 | [Sun]                             | *supported*          | [See the example](#sun)                                  |
-| [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊                                                   |
+| [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊 ([example][opensprinkler-example])                |
 | [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
 | [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
 | [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
-| [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)       |
+| [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)     |
 | [Google Home Timer]               | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
 | [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
@@ -39,7 +77,8 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [ThinQ dishwasher]                | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
 | [Google Home Alarm]               | *not really [[#18]]* | template entity required                                 |
 
-[fixed-duration]: #6-my-entity-has-no-attributes
+[fixed-duration]: #6-ugh-i-know-what-the-duration-is-but-its-nowhere-in-home-assistant
+[opensprinkler-example]: #use-with-opensprinkler-integration
 [#5]: https://github.com/rianadon/timer-bar-card/issues/5#issuecomment-868267817
 [#15]: https://github.com/rianadon/timer-bar-card/issues/15#issuecomment-1361079381
 [#18]: https://github.com/rianadon/timer-bar-card/issues/18#issuecomment-1179868528
@@ -73,13 +112,221 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
-If your integration is not listed here, there's a high chance you'll need to [look at your entity's attributes and configure the card](#use-with-unsupported-entities) to make the card work with the integration.
+If your configuration isn't listed, follow the instructions in [Working with New Integrations](#-working-with-new-integrations). Once you configure it, I'd super appreciate if you [could submit an issue](https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md) with the integration's name and your configuration. You'll get a mention in this document and help others save time. 🌈
 
-## Install
+### Turn On a Switch for Some Time, Then Turn it Off
 
-Timer Bar Card is available from [HACS][hacs]. If you don't have HACS installed, follow the [manual installation](#manual-installation) instructions.
+![Cat with a box](https://64.media.tumblr.com/tumblr_m8m2aeL6PC1r3a6jho1_400.gif)
 
-## Options
+This is a common use case of the card, so here's a full example of how you can create a button on your dashboard to turn on a switch entity, count down ten seconds, then turn the entity off. This takes a few different components in Home Assistant: The *Timer Bar Card*, a *Script*, and *an Automation (optional)*
+
+While the script is shown in YAML mode, you can alternatively create it in the visual editor (the *Scripts* tab in the same area as *Automations*).
+
+<table><tr><th>Card Configuration</th><th>Script Configuration</th></tr><tr><td><p></p>
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - switch.cat_toy
+duration:
+  script: script.switch_on_10s
+tap_action:
+  action: call-service
+  service: script.switch_on_10s
+hold_action:
+  action: more-info
+
+```
+
+</td><td><p></p>
+
+```yaml
+alias: Turn the switch on then off
+sequence:
+  - service: homeassistant.turn_on
+    data: {}
+    target:
+      entity_id: switch.cat_toy
+  - delay: "00:00:10"
+  - service: homeassistant.turn_off
+    data: {}
+    target:
+      entity_id: switch.cat_toy
+mode: single # also consider restart
+```
+
+</td></tr></table>
+
+In this example, the switch's id is `switch.cat_toy` and the script's id is `script.switch_on_10s`.
+
+The card is given two actions: clicking/tapping it will calll the script, and holding it will bring up the switch entity's information. The script uses the *Call Service* action to turn on and off the switch.
+
+> ⚠️ Make sure that if you're creating the script from the UI, you do not rename the delay action. The delay needs to have the duration in its name—this is how the card knows how long the timer is.
+
+![Video of the card created by the configurations](images/scripted-switch.gif)
+
+Using a script has several advantages:
+- It does not interfere with manual operation of the switch.
+- You can create multiple buttons to turn the same switch on for different amounts of time.
+- If you create a new script for each button, the timer bar will only show on the button that was pressed.
+
+However, you may wish to ensure that even under manual operation, the switch is never turned on for more than ten seconds. In this case, you can add an automation that is trigggered when `switch.cat_toy`'s *state* changes to *on*  and that calls the `script.turn_on` service with entity `script.script_on_10s`.
+
+If both the automation and the button are going to keep the switch on for the same amount of time, you can simplify the setup and **not use a script**. Add the delay and switch off services to the automation (or set the automation to only trigger when the switch is on for 10s) and change the card's `duration: script` option to `duration: fixed: "00:00:10"`. Also change the tap action to call the switch's turn on service. If you change the automation's delay in the future, make sure to update the card too.
+
+### 🎨 Styling Examples
+
+<table><tr>
+<td><p></p><a href="#receding-progress-bar"><p align="center">RECEDING PROGRESS BAR</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/receding.png" width="378" /></a></td>
+<td><p></p><a href="#show-only-progress-bar"><p align="center">SHOW ONLY PROGRESS BAR</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/onlybar.png" width="394" /></a></td>
+<td><p></p><a href="#use-with-paper-buttons-row"><p align="center">USE WITH PAPER BUTTONS ROW</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/button-row.png" width="474" /></a></td>
+</tr><tr>
+<td><p></p><a href="#customize-appearance-based-on-timer-percentage"><p align="center">CUSTOMIZE APPEARANCE BASED ON TIMER PERCENTAGE</p>
+<img alt="screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/modifications.gif" width="384" /></a></td>
+<td><p></p><a href="#icons-and-entity-in-card-header"><p align="center">ICONS AND ENTITY IN CARD HEADER</p>
+<img src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/header-icons.png" alt="Screenshot" width="477" /></a></td>
+<td><p></p><a href="#embedded-in-an-entities-card"><p align="center">EMBEDED IN AN ENTITIES CARD</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/entities-card.png" width="462" /></a></td>
+</tr><tr>
+<td><p></p><a href="#even-more-options"><p align="center">EVEN MORE OPTIONS</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/translation.png" width="475" /></a></td>
+<td><p></p><a href="#style-to-your-unique-tastes"><p align="center">STYLE TO YOUR UNIQUE TASTES</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/rainbow.png" width="424" /></a></td>
+<td><p></p><a href="#mushroom-style"><p align="center">MUSHROOM STYLE</p>
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-one.png" width="257" /></a></td>
+</tr></table>
+
+### 📦 Working with New Integrations
+
+<p align="center"><img alt="Visual Depiction of how the options work together" src="images/timerbar-config.png" width="685" height="200" /></p>
+
+The diagram above shows the minimal configuration you'll need to make the card show the timer. For each of these properties, you'll need to find an entity **(doesn't have to be the one you're displaying in the card)** that has this information in its state or attributes. The only exception is *Guess Mode*, which is an option you set on the card to make it guess when the timer is active in lieu of configuring an *Active State*.
+
+> ⏰ There is an option missing in this diagram: *Remaining Time*. Some integrations have a *Remaining Time* attribute, but the attribute does not update every second like a countdown! This is to reduce the strain on your Home Assistant: Lot of entities updating every second could slow it down.
+>
+> However, some integrations do update a *Remaining Time* attribute (or create an entity whose state is the *Remaining Time* and update its state every second). For these, you can use (*Remaining Time* + one of *Start Time*/*Duration* + *Guess Mode* or *Active State*) **or** (*Remaining Time* + *Active State*)
+
+<a href="https://my.home-assistant.io/redirect/developer_states/"><img align="left" src="https://my.home-assistant.io/badges/developer_states.svg"></a>
+The Developer Tools are a great resource for viewing states and attributes.
+
+<img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
+
+> 📝 In the screenshot above, *Duration* and *End Time* are the attributes `duration` and `finishes_at`, and the state `active` can be used as the *Active State*.
+
+Here's all the options you can use in the configuration. I recommend setting `debug: true` while setting up the card to help work through any problems.
+
+| YAML option     | Type            | Description                                    | Default                                                |
+|-----------------|-----------------|------------------------------------------------|--------------------------------------------------------|
+| active_state    | string<br>/list | State(s) used to indicate a timer is running   | `active`, `on`, `manual`,<br>`program`, `once-program` |
+| pause_state     | string<br>/list | State(s) used to indicate a timer is paused    | `paused`                                               |
+| waiting_state   | string<br>/list | State(s) when a timer is scheduled for later † | `waiting`                                              |
+| state_attribute | string          | Use an attribute when calculating the above.   | -                                                      |
+| guess_mode      | bool            | Attempt to guess mode=active. ‡                | `false`                                                |
+| start_time      | [*timeprop*]    | How the timer's start time is found            | `{attribute: start_time}`                              |
+| end_time        | [*timeprop*]    | How the timer's end time is found              | `{attribute: end_time}`                                |
+| duration        | [*timeprop*]    | How the timer's duration is found              | `{attribute: duration}`                                |
+| remain_time     | [*timeprop*]    | How the timer's remaining time is found        | `{attribute: remain_time}`                             |
+| debug           | bool            | Show debugging info in card                    | `false`                                                |
+
+[*timeprop*]: #configuration-of-time-properties-start_time-end_time-etc
+
+```
+timeprop = { attribute: string, units: "duration"|"hours"|"minutes"|"seconds" = "duration" }
+         | { entity: string, units="duration" } | { state: any, units="duration" }
+         | { fixed: number, units="duration" } | { script: string }
+```
+
+† requires a `start_time` attribute to calculate when in the future the timer will start. \
+‡ `waiting_state` and `pause_state` will still have an effect, but the card will disregard `active_state` if it can guess the timer mode.
+
+To recap, set `active_state` to the state of your entity while the timer is running (usually all lowercase). If the state changes as the timer runs (for instance if the state is the number of seconds left in the timer), check if any of the attributes indicate whether the timer is running. If so, use `active_state` together with `state_attribute`, otherwise, set `guess_mode: true` and make sure you have two of `start_time`/`end_time`/`duration` set.
+
+#### Configuration of time properties (`start_time`, `end_time`, etc)
+
+These examples all use `duration`, but they are applicable for all of the time properties: `start_time`, `end_time`, and `remain_time` as well.
+
+##### 1. My entity has an attribute that looks like `duration` (for example, `timespan`). Supply the following configuration:
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - switch.my_switch
+duration:
+  attribute: "timespan" # If your your duration attribute looks like 0:10:00.
+debug: true
+```
+
+##### 2. My `duration` isn't in the `0:10:00` format! I need to use different units!
+
+Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects the `hh:mm:ss` format.
+
+```yaml
+duration:
+  attribute: "timespan" # Should look like 10 or 10.0
+  units: minutes
+debug: true
+```
+
+##### 3. My duration comes from another entity
+
+Assume there's a duration slider with id `input_number.slider1`. The available units are the same ones as above.
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - switch.my_switch # ID of the switch, which provides the active/idle status
+duration:
+  entity: input_number.slider1
+  units: minutes # Since the slider state is a number like 10.0
+debug: true
+```
+
+##### 4. My duration comes from the entity's state
+
+Set `duration: { state: true }`. However, since having the end time in the state is more common than putting the duration in the state, I'll show you an `end_time` example.
+
+If the state is in the format `2021-09-07T20:24:13+00:00`, here's how to configure the card:
+
+```yaml
+end_time:
+  state: true
+debug: true
+```
+
+##### 5. A script determins when the entitty turns off
+
+The duration will be fetched from the length of the *Delay* action in the script.
+For this to work, the *Delay* action must not be renamed or configured with the `alias` property in the YAML.
+
+```yaml
+duration:
+  script: script.my_script_id
+debug: true
+```
+
+##### 6. Ugh. I know what the duration is but it's nowhere in Home Assistant
+
+If there's no state or attribute in Home Assistant which shows your duration, you can give the duration to the card.
+The units also work here, if you don't like using the `hh:mm:ss` format.
+
+```yaml
+type: custom:timer-bar-card
+entities:
+  - switch.my_switch
+duration: { fixed: 0:05:00 } # 5 min
+debug: true
+```
+
+Once the card is working properly, you can safely remove `debug: true`. It doesn't affect any of the functionality.
+
+<pre><code><h3>Still unclear? Don't know if you can make your entity work with the card?</h3>
+🧡 Please create an issue and tell me the entity so I can improve these instructions! ❤️️
+</code></pre>
+
+### The Rest of the Configuration Options (📚 Reference)
 
 | Name              | Type    | Requirement     | Description                                          |
 | ----------------- | ------- | ------------    | -------------------------------------------          |
@@ -88,31 +335,6 @@ Timer Bar Card is available from [HACS][hacs]. If you don't have HACS installed,
 | entities          | list    | **Optionalish** | Display multiple entities in a card                  |
 
 Either `entity` or `entities` must be supplied. Use `entity` if you'd like to embed the timer inside a card, or `entities` if you would like to create your own card (and use the card options at the end of this section).
-
-### Nonstandard Entity Config
-
-<details>
-<summary>Expand: Configure for entities that use a different set of status states</summary>
-
-| Name            | Type           | Requirement  | Description                                    | Default                                             |
-|-----------------|----------------|--------------|------------------------------------------------|-----------------------------------------------------|
-| active_state    | string or list | **Optional** | State(s) used to indicate a timer is running   | `active`, `on`, `manual`, `program`, `once-program` |
-| pause_state     | string or list | **Optional** | State(s) used to indicate a timer is paused    | `paused`                                            |
-| waiting_state   | string or list | **Optional** | State(s) when a timer is scheduled for later † | `waiting`                                           |
-| state_attribute | string         | **Optional** | Use an attribute when calculating the above.   | -                                                   |
-| guess_mode      | bool           | **Optional** | Attempt to guess mode=active. ‡                | false                                               |
-| start_time      | dict           | **Optional** | How the timer's start time is found            | `{attribute: start_time}`                           |
-| end_time        | dict           | **Optional** | How the timer's end time is found              | `{attribute: end_time}`                             |
-| remain_time     | dict           | **Optional** | How the timer's remaining time is found        | `{attribute: remain_time}`                          |
-| duration        | dict           | **Optional** | How the timer's duration is found              | `{attribute: duration}`                             |
-| debug           | bool           | **Optional** | Show debugging info in card                    | false                                               |
-
-† requires a `start_time` attribute to calculate when in the future the timer will start. \
-‡ `waiting_state` and `pause_state` will still have an effect, but the card will disregard `active_state` if it can guess the timer mode.
-
-**Attribute format**:  `{ attribute: string } | { entity: string } | { state: any } | { fixed: number } | { script: string }`
-
-</details>
 
 ### Customization
 
@@ -167,18 +389,6 @@ You can also use [actions](https://www.home-assistant.io/lovelace/actions/) with
 
 ## Examples
 
-### A Basic Example
-
-<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/basic.png" width="445" height="165" />
-
-```yaml
-type: custom:timer-bar-card
-entities:
-  - timer.alarm
-  - timer.alarm_two
-  - timer.alarm_three
-```
-
 ### Receding progress bar
 
 By default, the progress bar will expand. If you'd like the bar instead to shrink (as if it were counting down, rather than counting up), reverse the bar direction and invert the percentage:
@@ -212,119 +422,6 @@ filter: true # So only the running and scheduled stations are shown
 ```
 
 Be sure to check out the Irrigation Unlimited and RainMachine [examples](https://github.com/rianadon/timer-bar-card#integration-support-status) if you use a different irrigation controller.
-
-### Use with unsupported entities
-
-By default, the card will look for `duration`, `remaining`, `start_time`, or `end_time` attribute on your entity.
-
-You can find a subset of these attributes in the entity popup, and a full list by going visiting the Developer Tools:
-
-<img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
-
-**STEP ONE**: Assign `active_state`, `pause_state`, and `waiting_state` if your entity's states are not included in the defaults (refererence the example above). If your `active_state` is not a constant, set `guess_mode` to true and the card will try to guess the mode. You can also use `state_attribute` to fetch the state from a specific attribute.
-
-> This is the most important step! Without `active_state` properly set, the progress bar will not appear.
-
-**STEP TWO**: Turn on card debug mode by adding `debug: true` to the yaml configuration.
-
-**STEP THREE**: Then follow these steps in order to figure out what you need:
-
-#### 1. My entity has an attribute that looks like `duration` (for example, `timespan`). Supply the following configuration:
-
-```yaml
-duration: { attribute: "timespan" } # If your your duration attribute looks like 0:10:00.
-debug: true
-```
-
-The entity's start time will be computed using the `last_changed` property (when the entity state last changed).
-
-#### 2. My `duration` isn't in the `0:10:00` format! I need to use different units!
-
-Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects colons in the duration.
-
-```yaml
-duration:
-  attribute: "timespan" # Should look like 10 or 10.0
-  units: minutes
-debug: true
-```
-
-
-#### 3. The time last changed doesn't approximate the start time well enough, and my entity has a duration-looking attribute and a start time attribute (called `start`).
-
-```yaml
-duration: { attribute: "timespan" }
-start_time: { attribute: "start" }
-debug: true
-```
-
-#### 4. The entity has a duration attribute and a remaining time attribute (called `remaining`).
-
-It's not great that the entity will be spamming Home Assistant with a new state every second, but I suppose it's better than nothing. Just make sure you aren't saving this entity's state to the history database otherwise it will increase in size quickly.
-
-```yaml
-duration: { attribute: "timespan" }
-remain_time: { attribute: "remaining" }
-debug: true
-```
-
-#### 5. The entity has no duration attribute but it has start time and end time (`finishes_at`) attributes.
-
-```yaml
-start_time: { attribute: "start" }
-end_time: { attribute: "finishes_at" }
-debug: true
-```
-
-Duration will be computed as the difference between these two times. You can also omit start time if you only have an `end_time`, in which case the `last_changed` property is used as the start time.
-
-#### 6. My entity has no attributes!
-
-Imagine we have a **switch** that will always turn off **five minutes** later after it's turned on. *Timer bar card, can we do it? Yes we can!* All it needs is a fixed duration and some love. Always love.
-
-<img alt="Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/switch.png" width="453" height="84" />
-
-> Make sure you have an automation to turn the switch off! See [this test file](https://github.com/rianadon/timer-bar-card/blob/main/test/switch-automation.test.ts) for an example.
-
-```yaml
-# Did you make an automation in the Home Assistant configuration?
-type: custom:timer-bar-card
-entities:
-  - switch.my_switch
-duration: { fixed: 0:05:00 } # 5 min
-```
-
-Like in step 1, there is no `start_time` configured so the card will use the time the switch was last toggled as the start time.
-
-If your automation calls a script, you can replaced `{ fixed: 0:05:00 }` with `{ script: 'script.yourscriptname' }` to figure out the duration from the `delay` action in the script.
-
-#### 7. My duration actually comes from another entity
-
-So far, `duration` has taken on type `attribute` and `fixed`. But there's a third type: `entity`! Assume there's a duration slider with id `input_number.slider1`.
-
-```yaml
-type: custom:timer-bar-card
-debug: true
-entities:
-  - switch.my_switch # ID of the switch, which provides the active/idle status
-duration:
-  entity: input_number.slider1
-  units: minutes # Since the slider state is a number like 10.0
-```
-
-#### 8. My end time comes from the entity's state
-
-End times and durations can use any of the types `attribute`, `fixed`, `entity` (you've seen these 3 before) and `state`! The `state` type uses the entity's current state. Let's say we have a timer who's state is the time it will go off, like `2021-09-07T20:24:13+00:00`! Here's how to configure the card:
-
-```yaml
-end_time: { state: true }
-```
-
-#### 9. If your entity doesn't meet these criteria...
-
-🧡 please create an issue and tell me the entity so I can improve these instructions! ❤️️
-
-> You may notice you cannot set `remaining`. This is because for Home Assistant timers, `remaining`  behaves much like `duration`, so to keep my own sanity I assume `remaining`=`duration`. Since they are equal, you don't need both! Just use `duration`!
 
 <a name="sun"></a>
 ### Using `active_state`, `end_time`, etc: The sun integration
@@ -378,7 +475,7 @@ entities:
 
 ### Icons and entity in card header
 
-<img src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/header-icons.png" alt="Screenshot" width="477" height="243" />
+<img src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/header-icons.png" alt="Screenshot" width="477" height="219" />
 
 ```yaml
 entities:
@@ -498,6 +595,42 @@ extend_paper_buttons_row:
   position: right
   buttons:
     - icon: mdi:party-popper
+```
+
+### Mushroom Style
+
+> 🍄 These styles require having the [Mushroom Card collection](https://github.com/piitaya/lovelace-mushroom) installed first.
+
+To enable the mushroom style, you'll need to configure the card with `entity` rather than `entities` and add the `mushroom` option.
+You can show multiple cards side by side using the [Grid Card](https://www.home-assistant.io/dashboards/grid/).
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-one.png" width="257" height="79" />
+
+```yaml
+type: custom:timer-bar-card
+entity: timer.alarm_two
+mushroom:
+```
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-two.png" width="263" height="146" />
+
+Under the mushroom option you can supply the options you'd normally give the mushroom card.
+Not every timer bar card configuration option is supported here (such as the `layout` option), and not every mushroom option is supported as well.
+What you get instead is a Frankenstein baby of both cards.
+
+```yaml
+type: custom:timer-bar-card
+entity: switch.my_switch
+mushroom:
+  layout: vertical
+  icon_color: green
+invert: true
+bar_direction: rtl
+bar_width: 60%
+bar_background: rgba(var(--rgb-green), 0.2)
+bar_foreground: rgb(var(--rgb-green))
+duration:
+  fixed: '00:10:00'
 ```
 
 ## Manual installation
