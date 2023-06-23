@@ -25,11 +25,12 @@ export async function waitForTimerTime(card: HassCard<any>, time: string) {
       const parts = duration.split(":").map(Number).reverse();
       return (parts[2]||0) * 3600 + (parts[1]||0) * 60 + parts[0];
     }
+    if (!text || !(text instanceof HTMLElement) || !text.textContent) return false
 
-    // @ts-ignore
     const actual = durationToSeconds(text.textContent.trim());
     const expected = durationToSeconds(duration as string);
 
+    if (text.textContent.trim().toLowerCase() == 'on') return false
     if (actual > expected) return false
     return [actual] // hack to make it truthy
   }, [textContent, time]);

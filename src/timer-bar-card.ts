@@ -8,7 +8,7 @@ import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 import { TimerBarMushroomRow } from './timer-bar-mushroom-row';
 
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
-import { findMode } from './helpers';
+import { findMode, gatherEntitiesFromConfig, haveEntitiesChanged } from './helpers';
 import { version } from '../package.json';
 
 // This puts your card into the UI card picker dialog
@@ -86,6 +86,8 @@ export class TimerBarCard extends LitElement {
         if (oldHass.states[entity] !== this.hass!.states[entity]) return true;
       } else if ('entity' in entity) {
         if (entity.entity && oldHass.states[entity.entity] !== this.hass!.states[entity.entity]) return true;
+      } else if ('script' in entity) {
+        if (entity.script && oldHass.states[entity.script] !== this.hass!.states[entity.script]) return true;
       }
     }
     return false;
@@ -101,15 +103,16 @@ export class TimerBarCard extends LitElement {
     this.updateComplete.then(() => this._patchFontSize());
 
     const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
-    if (!oldHass) return true;
+    if (!oldHass || !this.hass) return true;
 
+    const entities = gatherEntitiesFromConfig(this.config)
+    if (this.config.header_entity) entities.push(this.config.header_entity)
     for (const entity of this.config.entities!) {
-      if (this._hasEntityChanged(oldHass, entity)) return true;
+      if (typeof entity === 'string') entities.push(entity)
+      else entities.push(...gatherEntitiesFromConfig(entity))
     }
 
-    return this._hasEntityChanged(oldHass, this.config.header_entity,
-                                  this.config.duration, this.config.start_time,
-                                  this.config.end_time, this.config.remain_time);
+    return haveEntitiesChanged(entities, oldHass, this.hass)
   }
 
   /** Merges global and per-entity configuration */

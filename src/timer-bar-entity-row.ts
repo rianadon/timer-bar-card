@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR, gatherEntitiesFromConfig, haveEntitiesChanged } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 import { createActionHandler, createHandleAction } from './helpers-actions';
@@ -254,9 +254,12 @@ export class TimerBarEntityRow extends LitElement {
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) return false;
     if (changedProps.has('_timeRemaining')) return true;
-    this._checkForSyncIssues(changedProps.get('hass'));
+    const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
+    this._checkForSyncIssues(oldHass)
 
-    return hasConfigOrEntityChanged(this, changedProps, false);
+    if (!oldHass || !this.hass) return true;
+    const entities = gatherEntitiesFromConfig(this.config)
+    return haveEntitiesChanged(entities, oldHass, this.hass)
   }
 
   protected updated(changedProps: PropertyValues) {

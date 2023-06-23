@@ -166,3 +166,29 @@ export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig, corr
   if (config.guess_mode) return autoMode(hass, config, correction)|| stateMode(hass, config, correction);
   return stateMode(hass, config, correction);
 }
+
+/** Returns an array of entities referenced by the config.
+ * Useful for state updates
+ **/
+export function gatherEntitiesFromConfig(config: TimerBarEntityConfig): string[] {
+  const entities: string[] = []
+  const addMaybe = (s: string|undefined) => s && entities.push(s)
+  const addMaybeAttr = (c: AttributeConfig|undefined) => {
+    if (c && 'entity' in c) entities.push(c.entity)
+    if (c && 'script' in c) entities.push(c.script)
+  }
+
+  addMaybe(config.entity)
+  addMaybeAttr(config.duration)
+  addMaybeAttr(config.remain_time)
+  addMaybeAttr(config.start_time)
+  addMaybeAttr(config.end_time)
+  return entities
+}
+
+export function haveEntitiesChanged(entities: string[], oldHass: HomeAssistant, newHass: HomeAssistant) {
+  for (const entity of entities) {
+    if (oldHass.states[entity] != newHass.states[entity]) return true
+  }
+  return false
+}
