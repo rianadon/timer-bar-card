@@ -235,7 +235,7 @@ mode: single # also consider restart
 <td><p></p><a href="#embedded-in-an-entities-card"><p align="center">EMBEDED IN AN ENTITIES CARD</p>
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/entities-card.png" width="462" /></a></td>
 </tr><tr>
-<td><p></p><a href="#even-more-options"><p align="center">EVEN MORE OPTIONS</p>
+<td><p></p><a href="#rename-entities-and-statuses"><p align="center">RENAME ENTITIES AND STATUSES</p>
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/translation.png" width="475" /></a></td>
 <td><p></p><a href="#style-to-your-unique-tastes"><p align="center">STYLE TO YOUR UNIQUE TASTES</p>
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/rainbow.png" width="424" /></a></td>
@@ -605,17 +605,20 @@ text_width: 0px # hide the time remaining
 
 You can also choose to hide only the entity name with `layout: hide_name`.
 
-### Even more options
+### Rename Entities and Statuses
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/translation.png" width="475" height="130" />
 
 Want to change the names of the entity statuses because they are in the wrong language or they just aren't cool enough for you? You can do that! Need to use different settings for each entity? You can do that too (replace the entity id with a YAML dict where the `entity` key is the ID, then you can add any other configuration option you like to change it for that entity).
+
+You can also use these per-setting entities to rename invidual rows of the card, override the icon for a row, or in fact change almost any setting available in the card.
 
 ```yaml
 type: custom:timer-bar-card
 entities:
   - timer.alarm
   - entity: timer.alarm_two
+    name: "Alarm Two"
     icon: mdi:circle
     translations:
       idle: Gas, gas, gas!
