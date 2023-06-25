@@ -229,7 +229,7 @@ mode: single # also consider restart
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/button-row.png" width="474" /></a></td>
 </tr><tr>
 <td><p></p><a href="#customize-appearance-based-on-timer-percentage"><p align="center">CUSTOMIZE APPEARANCE BASED ON TIMER PERCENTAGE</p>
-<img alt="screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/modifications.gif" width="384" /></a></td>
+<img alt="screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/modifications.jpg" width="384" /></a></td>
 <td><p></p><a href="#icons-and-entity-in-card-header"><p align="center">ICONS AND ENTITY IN CARD HEADER</p>
 <img src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/header-icons.png" alt="Screenshot" width="477" /></a></td>
 <td><p></p><a href="#embedded-in-an-entities-card"><p align="center">EMBEDED IN AN ENTITIES CARD</p>
