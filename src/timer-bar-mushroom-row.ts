@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { html, CSSResultGroup, TemplateResult, css, nothing } from 'lit';
+import { html, CSSResultGroup, TemplateResult, css, nothing, PropertyValues } from 'lit';
 import { property } from "lit/decorators.js";
 
-import { computeDomain, computeRTL } from 'custom-card-helpers';
+import { computeDomain, computeRTL, HomeAssistant } from 'custom-card-helpers';
 import { HassEntity, Mushroom, TimerBarConfig, TimerBarEntityConfig } from './types';
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import { TimerBarEntityRow, fillConfig } from './timer-bar-entity-row';
@@ -15,6 +15,9 @@ const computeStateName = (stateObj: any): string =>
   stateObj.attributes.friendly_name === undefined
     ? computeObjectId(stateObj.entity_id).replace(/_/g, " ")
   : stateObj.attributes.friendly_name || "";
+
+const computeDarkMode = (hass: HomeAssistant|undefined) =>
+  hass && !!(hass.themes as any).darkMode
 
 export function fillMushroomConfig(config: TimerBarEntityConfig, mushroom: Mushroom): TimerBarConfig {
   let color = 'var(--rgb-state-entity)'
@@ -32,6 +35,18 @@ export function fillMushroomConfig(config: TimerBarEntityConfig, mushroom: Mushr
 export class TimerBarMushroomRow extends TimerBarEntityRow {
 
   @property() public mushroom: Mushroom = {};
+
+  protected updated(changedProps: PropertyValues): void {
+    // This function comes from base-element.ts in mushroom cards
+    super.updated(changedProps);
+    if (changedProps.has("hass") && this.hass) {
+      const currentDarkMode = computeDarkMode(changedProps.get("hass"));
+      const newDarkMode = computeDarkMode(this.hass);
+      if (currentDarkMode !== newDarkMode) {
+        this.toggleAttribute("dark-mode", newDarkMode);
+      }
+    }
+  }
 
   protected _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     if (!this.hass) return html``;
