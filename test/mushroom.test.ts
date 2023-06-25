@@ -61,7 +61,7 @@ it("Mushroom customization", async () => {
       entity: "timer.test3",
       mushroom: {
         primary_info: 'state',
-        secondary_info: 'last-changed'
+        secondary_info: 'none'
       }
     }, {
       type: "custom:timer-bar-card",

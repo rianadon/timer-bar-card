@@ -165,11 +165,7 @@ exports[`Mushroom customization: infos 1`] = `
                   idle
                 </span>
                 <span class="default secondary">
-                  <div class="pointer text-content value">
-                    <ha-relative-time capitalize="true">
-                      Now
-                    </ha-relative-time>
-                  </div>
+                  <div class="pointer text-content value"></div>
                 </span>
               </div>
             </mushroom-state-item>
