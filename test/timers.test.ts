@@ -58,3 +58,13 @@ it("Debug window appears", async () => {
   const element = await dashboard.cards[0].element()
   expect(await element.$$eval("code", (els) => els.length)).toBe(2)
 });
+
+it("Minutes are rounded up", async () => {
+  const dashboard = await hass.Dashboard([
+    { type: "custom:timer-bar-card", entities: ["timer.test6"], resolution: 'minutes' },
+  ]);
+  const card = dashboard.cards[0];
+  await hass.callService("timer", "start", {}, { entity_id: "timer.test6" });
+
+  expect(await card.narrow(".text-content").text()).toBe("6")
+});

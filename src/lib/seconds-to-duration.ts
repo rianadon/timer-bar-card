@@ -27,7 +27,7 @@ function toHMS(d: number, resolution: Resolution) {
         }
         case "minutes": {
             const h = Math.floor(d / 3600);
-            const m = Math.floor((d % 3600) / 60);
+            const m = Math.ceil((d % 3600) / 60); // Round up the minutes (#86)
             return [0,h,m];
         }
     }
