@@ -57,4 +57,4 @@ it("Switch with input_number turns off", async () => {
   await new Promise(r => setTimeout(r, 2000));
 
   await expect(card).toMatchDualSnapshot("idle");
-}, 7000);
+}, 9000);

@@ -14,7 +14,7 @@ I've been really enjoying Paul Bottein's beautiful [Mushroom card collection](ht
 
 </td></tr></table>
 
-The card is also well tested. There's [19 tests](https://github.com/rianadon/timer-bar-card/tree/main/test), and they've helped me catch a few bugs already. 🐞
+The card is also well tested. There are [23 tests](https://github.com/rianadon/timer-bar-card/tree/main/test), and they've helped me catch a few bugs already. 🐞
 
 **You may also be interested in these other related but unaffiliated cards:**
 - @Gluwc's [Bar Card](https://github.com/custom-cards/bar-card) for numerical quantities or percentages
@@ -48,7 +48,7 @@ entities:
 ```
 
 </td><td>
-<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/basic.png" width="445" height="165" />
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/basic.png" width="445" />
 </td></tr></table>
 
 Most integrations require adding at least one or two additional lines of YAML configuration so the card knows the format of the timer. For more information on how these options work, see [Working with New Integrations](#-working-with-new-integrations).
@@ -648,7 +648,9 @@ You can show multiple cards side by side using the [Grid Card](https://www.home-
 
 Setting `mushroom:` changes some of the card defaults, including rounded corners and the bar color, to reduce the amount of configuration you need to make the card look mushroomy. Nevertheless, you can still customize these options!
 
+<table><tr><th>Timer Bar Card</th><th>Card Configuration</th><tr><td>
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-one.png" width="257" height="79" />
+</td><td><p></p>
 
 ```yaml
 type: custom:timer-bar-card
@@ -656,11 +658,16 @@ entity: timer.alarm_two
 mushroom:
 ```
 
-<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-two.png" width="263" height="146" />
+</td></tr></table>
 
 Under the mushroom option you can supply the options you'd normally give the mushroom card.
 Not every timer bar card configuration option is supported here (such as the `layout` option), and not every mushroom option is supported as well.
 What you get instead is a Frankenstein baby of both cards.
+
+<table><tr><th>Timer Bar Card</th><th>Card Configuration</th><tr><td>
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-two.png" width="263" height="146" />
+</td><td><p></p>
 
 ```yaml
 type: custom:timer-bar-card
@@ -674,6 +681,12 @@ mushroom:
   layout: vertical
   icon_color: green
 ```
+
+</td></tr></table>
+
+You can also configure these Mushroom options:
+- `primary_info` and `secondary_info` can be any of `name`, `state`, `last-changed`, `last-updated`, or `none` to change the information shown on the card.
+- `icon_type` can be `icon` (default) or `none` (no icon).
 
 ## Manual installation
 

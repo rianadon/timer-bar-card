@@ -140,9 +140,13 @@ export class TimerBarEntityRow extends LitElement {
         <div class="text-content value ${pointer}" style=${style}
         @action=${createHandleAction(this.hass!, this.config)}
        .actionHandler=${createActionHandler(this.config)}
-        >${this.localize(state)}</div>
+        >${this._renderState(state)}</div>
       `);
     }
+  }
+
+  protected _renderState(state: HassEntity): TemplateResult {
+    return html`${this.localize(state)}`
   }
 
   protected localize(state: HassEntity, capitalize=true) {

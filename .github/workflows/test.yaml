@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Set up tests
+        run: test/setup.sh
+
       - name: Test Firefox
         run: BROWSER=firefox npm run test
 

@@ -1,4 +1,5 @@
 import { LovelaceCardConfig } from "custom-card-helpers";
+import { Info } from "./lib/mushroom";
 
 export type Mode = "active" | "pause" | "waiting" | "idle";
 
@@ -91,6 +92,7 @@ export interface Mushroom {
   icon_color?: string;
   layout?: string;
   fill_container?: string;
-  primary_info?: string;
+  primary_info?: Info;
+  secondary_info?: Info;
   icon_type?: string;
 }

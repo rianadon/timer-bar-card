@@ -6,7 +6,7 @@ import { computeDomain, computeRTL } from 'custom-card-helpers';
 import { HassEntity, Mushroom, TimerBarConfig, TimerBarEntityConfig } from './types';
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import { TimerBarEntityRow, fillConfig } from './timer-bar-entity-row';
-import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, isActive, domainIcon, computeRgbColor } from './lib/mushroom';
+import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, isActive, domainIcon, computeRgbColor, computeInfoDisplay } from './lib/mushroom';
 
 const computeObjectId = (entityId: string): string =>
   entityId.substring(entityId.indexOf(".") + 1);
@@ -43,11 +43,16 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     const name = config.name ?? computeStateName(state);
 
     if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
+
+    const appearance = this.appearance()
+    const primary = computeInfoDisplay(appearance.primary_info, name,
+                                       this.localize(state, false), state, this.hass);
+
     return html`
       <ha-card>
-        <mushroom-card ?rtl=${rtl} .appearance=${this.appearance()}>
+        <mushroom-card ?rtl=${rtl} .appearance=${appearance}>
           <mushroom-state-item
-          .appearance=${this.appearance()}
+          .appearance=${appearance}
           ?rtl=${rtl}
           @action=${createHandleAction(this.hass, config)}
           .actionHandler=${createActionHandler(config)}
@@ -56,13 +61,21 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
             ${this._renderIcon(state)}
             ${this._renderBadge(state)}
             <div class="container" slot="info">
-              <span class="primary">${name}</span>
+              <span class="primary">${primary}</span>
               <span class="secondary ${this.appearance().layout}">${contents}</span>
             </div>
           </mushroom-state-item>
         </mushroom-card>
         ${this._renderDebug()}
       </ha-card>`;
+  }
+
+  protected _renderState(state: HassEntity) {
+    const name = this.config.name ?? computeStateName(state);
+    const appearance = this.appearance()
+    const stateStr = this.localize(state, false)
+    return computeInfoDisplay(appearance.secondary_info, name,
+                              stateStr, state, this.hass!) as TemplateResult;
   }
 
   private _icon(stateObj: HassEntity) {
@@ -97,7 +110,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
       layout: this.mushroom.layout ?? 'default',
       fill_container: this.mushroom.fill_container ?? false,
       primary_info: this.mushroom.primary_info ?? "name",
-      secondary_info: "state",
+      secondary_info: this.mushroom.secondary_info ?? "state",
       icon_type: this.mushroom.icon_type ?? "icon"
     };
   }
