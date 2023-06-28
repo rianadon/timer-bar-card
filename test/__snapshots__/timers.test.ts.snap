@@ -31,6 +31,23 @@ exports[`Card UI Styles: idle 1`] = `
           </div>
         </div>
       </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+          </state-badge>
+          <div class="pointer text-content value">
+            Idle
+          </div>
+        </div>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="flex">
+          <div class="pointer text-content value">
+            Idle
+          </div>
+        </div>
+      </timer-bar-entity-row>
     </div>
   </ha-card>
 </timer-bar-card>
@@ -68,6 +85,29 @@ exports[`Card UI Styles: paused 1`] = `
           </div>
           <div class="pointer text-content value">
             Idle
+          </div>
+        </div>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="paused">…</ha-state-icon>
+          </state-badge>
+          <div class="pointer status">
+            Paused
+          </div>
+          <div class="pointer text-content value">
+            1:58
+          </div>
+        </div>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="flex">
+          <div class="pointer status">
+            Paused
+          </div>
+          <div class="pointer text-content value">
+            1:58
           </div>
         </div>
       </timer-bar-entity-row>
@@ -110,6 +150,33 @@ exports[`Card UI Styles: running 1`] = `
           </div>
           <div class="pointer text-content value">
             Idle
+          </div>
+        </div>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+          </state-badge>
+          <div class="bar-container pointer">
+            <div class="bar">
+              <div></div>
+            </div>
+          </div>
+          <div class="pointer text-content value">
+            1:59
+          </div>
+        </div>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="flex">
+          <div class="bar-container pointer">
+            <div class="bar">
+              <div></div>
+            </div>
+          </div>
+          <div class="pointer text-content value">
+            1:59
           </div>
         </div>
       </timer-bar-entity-row>

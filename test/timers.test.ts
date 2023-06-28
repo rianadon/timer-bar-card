@@ -38,7 +38,11 @@ it("Entity Row Styles", async () => {
 
 it("Card UI Styles", async () => {
   const dashboard = await hass.Dashboard([
-    { type: "custom:timer-bar-card", entities: ["timer.test2", "timer.test3"] },
+    { type: "custom:timer-bar-card", entities: [
+      "timer.test2", "timer.test3",
+      { entity: "timer.test2", layout: "hide_name" },
+      { entity: "timer.test2", layout: "full_row" }
+    ] },
   ]);
   const card = dashboard.cards[0];
   await expect(card).toMatchDualSnapshot("idle");
