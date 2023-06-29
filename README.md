@@ -243,6 +243,8 @@ mode: single # also consider restart
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/mushroom-one.png" width="257" /></a></td>
 </tr></table>
 
+See also: [Use Templates in Configuration](#use-templates-in-configuration)
+
 ### 📦 Working with New Integrations
 
 <p align="center"><img alt="Visual Depiction of how the options work together" src="images/timerbar-config.png" width="685" height="200" /></p>
@@ -641,6 +643,49 @@ extend_paper_buttons_row:
   buttons:
     - icon: mdi:party-popper
 ```
+
+### Use Templates in Configuration
+
+The card by itself does not support using templates to custimize the name and icon. However, using a plugin like the [Templatable Configuration Card](https://github.com/iantrich/config-template-card) or [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater), you can customize the name of entities, the icons, or any configuration option in the card.
+
+I like the latter card since it uses the same templating format as Home Assistant, but the latest release (as of June 2023) with important fixes is still in beta and it takes longer to render the templates. This delays the rendering of the timer card enough to trigger the [alert about the time being out of sync](#sync-issues). Thefore, I recommend you use the [former card](https://github.com/iantrich/config-template-card) unless you do not have the time to learn its unique templating language.
+
+<img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/template.png" width="507" height="88" />
+
+<table><tr><th>Templatable Configuration Card (recommended)</th><th>Card Templater</th><tr><td><p></p>
+
+```yaml
+type: custom:config-template-card
+variables:
+  TEMP: states['sensor.upstairs_temperature'].state
+entities:
+  - timer.alarm_three
+  - sensor.upstairs_temperature
+card:
+  type: custom:timer-bar-card
+  icon: mdi:sunglasses
+  entities:
+    - entity: timer.alarm_three
+      name: ${'It is ' + TEMP + ' degrees'}
+```
+
+</td><td><p></p>
+
+```yaml
+type: custom:card-templater
+entities:
+  - timer.alarm_three
+  - sensor.upstairs_temperature
+card:
+  type: custom:timer-bar-card
+  icon: mdi:sunglasses
+  sync_issues: ignore # Because templates take time to render
+  entities:
+    - entity: timer.alarm_three
+      name_template: It is {{ states.sensor.upstairs_temperature.state }} degrees
+```
+
+</td></tr></table>
 
 ### Mushroom Style
 
