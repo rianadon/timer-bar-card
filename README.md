@@ -281,8 +281,8 @@ Here's all the options you can use in the configuration. I recommend setting `de
 
 ```
 timeprop = { attribute: string, units: "duration"|"hours"|"minutes"|"seconds" = "duration" }
-         | { entity: string, units="duration" } | { state: any, units="duration" }
-         | { fixed: number, units="duration" } | { script: string }
+         | { entity: string, attribute?: string, units="duration" } | { script: string }
+         | { fixed: number, units="duration" } | { state: any, units="duration" }
 ```
 
 † requires a `start_time` attribute to calculate when in the future the timer will start. \
@@ -318,7 +318,7 @@ debug: true
 
 ##### 3. My duration comes from another entity
 
-Assume there's a duration slider with id `input_number.slider1`. The available units are the same ones as above.
+Assume there's a duration slider with id `input_number.slider1`. The available units are the same ones as above. You can also combine `entity` and `attribute` together if you need to fetch an attribute from a different entity!
 
 ```yaml
 type: custom:timer-bar-card

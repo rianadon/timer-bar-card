@@ -42,6 +42,7 @@ interface modsConfig extends styleConfig {
 
 type AttributeType =
   | { attribute: string }
+  | { entity: string, attribute: string }
   | { entity: string }
   | { state: any }
   | { fixed: number }
