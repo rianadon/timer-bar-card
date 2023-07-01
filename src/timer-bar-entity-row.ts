@@ -99,7 +99,11 @@ export class TimerBarEntityRow extends LitElement {
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
 
     let percent = 0;
-    if (state) percent = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
+    try {
+      if (state) percent = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
+    } catch (e) {
+      return html`<hui-warning>${e}</hui-warning>`;
+    }
     if (percent > 100) percent = 100;
 
     let activeConfig: TimerBarEntityConfig

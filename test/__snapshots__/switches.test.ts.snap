@@ -92,3 +92,30 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
 </timer-bar-card>
 "
 `;
+
+exports[`Switch with unavailable duration + end time: idle 1`] = `
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
+    <slot></slot>
+    <h1 class="card-header">
+      Timeis is off
+    </h1>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="input_boolean" data-state="off">…</ha-state-icon>
+          </state-badge>
+          <div class="info pointer" title="switch3">
+            switch3
+          </div>
+          <div class="pointer text-content value">
+            Off
+          </div>
+        </div>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;

@@ -10,9 +10,13 @@ input_number:
     max: 10
     initial: 5
 input_boolean:
-  ${multiply(2, (i) => `
+  ${multiply(3, (i) => `
   switch${i}:
 `)}
+template:
+  sensor:
+    name: uhoh
+    state: unavailable
 `;
 
 let hass: HomeAssistant<PlaywrightElement>;
@@ -62,3 +66,15 @@ it("Switch with input_number duration", async () => {
   await waitForTimerTime(dashboard.cards[1], "00:01:57");
   await expect(dashboard.cards[1]).toMatchDualSnapshot("2-minutes");
 });
+
+it("Switch with unavailable duration + end time", async () => {
+  const dashboard = await hass.Dashboard([{
+    name: "Timeis is off",
+    type: "custom:timer-bar-card",
+    entities: ["input_boolean.switch3"],
+    duration: { entity: "sensor.uhoh", "units": "minutes" },
+    end_time: { entity: "sensor.uhoh" },
+  }])
+  const card = dashboard.cards[0];
+  await expect(card).toMatchDualSnapshot("idle");
+})

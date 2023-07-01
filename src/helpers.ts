@@ -112,6 +112,11 @@ export const isState = (stateObj: HassEntity | undefined, checkState: string | s
   return checkState.includes(state);
 }
 
+function nullifyState(value: string) {
+  if (value == "unavailable") return null
+  return value
+}
+
 export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
   if (!attrib) throw new Error('One of duration, remain_time, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
@@ -119,9 +124,9 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Att
   if ('entity' in attrib) {
     // Two cases: entity + attribute or entity + state
     if ('attribute' in attrib) return hass.states[attrib.entity].attributes[attrib.attribute]
-    return hass.states[attrib.entity].state;
+    return nullifyState(hass.states[attrib.entity].state);
   }
-  if ('state' in attrib) return stateObj.state;
+  if ('state' in attrib) return nullifyState(stateObj.state);
   return stateObj.attributes[attrib.attribute];
 }
 
