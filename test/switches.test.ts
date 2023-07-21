@@ -10,7 +10,7 @@ input_number:
     max: 10
     initial: 5
 input_boolean:
-  ${multiply(3, (i) => `
+  ${multiply(4, (i) => `
   switch${i}:
 `)}
 template:
@@ -69,7 +69,7 @@ it("Switch with input_number duration", async () => {
 
 it("Switch with unavailable duration + end time", async () => {
   const dashboard = await hass.Dashboard([{
-    name: "Timeis is off",
+    name: "Timer is off",
     type: "custom:timer-bar-card",
     entities: ["input_boolean.switch3"],
     duration: { entity: "sensor.uhoh", "units": "minutes" },
@@ -77,4 +77,17 @@ it("Switch with unavailable duration + end time", async () => {
   }])
   const card = dashboard.cards[0];
   await expect(card).toMatchDualSnapshot("idle");
+})
+
+it("Switch with duration string", async () => {
+  const dashboard = await hass.Dashboard([{
+    name: "Timer is on",
+    type: "custom:timer-bar-card",
+    entities: ["input_boolean.switch4"],
+    duration: { fixed: "2 minutes", "units": "minutes" },
+  }])
+  const card = dashboard.cards[0];
+  await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch4" });
+  await waitForTimerTime(card, "00:01:58");
+  await expect(card).toMatchDualSnapshot("running");
 })

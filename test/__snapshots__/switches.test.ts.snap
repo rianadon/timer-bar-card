@@ -1,5 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Switch with duration string: running 1`] = `
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
+    <slot></slot>
+    <h1 class="card-header">
+      Timer is on
+    </h1>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+            <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
+          </state-badge>
+          <div class="info pointer" title="switch4">
+            switch4
+          </div>
+          <div class="bar-container pointer">
+            <div class="bar">
+              <div></div>
+            </div>
+          </div>
+          <div class="pointer text-content value">
+            1:58
+          </div>
+        </div>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
 exports[`Switch with fixed duration: running 1`] = `
 "<timer-bar-card hass="[object Object]">
   <ha-card raised="false">
@@ -98,7 +130,7 @@ exports[`Switch with unavailable duration + end time: idle 1`] = `
   <ha-card raised="false">
     <slot></slot>
     <h1 class="card-header">
-      Timeis is off
+      Timer is off
     </h1>
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">

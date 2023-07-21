@@ -135,7 +135,7 @@ const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attrib
   if (!duration) return duration;
 
   if (attrib!.units === 'hours' || attrib!.units === 'minutes' || attrib!.units === 'seconds') {
-    const numeric = Number(duration);
+    const numeric = parseFloat(duration);
     if (isNaN(numeric)) throw new Error(`Expected duration ${duration} to be a number since units is ${attrib!.units}`);
     if (attrib!.units == 'hours') return numeric * 3600;
     if (attrib!.units == 'minutes') return numeric * 60;
