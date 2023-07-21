@@ -22,6 +22,7 @@ const computeDarkMode = (hass: HomeAssistant|undefined) =>
 export function fillMushroomConfig(config: TimerBarEntityConfig, mushroom: Mushroom): TimerBarConfig {
   let color = 'var(--rgb-state-entity)'
   if (mushroom.icon_color) color = computeRgbColor(mushroom.icon_color)
+  if (mushroom.color) color = computeRgbColor(mushroom.color)
   return {
     ...fillConfig(config),
     bar_background: `rgba(${color}, 0.2)`,
@@ -97,8 +98,8 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     const icon = this.config.icon;
     const active = this._mode() == 'active'
     let style = ''
-    if (this.mushroom.icon_color) {
-      const iconRgbColor = computeRgbColor(this.mushroom.icon_color);
+    if (this.mushroom.icon_color || this.mushroom.color) {
+      const iconRgbColor = computeRgbColor(this.mushroom.color! || this.mushroom.icon_color!);
       style += `--icon-color:rgb(${iconRgbColor});`;
       style += `--shape-color:rgba(${iconRgbColor}, 0.2);`;
     }

@@ -90,6 +90,7 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
 }
 
 export interface Mushroom {
+  color?: string;
   icon_color?: string;
   layout?: string;
   fill_container?: string;

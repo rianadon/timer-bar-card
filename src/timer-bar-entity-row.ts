@@ -90,7 +90,7 @@ export class TimerBarEntityRow extends LitElement {
     }
   }
 
-  private _mode(): Mode {
+  protected _mode(): Mode {
     return findMode(this.hass!, this.config, this._browserClockCorrection);
   }
 
