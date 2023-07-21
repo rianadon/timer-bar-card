@@ -2,11 +2,11 @@
 import { html, CSSResultGroup, TemplateResult, css, nothing, PropertyValues } from 'lit';
 import { property } from "lit/decorators.js";
 
-import { computeDomain, computeRTL, HomeAssistant } from 'custom-card-helpers';
+import { computeRTL, HomeAssistant } from 'custom-card-helpers';
 import { HassEntity, Mushroom, TimerBarConfig, TimerBarEntityConfig } from './types';
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import { TimerBarEntityRow, fillConfig } from './timer-bar-entity-row';
-import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, isActive, domainIcon, computeRgbColor, computeInfoDisplay } from './lib/mushroom';
+import { defaultColorCss, defaultDarkColorCss, cardStyle, themeColorCss, themeVariables, computeRgbColor, computeInfoDisplay } from './lib/mushroom';
 
 const computeObjectId = (entityId: string): string =>
   entityId.substring(entityId.indexOf(".") + 1);
@@ -93,25 +93,18 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
                               stateStr, state, this.hass!) as TemplateResult;
   }
 
-  private _icon(stateObj: HassEntity) {
-    if (this.config.icon) return this.config.icon
-    if (stateObj.attributes.icon) return stateObj.attributes.icon;
-
-    const domain = computeDomain(stateObj.entity_id);
-    const state = stateObj.state;
-    return domainIcon(domain, stateObj, state);
-  }
-
   protected _renderIcon(stateObj: HassEntity): TemplateResult {
-    const icon = this._icon(stateObj);
-    const active = isActive(stateObj);
+    const icon = this.config.icon;
+    const active = this._mode() == 'active'
     let style = ''
     if (this.mushroom.icon_color) {
       const iconRgbColor = computeRgbColor(this.mushroom.icon_color);
       style += `--icon-color:rgb(${iconRgbColor});`;
       style += `--shape-color:rgba(${iconRgbColor}, 0.2);`;
     }
-    return html`<mushroom-shape-icon slot="icon" .disabled=${!active} .icon=${icon} style=${style}></mushroom-shape-icon>`;
+    return html`<mushroom-shape-icon slot="icon" .disabled=${!active} style=${style}>
+      <ha-state-icon .state=${stateObj} .icon=${icon}></ha-state-icon>
+    </mushroom-shape-icon>`;
   }
 
   protected _renderBadge(stateObj: HassEntity) {

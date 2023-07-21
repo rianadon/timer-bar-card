@@ -19,10 +19,11 @@ exports[`Basic mushroom: idle 1`] = `
               <slot name="info"></slot>
             </div>
           </div>
-          <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
-            <div class="shape">
-              <ha-icon icon="mdi:timer-outline">…</ha-icon>
+          <mushroom-shape-icon disabled="true" slot="icon">
+            <div class="disabled shape">
+              <slot></slot>
             </div>
+            <ha-state-icon>…</ha-state-icon>
           </mushroom-shape-icon>
           <div class="container" slot="info">
             <span class="primary">
@@ -61,10 +62,11 @@ exports[`Basic mushroom: paused 1`] = `
               <slot name="info"></slot>
             </div>
           </div>
-          <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
-            <div class="shape">
-              <ha-icon icon="mdi:timer-outline">…</ha-icon>
+          <mushroom-shape-icon disabled="true" slot="icon">
+            <div class="disabled shape">
+              <slot></slot>
             </div>
+            <ha-state-icon>…</ha-state-icon>
           </mushroom-shape-icon>
           <div class="container" slot="info">
             <span class="primary">
@@ -106,10 +108,11 @@ exports[`Basic mushroom: running 1`] = `
               <slot name="info"></slot>
             </div>
           </div>
-          <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
+          <mushroom-shape-icon disabled="false" slot="icon">
             <div class="shape">
-              <ha-icon icon="mdi:timer-outline">…</ha-icon>
+              <slot></slot>
             </div>
+            <ha-state-icon>…</ha-state-icon>
           </mushroom-shape-icon>
           <div class="container" slot="info">
             <span class="primary">
@@ -155,10 +158,11 @@ exports[`Mushroom customization: infos 1`] = `
                   <slot name="info"></slot>
                 </div>
               </div>
-              <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
-                <div class="shape">
-                  <ha-icon icon="mdi:timer-outline">…</ha-icon>
+              <mushroom-shape-icon disabled="true" slot="icon">
+                <div class="disabled shape">
+                  <slot></slot>
                 </div>
+                <ha-state-icon>…</ha-state-icon>
               </mushroom-shape-icon>
               <div class="container" slot="info">
                 <span class="primary">
@@ -187,10 +191,11 @@ exports[`Mushroom customization: infos 1`] = `
                   <slot name="info"></slot>
                 </div>
               </div>
-              <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
-                <div class="shape">
-                  <ha-icon icon="mdi:timer-outline">…</ha-icon>
+              <mushroom-shape-icon disabled="true" slot="icon">
+                <div class="disabled shape">
+                  <slot></slot>
                 </div>
+                <ha-state-icon>…</ha-state-icon>
               </mushroom-shape-icon>
               <div class="container" slot="info">
                 <span class="primary">
@@ -231,10 +236,11 @@ exports[`Vertical mushroom: idle 1`] = `
               <slot name="info"></slot>
             </div>
           </div>
-          <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
-            <div class="shape">
-              <ha-icon icon="mdi:timer-outline">…</ha-icon>
+          <mushroom-shape-icon disabled="true" slot="icon">
+            <div class="disabled shape">
+              <slot></slot>
             </div>
+            <ha-state-icon>…</ha-state-icon>
           </mushroom-shape-icon>
           <div class="container" slot="info">
             <span class="primary">
@@ -273,10 +279,11 @@ exports[`Vertical mushroom: paused 1`] = `
               <slot name="info"></slot>
             </div>
           </div>
-          <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
-            <div class="shape">
-              <ha-icon icon="mdi:timer-outline">…</ha-icon>
+          <mushroom-shape-icon disabled="true" slot="icon">
+            <div class="disabled shape">
+              <slot></slot>
             </div>
+            <ha-state-icon>…</ha-state-icon>
           </mushroom-shape-icon>
           <div class="container" slot="info">
             <span class="primary">
@@ -318,10 +325,11 @@ exports[`Vertical mushroom: running 1`] = `
               <slot name="info"></slot>
             </div>
           </div>
-          <mushroom-shape-icon disabled="false" icon="mdi:timer-outline" slot="icon">
+          <mushroom-shape-icon disabled="false" slot="icon">
             <div class="shape">
-              <ha-icon icon="mdi:timer-outline">…</ha-icon>
+              <slot></slot>
             </div>
+            <ha-state-icon>…</ha-state-icon>
           </mushroom-shape-icon>
           <div class="container" slot="info">
             <span class="primary">
