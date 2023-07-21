@@ -727,7 +727,7 @@ bar_direction: rtl
 bar_width: 60%
 mushroom:
   layout: vertical
-  icon_color: green
+  color: green
 ```
 
 </td></tr></table>
@@ -735,6 +735,7 @@ mushroom:
 You can also configure these Mushroom options:
 - `primary_info` and `secondary_info` can be any of `name`, `state`, `last-changed`, `last-updated`, or `none` to change the information shown on the card.
 - `icon_type` can be `icon` (default) or `none` (no icon).
+- `icon_color` sets both bar + icon color just like the `color` option. It's there to be consistent with the original Mushroom options.
 
 ## Manual installation
 
