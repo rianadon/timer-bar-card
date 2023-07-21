@@ -1,21 +1,9 @@
-import { LovelaceCardConfig } from "custom-card-helpers";
+import { HomeAssistant } from "custom-card-helpers";
 import { Info } from "./lib/mushroom";
 
 export type Mode = "active" | "pause" | "waiting" | "idle";
 
-export declare type HassEntity = {
-  entity_id: string;
-  state: string;
-  last_changed: string;
-  last_updated: string;
-  context: {
-    id: string;
-    user_id: string | null;
-  };
-  attributes: {
-    [key: string]: any;
-  };
-};
+export type HassEntity = HomeAssistant["states"][0]
 
 interface styleConfig {
   icon?: string;

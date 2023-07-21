@@ -1,15 +1,15 @@
 import { durationToSeconds } from "custom-card-helpers";
 import { HomeAssistant, HassCard, PlaywrightElement } from "hass-taste-test";
-import { entitiesColl } from "home-assistant-js-websocket";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { toMatchSnapshot } from "jest-snapshot";
 
 
 /** Retrieves entity state from Home Assistant */
 export async function getEntity(hass: HomeAssistant<any>, entity_id: string) {
-  const coll = entitiesColl(hass.ws as any);
-  await coll.refresh();
-  const state = coll.state[entity_id];
+  // const coll = entitiesColl(hass.ws as any);
+  // await coll.refresh();
+  // const state = coll.state[entity_id];
+  const state = (await hass.states())[entity_id]
   if (!state) throw new Error(`Entity ${entity_id} not found`);
   return state;
 }

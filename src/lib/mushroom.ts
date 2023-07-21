@@ -4,8 +4,8 @@
     Licensed under Apache 2.0
 */
 import { computeDomain, HomeAssistant } from 'custom-card-helpers';
-import { HassEntity } from 'home-assistant-js-websocket';
 import { css, html } from 'lit';
+import { HassEntity } from 'src/types';
 
 export const defaultColorCss = css`
     --default-red: 244, 67, 54;
