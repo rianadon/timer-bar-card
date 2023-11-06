@@ -73,7 +73,9 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
 | [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
 | [Miele]                           | *supported*          | [template entity required: see #62][#62]                 |
+| [Moonraker]                       | *supported*          | mutliple: see [#107] (thanks @user74656!)                |
 | [OctoPrint][octoprint]            | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
+| [PrusaLink]                       | *supported*          | start+end time, `guess_mode` [[#106]] (♡ @deadly667!)    |
 | [RainMachine]                     | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
 | [SmartThings]                     | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
 | [ThinQ washer/dryer]              | *supported*          | configure `duration` to `initial_time` [[#15]]           |
@@ -96,6 +98,8 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#67]: https://github.com/rianadon/timer-bar-card/issues/67
 [#70]: https://github.com/rianadon/timer-bar-card/issues/70#issuecomment-1439493141
 [#80]: https://github.com/rianadon/timer-bar-card/issues/80
+[#106]: https://github.com/rianadon/timer-bar-card/issues/106
+[#107]: https://github.com/rianadon/timer-bar-card/issues/107
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
@@ -112,6 +116,8 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Miele]: https://github.com/HomeAssistant-Mods/home-assistant-miele/
 [Cleverio Sous Vide (Tuya)]: https://www.home-assistant.io/integrations/tuya/
 [Daily Schedule]: https://github.com/amitfin/daily_schedule
+[PrusaLink]: https://www.home-assistant.io/integrations/prusalink/
+[Moonraker]: https://github.com/marcolivierarsenault/moonraker-home-assistant
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
@@ -255,8 +261,10 @@ The diagram above shows the minimal configuration you'll need to make the card s
 >
 > However, some integrations do update a *Remaining Time* attribute (or create an entity whose state is the *Remaining Time* and update its state every second). For these, you can use (*Remaining Time* + one of *Start Time*/*Duration* + *Guess Mode* or *Active State*) **or** (*Remaining Time* + *Active State*)
 
-<a href="https://my.home-assistant.io/redirect/developer_states/"><img align="left" src="https://my.home-assistant.io/badges/developer_states.svg"></a>
+<a href="https://my.home-assistant.io/redirect/developer_states/"><img align="left" src="https://my.home-assistant.io/badges/developer_states.svg" height="36"></a>
 The Developer Tools are a great resource for viewing states and attributes.
+
+<br>
 
 <img alt="Developer Tools Screenshot " src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/devtools.png" />
 
