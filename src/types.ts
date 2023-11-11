@@ -64,6 +64,7 @@ export interface TimerBarEntityConfig extends styleConfig {
   double_tap_action?: any;
   extend_paper_buttons_row?: any;
   resolution?: "seconds" | "minutes" | "automatic";
+  format?: string;
 }
 
 export interface TimerBarConfig extends TimerBarEntityConfig {

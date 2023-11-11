@@ -8,7 +8,7 @@ import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, fi
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 import { createActionHandler, createHandleAction } from './helpers-actions';
-import secondsToDuration from './lib/seconds-to-duration';
+import formatTime, { formatFromResolution } from './format-time';
 
 export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
@@ -171,10 +171,12 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   protected _renderTime(pointer: string) {
+    const format = this.modConfig.format ? this.modConfig.format
+      : formatFromResolution(this._timeRemaining || 0, this.modConfig.resolution!)
     return html`<div class="text-content value ${pointer}" style=${this._textStyle()}
       @action=${createHandleAction(this.hass!, this.config)}
       .actionHandler=${createActionHandler(this.config)}>
-      ${secondsToDuration(this._timeRemaining || 0, this.modConfig.resolution!)}
+      ${formatTime(this._timeRemaining || 0, format)}
     </div>`;
   }
 
