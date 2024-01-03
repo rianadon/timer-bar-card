@@ -18,4 +18,5 @@ type: custom:timer-bar-card
 ```
 
 **Caveats**
+
 This section is for you to tell me if there are any bugs with this configuration or weird problems you had getting it set up. If there were none, you can delete this section.
