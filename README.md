@@ -71,8 +71,9 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)     |
 | [Google Home Timer]               | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
+| [HomeWhiz] ‡                      | *supported*          | multiple: see [#121] (thanks @GigiPompieru)              |
 | [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
-| [Meater]                          | *supported*          | `active_state`, `end_time` [[#122]] (♡ Bascht74!)        |
+| [Meater]                          | *supported*          | `active_state`, `end_time` [[#122]] (♡ @Bascht74!)       |
 | [Miele]                           | *supported*          | [template entity required: see #62][#62]                 |
 | [Moonraker]                       | *supported*          | mutliple: see [#107] (thanks @user74656!)                |
 | [OctoPrint][octoprint]            | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
@@ -101,6 +102,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#80]: https://github.com/rianadon/timer-bar-card/issues/80
 [#106]: https://github.com/rianadon/timer-bar-card/issues/106
 [#107]: https://github.com/rianadon/timer-bar-card/issues/107
+[#121]: https://github.com/rianadon/timer-bar-card/issues/121
 [#122]: https://github.com/rianadon/timer-bar-card/issues/122
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
@@ -121,8 +123,10 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [PrusaLink]: https://www.home-assistant.io/integrations/prusalink/
 [Moonraker]: https://github.com/marcolivierarsenault/moonraker-home-assistant
 [Meater]: https://www.home-assistant.io/integrations/meater/
+[HomeWhiz]: https://github.com/home-assistant-HomeWhiz/home-assistant-HomeWhiz
 
-† *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
+† *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*\
+‡ *Devices connected through the HomeWhiz app: Beko, Grundig, and Arcelik brands*
 
 If your configuration isn't listed, follow the instructions in [Working with New Integrations](#-working-with-new-integrations). Once you configure it, I'd super appreciate if you [could submit an issue](https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md) with the integration's name and your configuration. You'll get a mention in this document and help others save time. 🌈
 
