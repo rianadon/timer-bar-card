@@ -72,6 +72,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Google Home Timer]               | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
 | [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
 | [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
+| [Meater]                          | *supported*          | `active_state`, `end_time` [[#122]] (♡ Bascht74!)        |
 | [Miele]                           | *supported*          | [template entity required: see #62][#62]                 |
 | [Moonraker]                       | *supported*          | mutliple: see [#107] (thanks @user74656!)                |
 | [OctoPrint][octoprint]            | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
@@ -100,6 +101,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#80]: https://github.com/rianadon/timer-bar-card/issues/80
 [#106]: https://github.com/rianadon/timer-bar-card/issues/106
 [#107]: https://github.com/rianadon/timer-bar-card/issues/107
+[#122]: https://github.com/rianadon/timer-bar-card/issues/122
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
@@ -118,6 +120,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Daily Schedule]: https://github.com/amitfin/daily_schedule
 [PrusaLink]: https://www.home-assistant.io/integrations/prusalink/
 [Moonraker]: https://github.com/marcolivierarsenault/moonraker-home-assistant
+[Meater]: https://www.home-assistant.io/integrations/meater/
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*
 
