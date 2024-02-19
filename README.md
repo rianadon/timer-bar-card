@@ -177,7 +177,9 @@ In this example, the switch's id is `switch.cat_toy` and the script's id is `scr
 
 The card is given two actions: clicking/tapping it will calll the script, and holding it will bring up the switch entity's information. The script uses the *Call Service* action to turn on and off the switch.
 
-> ⚠️ Make sure that if you're creating the script from the UI, you do not rename the delay action. The delay needs to have the duration in its name—this is how the card knows how long the timer is.
+> ⚠️ Make sure that if you're creating the script from the UI, you do not rename the delay action. The delay needs to have the duration at the end of its name (e.g. `delay action 0:01:12`)—this is how the card knows how long the timer is. You shouldn't need to rename the action in most cases, except if the duration is really small (sometimes the automatic name is `delay for 10 seconds` which does not parse).
+
+> The script's name is parsed because finding its true duration would require the card to independently access the Home Assistant API rather than using the shared state. I'm trying to keep this simple.
 
 Using a script has several advantages:
 - It does not interfere with manual operation of the switch.
@@ -397,8 +399,7 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 ### Customization
 
-<details>
-<summary>Expand: Optional properties to change icons, colors, and sizes.</summary>
+Optional properties to change icons, colors, and sizes.
 
 | Name           | Type    | Requirement  | Description                                                                                                | Default           |
 |----------------|---------|--------------|------------------------------------------------------------------------------------------------------------|-------------------|
@@ -416,17 +417,17 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 | bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
 | layout         | string  | **Optional** | Hide the name (`hide_name`) and (optionally icon—`full_row`)                                               | `normal`          |
 | resolution     | string  | **Optional** | Set to `seconds`, `minutes`, or `automatic` to switch between `h:m:s` and `h:m` formats.                   | `seconds`         |
+| format         | string  | **Optional** | Overrides resolution. [Set] to `hms`/`hm`/`d`/`h`/`m`/`s` or use string interpolation like `%m minutes`    | `hms`             |
 | modifications  | array   | **Optional** | Adjustments to make depending on percentage ([example](<#customize-appearance-based-on-timer-percentage>)) | -                 |
 | translations   | dict    | **Optional** | Mapping of substitutions for status text                                                                   |                   |
 
 † the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
 
-</details>
+[Set]: https://github.com/rianadon/timer-bar-card/blob/main/test/format-time.test.ts
 
 ### Card options
 
-<details>
-<summary>Expand: Customize the header and display of entities within the card. To use the card, <code>entities</code> must be defined.</summary>
+Customize the header and display of entities within the card. To use the card, <code>entities</code> must be defined.
 
  | Name             | Type    | Requirement  | Description                                             | Default |
  |------------------|---------|--------------|---------------------------------------------------------|---------|
@@ -439,8 +440,6 @@ Either `entity` or `entities` must be supplied. Use `entity` if you'd like to em
 
 † If you specify `header_entity`, the `name` option will no longer have any effect. \
 ‡ See the `secondary_info` parameter in the [entities documentation](<https://www.home-assistant.io/lovelace/entities/#secondary_info>) for a list of possible values.
-
-</details>
 
 ### Actions
 
@@ -641,6 +640,8 @@ entities:
       idle: Gas, gas, gas!
 ```
 
+P.S. If you'd like to change the text shown when the timer is active, then check out the `format` option!
+
 ### Use with Paper Buttons Row
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/button-row.png" width="474" height="91" />
@@ -749,6 +750,7 @@ mushroom:
 
 You can also configure these Mushroom options:
 - `primary_info` and `secondary_info` can be any of `name`, `state`, `last-changed`, `last-updated`, or `none` to change the information shown on the card.
+- You can also leave these unconfigured and alternatively display custom text by editing `name` (primary info) and `format` (secondary info). Combine with [templates](#use-templates-in-configuration) to mimic mushroom-template-card.
 - `icon_type` can be `icon` (default) or `none` (no icon).
 - `icon_color` sets both bar + icon color just like the `color` option. It's there to be consistent with the original Mushroom options.
 

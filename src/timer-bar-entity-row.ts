@@ -220,18 +220,27 @@ export class TimerBarEntityRow extends LitElement {
     if (!state) return html`<code>No state found</code>`;
 
     const auto_used = this.config.guess_mode ? 'used' : 'unused';
-    const remaining = timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection);
+    const remaining = this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) : undefined
     const warn_active = remaining && remaining > 0 && this._mode() != 'active';
 
     const stMode = stateMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
-    const aoMode = autoMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
+    let aoMode: string = 'err'
+    let duration: string = 'err'
+    let err: string = ''
+    try {
+      aoMode = autoMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
+      duration = findDuration(this.hass!, this.config, state)
+    } catch(e) {
+      err = 'Error calculating duration:' + e
+    }
     return html`<code>
       State: ${state.state} (state mode = ${stMode})<br>
       Mode: ${this._mode()} (auto mode = ${aoMode}, ${auto_used})<br>
-      Duration: ${findDuration(this.hass!, this.config, state)} second<br>
+      Duration: ${duration} second<br>
       Time remaining: ${remaining}<br>
       Counter: ${this._timeRemaining}<br>
       ${warn_active ? html`<b>Did you set active_state?</b>` : ''}
+      ${err ? err : ''}
       <small>Attr: ${JSON.stringify(state.attributes)}</small>
     </code>`;
   }
@@ -306,7 +315,7 @@ export class TimerBarEntityRow extends LitElement {
 
   private _calculateRemaining(stateObj: HassEntity): void {
     try {
-      this._timeRemaining = timerTimeRemaining(this.hass!, this.config, stateObj, this._browserClockCorrection);
+      this._timeRemaining = this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, stateObj, this._browserClockCorrection) : undefined;
       this._error = undefined;
     } catch (e) {
       console.error(e);
@@ -368,7 +377,7 @@ export class TimerBarEntityRow extends LitElement {
     if (!this.config.modifications) return this.config;
 
     const state = this.hass!.states[this.config.entity!];
-    const remaining = timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) ?? Infinity;
+    const remaining = (this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) : undefined) ?? Infinity;
     const elapsed = (findDuration(this.hass!, this.config, state) ?? 0) - remaining;
     const percentElapsed = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
     const percentRemaining = 100 - percentElapsed

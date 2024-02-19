@@ -47,17 +47,29 @@ const hmTime = (d: number) => {
 export default function formatTime(d: number, format: string) {
   if (format == 'hms') return hmsTime(d)
   if (format == 'hm') return hmTime(d)
+  if (format == 'd') return ''+Math.ceil(d / 24 / 3600)
   if (format == 'h') return ''+Math.ceil(d / 3600)
   if (format == 'm') return ''+Math.ceil(d / 60)
   if (format == 's') return ''+Math.ceil(d)
 
-  return format.replace(/%(\w+)/, (match, S) => {
-    const s = S.toLowerCase()
-    if (s.startsWith('hms')) return hmsTime(d) + s.substring(3)
-    if (s.startsWith('hm')) return hmTime(d) + s.substring(2)
-    if (s.startsWith('h')) return Math.ceil(d / 3600) + s.substring(1)
-    if (s.startsWith('m')) return Math.ceil(d / 60) + s.substring(1)
-    if (s.startsWith('s')) return Math.ceil(d) + s.substring(1)
+  return format.replace(/%(\w+)/g, (match, S) => {
+    const sl = S.toLowerCase()
+    if (sl.startsWith('hms')) return hmsTime(d) + S.substring(3)
+    if (sl.startsWith('hm')) return hmTime(d) + S.substring(2)
+    // 1 lowercase letter: ceil
+    if (S.startsWith('d')) return Math.ceil(d / 24 / 3600) + S.substring(1)
+    if (S.startsWith('h')) return Math.ceil(d / 3600) + S.substring(1)
+    if (S.startsWith('m')) return Math.ceil(d / 60) + S.substring(1)
+    if (S.startsWith('s')) return Math.ceil(d) + S.substring(1)
+    // 2 capital letter: pad + floor
+    if (S.startsWith('HH')) return leftPad(Math.floor((d % (3600 * 24)) / 3600)) + S.substring(2)
+    if (S.startsWith('MM')) return leftPad(Math.floor((d % 3600) / 60)) + S.substring(2)
+    if (S.startsWith('SS')) return leftPad(Math.floor(d % 60)) + S.substring(2)
+    // 1 capital letter: floor
+    if (S.startsWith('D')) return Math.floor(d / 24 / 3600) + S.substring(1)
+    if (S.startsWith('H')) return Math.floor((d % (3600 * 24)) / 3600) + S.substring(1)
+    if (S.startsWith('M')) return Math.floor((d % 3600) / 60) + S.substring(1)
+    if (S.startsWith('S')) return Math.floor(d % 60) + S.substring(1)
     return match
   })
 }

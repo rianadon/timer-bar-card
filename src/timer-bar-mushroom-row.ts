@@ -104,7 +104,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
       style += `--shape-color:rgba(${iconRgbColor}, 0.2);`;
     }
     return html`<mushroom-shape-icon slot="icon" .disabled=${!active} style=${style}>
-      <ha-state-icon .state=${stateObj} .icon=${icon}></ha-state-icon>
+      <ha-state-icon .hass=${this.hass} .stateObj=${stateObj} .state=${stateObj} .icon=${icon}></ha-state-icon>
     </mushroom-shape-icon>`;
   }
 

@@ -120,7 +120,10 @@ function nullifyState(value: string) {
 export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
   if (!attrib) throw new Error('One of duration, remain_time, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
-  if ('script' in attrib) return hass.states[attrib.script].attributes['last_action']?.split('delay ')[1];
+  if ('script' in attrib) {
+    const match = hass.states[attrib.script].attributes['last_action']?.match(/[\d:]+$/)
+    return match ? match[0] : undefined;
+  }
   if ('entity' in attrib) {
     // Two cases: entity + attribute or entity + state
     if ('attribute' in attrib) return hass.states[attrib.entity].attributes[attrib.attribute]
