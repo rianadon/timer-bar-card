@@ -19,6 +19,12 @@ const computeStateName = (stateObj: any): string =>
 const computeDarkMode = (hass: HomeAssistant|undefined) =>
   hass && !!(hass.themes as any).darkMode
 
+/** Style for outer timer bar card */
+export function mushroomStyle(mushroom: Mushroom) {
+  if (mushroom.fill_container) return 'height: 100%'
+  return
+}
+
 export function fillMushroomConfig(config: TimerBarEntityConfig, mushroom: Mushroom): TimerBarConfig {
   let color = 'var(--rgb-state-entity)'
   if (mushroom.icon_color) color = computeRgbColor(mushroom.icon_color)
@@ -65,7 +71,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
                                        this.localize(state, false), state, this.hass);
 
     return html`
-      <ha-card>
+      <ha-card class=${appearance.fill_container ? "fill-container": ""}>
         <mushroom-card ?rtl=${rtl} .appearance=${appearance}>
           <mushroom-state-item
           .appearance=${appearance}

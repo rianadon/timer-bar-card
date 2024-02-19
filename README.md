@@ -14,7 +14,7 @@ I've been really enjoying Paul Bottein's beautiful [Mushroom card collection](ht
 
 </td></tr></table>
 
-The card is also well tested. There are [23 tests](https://github.com/rianadon/timer-bar-card/tree/main/test), and they've helped me catch a few bugs already. 🐞
+The card is also well tested. There are [24 tests](https://github.com/rianadon/timer-bar-card/tree/main/test), and they've helped me catch a few bugs already. 🐞
 
 **You may also be interested in these other related but unaffiliated cards:**
 - @Gluwc's [Bar Card](https://github.com/custom-cards/bar-card) for numerical quantities or percentages
@@ -753,6 +753,7 @@ You can also configure these Mushroom options:
 - You can also leave these unconfigured and alternatively display custom text by editing `name` (primary info) and `format` (secondary info). Combine with [templates](#use-templates-in-configuration) to mimic mushroom-template-card.
 - `icon_type` can be `icon` (default) or `none` (no icon).
 - `icon_color` sets both bar + icon color just like the `color` option. It's there to be consistent with the original Mushroom options.
+- `fill_container` makes the card expand to the surrounding grid.
 
 ## Manual installation
 

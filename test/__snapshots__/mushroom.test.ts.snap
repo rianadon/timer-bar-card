@@ -217,6 +217,92 @@ exports[`Mushroom customization: infos 1`] = `
 "
 `;
 
+exports[`Mushroom fill_container: fill_container 1`] = `
+"<hui-grid-card _cards="[object HTMLElement],[object HTMLElement]" editMode="false" square="">
+  <div id="root">
+    <timer-bar-card hass="[object Object]">
+      <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+        <ha-card raised="false">
+          <slot></slot>
+          <mushroom-card appearance="[object Object]">
+            <div class="container">
+              <slot></slot>
+            </div>
+            <mushroom-state-item appearance="[object Object]">
+              <div class="container">
+                <div class="icon">
+                  <slot name="icon"></slot>
+                  <slot name="badge"></slot>
+                </div>
+                <div class="info">
+                  <slot name="info"></slot>
+                </div>
+              </div>
+              <mushroom-shape-icon disabled="true" slot="icon">
+                <div class="disabled shape">
+                  <slot></slot>
+                </div>
+                <ha-state-icon>…</ha-state-icon>
+              </mushroom-shape-icon>
+              <div class="container" slot="info">
+                <span class="primary">
+                  test4
+                </span>
+                <span class="default secondary">
+                  <div class="pointer text-content value">
+                    idle
+                  </div>
+                </span>
+              </div>
+            </mushroom-state-item>
+          </mushroom-card>
+        </ha-card>
+      </timer-bar-mushroom-row>
+    </timer-bar-card>
+    <timer-bar-card hass="[object Object]">
+      <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+        <ha-card class="fill-container" raised="false">
+          <slot></slot>
+          <mushroom-card appearance="[object Object]">
+            <div class="container">
+              <slot></slot>
+            </div>
+            <mushroom-state-item appearance="[object Object]">
+              <div class="container">
+                <div class="icon">
+                  <slot name="icon"></slot>
+                  <slot name="badge"></slot>
+                </div>
+                <div class="info">
+                  <slot name="info"></slot>
+                </div>
+              </div>
+              <mushroom-shape-icon disabled="true" slot="icon">
+                <div class="disabled shape">
+                  <slot></slot>
+                </div>
+                <ha-state-icon>…</ha-state-icon>
+              </mushroom-shape-icon>
+              <div class="container" slot="info">
+                <span class="primary">
+                  test4
+                </span>
+                <span class="default secondary">
+                  <div class="pointer text-content value">
+                    idle
+                  </div>
+                </span>
+              </div>
+            </mushroom-state-item>
+          </mushroom-card>
+        </ha-card>
+      </timer-bar-mushroom-row>
+    </timer-bar-card>
+  </div>
+</hui-grid-card>
+"
+`;
+
 exports[`Vertical mushroom: idle 1`] = `
 "<timer-bar-card hass="[object Object]">
   <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">

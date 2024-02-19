@@ -5,7 +5,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
-import { fillMushroomConfig, TimerBarMushroomRow } from './timer-bar-mushroom-row';
+import { fillMushroomConfig, TimerBarMushroomRow, mushroomStyle } from './timer-bar-mushroom-row';
 
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
 import { findMode, gatherEntitiesFromConfig, haveEntitiesChanged } from './helpers';
@@ -56,7 +56,8 @@ export class TimerBarCard extends LitElement {
 
     if (config.entity) {
       if ('mushroom' in config)
-        return html`<timer-bar-mushroom-row .config=${config} .mushroom=${config.mushroom??{}} .hass=${this.hass}></timer-bar-mushroom-row>`
+        return html`<timer-bar-mushroom-row .config=${config} .mushroom=${config.
+mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></timer-bar-mushroom-row>`
       else
         return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
     } else if (config.entities && !this._filteredEntities().length) {
