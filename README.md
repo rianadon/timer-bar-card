@@ -80,6 +80,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [PrusaLink]                       | *supported*          | start+end time, `guess_mode` [[#106]] (♡ @deadly667!)    |
 | [RainMachine]                     | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
 | [SmartThings]                     | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
+| [Tesla]                           | *supported*          | [template entity required: see #98][#98]                 |
 | [ThinQ washer/dryer]              | *supported*          | configure `duration` to `initial_time` [[#15]]           |
 | [ThinQ dishwasher]                | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
 | [Google Home Alarm]               | *not really [[#18]]* | template entity required                                 |
@@ -100,6 +101,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#67]: https://github.com/rianadon/timer-bar-card/issues/67
 [#70]: https://github.com/rianadon/timer-bar-card/issues/70#issuecomment-1439493141
 [#80]: https://github.com/rianadon/timer-bar-card/issues/80
+[#98]: https://github.com/rianadon/timer-bar-card/issues/98
 [#106]: https://github.com/rianadon/timer-bar-card/issues/106
 [#107]: https://github.com/rianadon/timer-bar-card/issues/107
 [#121]: https://github.com/rianadon/timer-bar-card/issues/121
@@ -124,6 +126,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Moonraker]: https://github.com/marcolivierarsenault/moonraker-home-assistant
 [Meater]: https://www.home-assistant.io/integrations/meater/
 [HomeWhiz]: https://github.com/home-assistant-HomeWhiz/home-assistant-HomeWhiz
+[Tesla]: https://github.com/alandtse/tesla
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*\
 ‡ *Devices connected through the HomeWhiz app: Beko, Grundig, and Arcelik brands*
