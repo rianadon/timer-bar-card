@@ -665,7 +665,7 @@ extend_paper_buttons_row:
 
 ### Use Templates in Configuration
 
-The card by itself does not support using templates to custimize the name and icon. However, using a plugin like the [Templatable Configuration Card](https://github.com/iantrich/config-template-card) or [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater), you can customize the name of entities, the icons, or any configuration option in the card.
+The card by itself does not support using templates to customize the name and icon. However, using a plugin like the [Templatable Configuration Card](https://github.com/iantrich/config-template-card) or [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater), you can customize the name of entities, the icons, or any configuration option in the card.
 
 I like the latter card since it uses the same templating format as Home Assistant, but the latest release (as of June 2023) with important fixes is still in beta and it takes longer to render the templates. This delays the rendering of the timer card enough to trigger the [alert about the time being out of sync](#sync-issues). Thefore, I recommend you use the [former card](https://github.com/iantrich/config-template-card) unless you do not have the time to learn its unique templating language.
 
