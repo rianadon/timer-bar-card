@@ -138,8 +138,8 @@ exports[`Basic mushroom: running 1`] = `
 `;
 
 exports[`Mushroom customization: infos 1`] = `
-"<hui-grid-card _cards="[object HTMLElement],[object HTMLElement]" editMode="false">
-  <div id="root">
+"<hui-grid-card editMode="false">
+  <div dir="ltr" id="root">
     <timer-bar-card hass="[object Object]">
       <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
         <ha-card raised="false">
@@ -218,8 +218,8 @@ exports[`Mushroom customization: infos 1`] = `
 `;
 
 exports[`Mushroom fill_container: fill_container 1`] = `
-"<hui-grid-card _cards="[object HTMLElement],[object HTMLElement]" editMode="false" square="">
-  <div id="root">
+"<hui-grid-card editMode="false" square="">
+  <div dir="ltr" id="root">
     <timer-bar-card hass="[object Object]">
       <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
         <ha-card raised="false">
