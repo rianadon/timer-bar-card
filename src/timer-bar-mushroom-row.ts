@@ -14,9 +14,9 @@ const computeObjectId = (entityId: string): string =>
 const computeStateName = (stateObj: any): string =>
   stateObj.attributes.friendly_name === undefined
     ? computeObjectId(stateObj.entity_id).replace(/_/g, " ")
-  : stateObj.attributes.friendly_name || "";
+    : stateObj.attributes.friendly_name || "";
 
-const computeDarkMode = (hass: HomeAssistant|undefined) =>
+const computeDarkMode = (hass: HomeAssistant | undefined) =>
   hass && !!(hass.themes as any).darkMode
 
 /** Style for outer timer bar card */
@@ -64,14 +64,14 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     const state = this.hass!.states[this.config.entity!];
     const name = config.name ?? computeStateName(state);
 
-    if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
+    if (this.modConfig.layout === 'hide_name') config = { ...config, name: '' };
 
     const appearance = this.appearance()
     const primary = computeInfoDisplay(appearance.primary_info, name,
-                                       this.localize(state, false), state, this.hass);
+      super._renderState(), state, this.hass);
 
     return html`
-      <ha-card class=${appearance.fill_container ? "fill-container": ""}>
+      <ha-card class=${appearance.fill_container ? "fill-container" : ""}>
         <mushroom-card ?rtl=${rtl} .appearance=${appearance}>
           <mushroom-state-item
           .appearance=${appearance}
@@ -92,12 +92,13 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
       </ha-card>`;
   }
 
-  protected _renderState(state: HassEntity) {
+  protected _renderState() {
+    const state = this.hass!.states[this.config.entity!];
     const name = this.config.name ?? computeStateName(state);
     const appearance = this.appearance()
-    const stateStr = this.localize(state, false)
+    const stateStr = super._renderState()
     return computeInfoDisplay(appearance.secondary_info, name,
-                              stateStr, state, this.hass!) as TemplateResult;
+      stateStr, state, this.hass!) as TemplateResult;
   }
 
   protected _renderIcon(stateObj: HassEntity): TemplateResult {
@@ -130,13 +131,13 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     };
   }
 
-  protected localize(state: HassEntity, _: boolean) {
-    return super.localize(state, false)
+  protected localize(value: string, state: HassEntity, _: boolean) {
+    return super.localize(value, state, false)
   }
 
   static get styles(): CSSResultGroup {
     return [super.styles,
-            css`
+    css`
             :host {
                 ${defaultColorCss}
             }
@@ -148,8 +149,8 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
                 ${themeVariables}
             }
         `,
-            cardStyle,
-            css`
+      cardStyle,
+    css`
                 mushroom-state-item {
                     cursor: pointer;
                 }
@@ -190,6 +191,6 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
             .bar { margin-top: 0; }
             .bar-container { flex-grow: 1 }
             .text-content { text-align: start; }
-        `, ];
-    }
+        `,];
+  }
 }

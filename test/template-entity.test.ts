@@ -65,3 +65,41 @@ it("Auto mode can guess the active/idle", async () => {
   await new Promise(r => setTimeout(r, 500)); // Give timer time to update
   expect(await element.$$eval(".bar", (els) => els.length)).toBe(1);
 });
+
+it("Can explicitly specify state", async () => {
+  const dashboard = await hass.Dashboard([{
+    type: "custom:timer-bar-card",
+    entities: [
+      {
+        name: "Active timer",
+        debug: true,
+        icon: "mdi:timer",
+        state: { fixed: "active" },
+        duration: { fixed: "0:01:00" },
+        remain_time: { fixed: "0:00:30" },
+      },
+      {
+        name: "Paused timer",
+        debug: true,
+        icon: "mdi:timer-lock",
+        state: { fixed: "paused" },
+        duration: { fixed: "0:01:00" },
+        remain_time: { fixed: "0:00:30" },
+      },
+      {
+        name: "Idle timer",
+        debug: true,
+        icon: "mdi:timer-off",
+        state: { fixed: "idle" },
+        duration: { fixed: "0:01:00" },
+        remain_time: { fixed: "0:00:30" },
+      }
+    ],
+  }]);
+  const card = dashboard.cards[0];
+  const element = await dashboard.cards[0].element();
+  await expect(card).toMatchDualSnapshot("all");
+  // The active timer should show a bar.
+  expect(await element.$$eval(".bar", (els) => els.length)).toBe(1);
+});
+

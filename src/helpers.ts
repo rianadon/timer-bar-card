@@ -38,7 +38,7 @@ export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, sta
 // (start + duration) OR (end + duration) OR (start + end)
 
 /** Find the duration of the timer. */
-export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
+export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined) {
   const duration = timeAttribute(hass, stateObj, config.duration);
   if (duration) return duration;
 
@@ -46,21 +46,22 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
   const end_time = attribute(hass, stateObj, config.end_time);
   if (start_time && end_time) return (Date.parse(end_time) - Date.parse(start_time)) / 1000;
 
+  if (!stateObj) throw new Error('If there is neither a duration nor start and end times, an entity is required.')
   if (end_time) return (Date.parse(end_time) - Date.parse(stateObj.last_changed)) / 1000;
 
   return null;
 }
 
 /** Calculate the most accurate estimate of time remaining for the timer. */
-export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity, correction: number): undefined | number => {
-  const madeActive = Date.parse(stateObj.last_changed);
+export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined, correction: number): undefined | number => {
+  const madeActive = stateObj && Date.parse(stateObj.last_changed);
 
-  if (stateObj.attributes.remaining) { // For Home Assistant timers
+  if (stateObj?.attributes.remaining) { // For Home Assistant timers
     let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
 
     if (isState(stateObj, config.active_state!, config)) {
       // Why timeRemaining and not duration?
-      timeRemaining = Math.max(timeRemaining - (now(correction) - madeActive) / 1000, 0);
+      timeRemaining = Math.max(timeRemaining - (now(correction) - madeActive!) / 1000, 0);
     }
     return timeRemaining;
   }
@@ -79,6 +80,7 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
   if (remain_time != undefined) {
     return remain_time
   }
+  if (!madeActive) throw new Error(`If you don't pass an entity, you must specify 2 time/duration properties`);
 
   // Final fallback: assume madeActive is the start time
   if (duration)
@@ -88,7 +90,7 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
 };
 
 /** Calculate what percent of the timer's duration has passed. */
-export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity, correction: number): undefined | number => {
+export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined, correction: number): undefined | number => {
   const remaining = timerTimeRemaining(hass, config, stateObj, correction);
   const duration = findDuration(hass, config, stateObj);
 
@@ -97,8 +99,9 @@ export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, st
   return (duration - Math.floor(remaining)) / duration * 100;
 };
 
-export const formatStartTime = (stateObj: HassEntity) => {
-  const start = new Date(stateObj.attributes.start_time);
+export const formatStartTime = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined) => {
+  const start_time = attribute(hass, stateObj, config.start_time);
+  const start = new Date(start_time);
 
   const lang = JSON.parse(localStorage.getItem('selectedLanguage') || '"en"') || 'en';
   return formatTime(start, lang);
@@ -117,7 +120,7 @@ function nullifyState(value: string) {
   return value
 }
 
-export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
+export const attribute = (hass: HomeAssistant, stateObj: HassEntity | undefined, attrib: AttributeConfig | undefined) => {
   if (!attrib) throw new Error('One of duration, remain_time, start_time, or end_time was not fully specified. Make sure you set entity, fixed, or attribute');
   if ('fixed' in attrib) return attrib.fixed;
   if ('script' in attrib) {
@@ -129,11 +132,13 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Att
     if ('attribute' in attrib) return hass.states[attrib.entity].attributes[attrib.attribute]
     return nullifyState(hass.states[attrib.entity].state);
   }
-  if ('state' in attrib) return nullifyState(stateObj.state);
+  if (!stateObj) return undefined;
+  // if (!stateObj) throw new Error(`Since there is no entity, ${JSON.stringify(attrib)} must specify fixed:.`);
+  if ('state' in attrib) return nullifyState(stateObj!.state);
   return stateObj.attributes[attrib.attribute];
 }
 
-const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig | undefined) => {
+const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity | undefined, attrib: AttributeConfig | undefined) => {
   const duration = attribute(hass, stateObj, attrib);
   if (!duration) return duration;
 
@@ -142,7 +147,7 @@ const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity, attrib: Attrib
     if (isNaN(numeric)) throw new Error(`Expected duration ${duration} to be a number since units is ${attrib!.units}`);
     if (attrib!.units == 'hours') return numeric * 3600;
     if (attrib!.units == 'minutes') return numeric * 60;
-    if (attrib!.units == 'seconds')  return numeric * 1;
+    if (attrib!.units == 'seconds') return numeric * 1;
   }
 
   return tryDurationToSeconds(duration, 'duration');
@@ -167,15 +172,16 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig, corr
 }
 
 export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode {
+  if (config.state?.fixed) return config.state?.fixed.replace('paused', 'pause') as Mode;
   const state = hass.states[config.entity!];
-  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state, correction)||0) > 0) return 'active';
+  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state, correction) || 0) > 0) return 'active';
   if (isState(state, config.pause_state!, config)) return 'pause';
   if (isState(state, config.waiting_state!, config)) return 'waiting';
   return 'idle';
 }
 
 export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode {
-  if (config.guess_mode) return autoMode(hass, config, correction)|| stateMode(hass, config, correction);
+  if (config.guess_mode) return autoMode(hass, config, correction) || stateMode(hass, config, correction);
   return stateMode(hass, config, correction);
 }
 
@@ -184,8 +190,8 @@ export function findMode(hass: HomeAssistant, config: TimerBarEntityConfig, corr
  **/
 export function gatherEntitiesFromConfig(config: TimerBarEntityConfig): string[] {
   const entities: string[] = []
-  const addMaybe = (s: string|undefined) => s && entities.push(s)
-  const addMaybeAttr = (c: AttributeConfig|undefined) => {
+  const addMaybe = (s: string | undefined) => s && entities.push(s)
+  const addMaybeAttr = (c: AttributeConfig | undefined) => {
     if (c && 'entity' in c) entities.push(c.entity)
     if (c && 'script' in c) entities.push(c.script)
   }

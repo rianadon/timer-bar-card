@@ -289,6 +289,7 @@ Here's all the options you can use in the configuration. I recommend setting `de
 | active_state    | string<br>/list | State(s) used to indicate a timer is running   | `active`, `on`, `manual`,<br>`program`, `once-program` |
 | pause_state     | string<br>/list | State(s) used to indicate a timer is paused    | `paused`                                               |
 | waiting_state   | string<br>/list | State(s) when a timer is scheduled for later † | `waiting`                                              |
+| state           | `{fixed: string}`| Explicitly specify a state without an entity. | -                                                      |
 | state_attribute | string          | Use an attribute when calculating the above.   | -                                                      |
 | guess_mode      | bool            | Attempt to guess mode=active. ‡                | `false`                                                |
 | start_time      | [*timeprop*]    | How the timer's start time is found            | `{attribute: start_time}`                              |
@@ -309,6 +310,12 @@ timeprop = { attribute: string, units: "duration"|"hours"|"minutes"|"seconds" = 
 ‡ `waiting_state` and `pause_state` will still have an effect, but the card will disregard `active_state` if it can guess the timer mode.
 
 To recap, set `active_state` to the state of your entity while the timer is running (usually all lowercase). If the state changes as the timer runs (for instance if the state is the number of seconds left in the timer), check if any of the attributes indicate whether the timer is running. If so, use `active_state` together with `state_attribute`, otherwise, set `guess_mode: true` and make sure you have two of `start_time`/`end_time`/`duration` set.
+
+#### Specifying timers without an entity
+
+For advanced usage, you can specify all properties of a timer directly, without using an entity.  In this case, the `entity` field is optional, and is only used to open the more-info popup when clicked.
+
+To do this, pass `{fixed: <value>}` for the `state` property and any 2 of the time/duration properties above.  This mode ignores the `*_state` fields; the `fixed:` value must be exactly `active`, `paused`, or `waiting`.
 
 #### Configuration of time properties (`start_time`, `end_time`, etc)
 
