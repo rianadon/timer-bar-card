@@ -36,6 +36,9 @@ jobs:
       - name: Install NPM Dependencies
         run: npm install
 
+      - name: Install playwright
+        run: npx playwright install --with-deps
+
       - name: Install Hass
         run: npx hass-taste-test
 
