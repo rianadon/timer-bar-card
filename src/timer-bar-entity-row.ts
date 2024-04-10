@@ -246,7 +246,7 @@ export class TimerBarEntityRow extends LitElement {
       Counter: ${this._timeRemaining}<br>
       ${warn_active ? html`<b>Did you set active_state?</b>` : ''}
       ${err ? err : ''}
-      ${state ? html`<small>Attr: ${JSON.stringify(state.attributes)}</small>` : ''}      
+      ${state ? html`<small>Attr: ${JSON.stringify(state.attributes)}</small>` : ''}
     </code>`;
   }
 

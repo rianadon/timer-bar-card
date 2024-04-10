@@ -69,7 +69,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
 | [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
 | [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)     |
-| [Google Home Timer]               | *supported*          | [template entity required][#19] (thanks @jazzyisj!)      |
+| [Google Home Timer]               | *supported*          | [auto-entities card][#140] or [template entity][#19]     |
 | [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
 | [HomeWhiz] ‡                      | *supported*          | multiple: see [#121] (thanks @GigiPompieru)              |
 | [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
@@ -106,6 +106,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#107]: https://github.com/rianadon/timer-bar-card/issues/107
 [#121]: https://github.com/rianadon/timer-bar-card/issues/121
 [#122]: https://github.com/rianadon/timer-bar-card/issues/122
+[#140]: https://github.com/rianadon/timer-bar-card/pull/140
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
