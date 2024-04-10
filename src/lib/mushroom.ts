@@ -41,22 +41,30 @@ export const themeVariables = css`
     --spacing: var(--mush-spacing, 12px);
 
     /* Title */
-    --title-padding: var(--mush-title-padding, 24px 12px 16px);
-    --title-spacing: var(--mush-title-spacing, 12px);
+    --title-padding: var(--mush-title-padding, 24px 12px 8px);
+    --title-spacing: var(--mush-title-spacing, 8px);
     --title-font-size: var(--mush-title-font-size, 24px);
     --title-font-weight: var(--mush-title-font-weight, normal);
-    --title-line-height: var(--mush-title-line-height, 1.2);
+    --title-line-height: var(--mush-title-line-height, 32px);
+    --title-color: var(--mush-title-color, var(--primary-text-color));
+    --title-letter-spacing: var(--mush-title-letter-spacing, -0.288px);
     --subtitle-font-size: var(--mush-subtitle-font-size, 16px);
     --subtitle-font-weight: var(--mush-subtitle-font-weight, normal);
-    --subtitle-line-height: var(--mush-subtitle-line-height, 1.2);
+    --subtitle-line-height: var(--mush-subtitle-line-height, 24px);
+    --subtitle-color: var(--mush-subtitle-color, var(--secondary-text-color));
+    --subtitle-letter-spacing: var(--mush-subtitle-letter-spacing, 0px);
 
     /* Card */
     --card-primary-font-size: var(--mush-card-primary-font-size, 14px);
     --card-secondary-font-size: var(--mush-card-secondary-font-size, 12px);
-    --card-primary-font-weight: var(--mush-card-primary-font-weight, bold);
-    --card-secondary-font-weight: var(--mush-card-secondary-font-weight, bolder);
-    --card-primary-line-height: var(--mush-card-primary-line-height, 1.5);
-    --card-secondary-line-height: var(--mush-card-secondary-line-height, 1.5);
+    --card-primary-font-weight: var(--mush-card-primary-font-weight, 500);
+    --card-secondary-font-weight: var(--mush-card-secondary-font-weight, 400);
+    --card-primary-line-height: var(--mush-card-primary-line-height, 20px);
+    --card-secondary-line-height: var(--mush-card-secondary-line-height, 16px);
+    --card-primary-color: var(--mush-card-primary-color, var(--primary-text-color));
+    --card-secondary-color: var(--mush-card-secondary-color, var(--primary-text-color));
+    --card-primary-letter-spacing: var(--mush-card-primary-letter-spacing, 0.1px);
+    --card-secondary-letter-spacing: var(--mush-card-secondary-letter-spacing, 0.4px);
 
     /* Chips */
     --chip-spacing: var(--mush-chip-spacing, 8px);
@@ -80,7 +88,7 @@ export const themeVariables = css`
     );
     /* Controls */
     --control-border-radius: var(--mush-control-border-radius, 12px);
-    --control-height: var(--mush-control-height, 42px);
+    --control-height: var(--mush-control-height, 40px);
     --control-button-ratio: var(--mush-control-button-ratio, 1);
     --control-icon-size: var(--mush-control-icon-size, 0.5em);
 
@@ -100,9 +108,10 @@ export const themeVariables = css`
 
     /* Icon */
     --icon-border-radius: var(--mush-icon-border-radius, 50%);
-    --icon-size: var(--mush-icon-size, 42px);
-    --icon-symbol-size: var(--mush-icon-symbol-size, 0.5em);
+    --icon-size: var(--mush-icon-size, 40px);
+    --icon-symbol-size: var(--mush-icon-symbol-size, 0.6em);
 `;
+
 
 export const themeColorCss = css`
     /* RGB */
@@ -124,7 +133,9 @@ export const themeColorCss = css`
     --rgb-orange: var(--mush-rgb-orange, var(--default-orange));
     --rgb-deep-orange: var(--mush-rgb-deep-orange, var(--default-deep-orange));
     --rgb-brown: var(--mush-rgb-brown, var(--default-brown));
+    --rgb-light-grey: var(--mush-rgb-light-grey, var(--default-light-grey));
     --rgb-grey: var(--mush-rgb-grey, var(--default-grey));
+    --rgb-dark-grey: var(--mush-rgb-dark-grey, var(--default-dark-grey));
     --rgb-blue-grey: var(--mush-rgb-blue-grey, var(--default-blue-grey));
     --rgb-black: var(--mush-rgb-black, var(--default-black));
     --rgb-white: var(--mush-rgb-white, var(--default-white));
@@ -192,6 +203,12 @@ export const cardStyle = css`
         height: auto;
     }
     ha-card.fill-container {
+        height: 100%;
+    }
+    :host([in-grid]) ha-card {
+        height: 100%;
+    }
+    :host([in-grid]) ha-card mushroom-card {
         height: 100%;
     }
     .actions {
