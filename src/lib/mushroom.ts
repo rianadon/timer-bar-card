@@ -4,7 +4,7 @@
     Licensed under Apache 2.0
 */
 import { computeDomain, HomeAssistant } from 'custom-card-helpers';
-import { css, html } from 'lit';
+import { css, html, TemplateResult } from 'lit';
 import { HassEntity } from 'src/types';
 
 export const defaultColorCss = css`
@@ -240,30 +240,30 @@ export function isActive(stateObj: HassEntity) {
     const state = stateObj.state;
 
     if (["button", "input_button", "scene"].includes(domain)) {
-      return state !== UNAVAILABLE;
+        return state !== UNAVAILABLE;
     }
 
     if (OFF_STATES.includes(state)) {
-      return false;
+        return false;
     }
 
     // Custom cases
     switch (domain) {
-      case "cover":
-        return !["closed", "closing"].includes(state);
-      case "device_tracker":
-      case "person":
-        return state !== "not_home";
-      case "media_player":
-        return state !== "standby";
-      case "vacuum":
-        return !["idle", "docked", "paused"].includes(state);
-      case "plant":
-        return state === "problem";
-      default:
-        return true;
+        case "cover":
+            return !["closed", "closing"].includes(state);
+        case "device_tracker":
+        case "person":
+            return state !== "not_home";
+        case "media_player":
+            return state !== "standby";
+        case "vacuum":
+            return !["idle", "docked", "paused"].includes(state);
+        case "plant":
+            return state === "problem";
+        default:
+            return true;
     }
-  }
+}
 
 
 export const COLORS = [
@@ -330,7 +330,7 @@ export function isUnknown(stateObj: HassEntity) {
 export function computeInfoDisplay(
     info: Info,
     name: string,
-    state: string,
+    state: string | TemplateResult,
     stateObj: HassEntity,
     hass: HomeAssistant
 ) {

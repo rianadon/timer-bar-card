@@ -89,7 +89,7 @@ it("Mushroom fill_container", async () => {
       mushroom: {
         fill_container: false
       }
-    },{
+    }, {
       type: "custom:timer-bar-card",
       entity: "timer.test4",
       mushroom: {

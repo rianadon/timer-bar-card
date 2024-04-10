@@ -20,8 +20,8 @@ const computeStateName = (stateObj: any): string =>
 function createPaperButtons(pbConfig: any, position: string) {
   if (!pbConfig || pbConfig.position != position) return '';
   const paperButtons = createEntityRow({
-      type: "custom:paper-buttons-row",
-      ...pbConfig
+    type: "custom:paper-buttons-row",
+    ...pbConfig
   });
   provideHass(paperButtons);
   return paperButtons;
@@ -30,7 +30,7 @@ function createPaperButtons(pbConfig: any, position: string) {
 export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant, config?: TimerBarEntityConfig): TemplateResult {
   if (!hass || !config) return html``;
   const stateObj = config.entity ? hass.states[config.entity] : undefined;
-  if (!stateObj) return html`<hui-warning>Entity ${config.entity} not found</hui-warning>`;
+  if (!stateObj && !config.name && !config.state) return html`<hui-warning>Entity ${config.entity} not found.  To use without an entity, specify name and state.</hui-warning>`;
 
   const name = config.name ?? computeStateName(stateObj);
 

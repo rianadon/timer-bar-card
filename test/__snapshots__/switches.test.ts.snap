@@ -10,7 +10,7 @@ exports[`Switch with duration string: running 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="switch4">
@@ -39,7 +39,7 @@ exports[`Switch with fixed duration: running 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="switch1">
@@ -71,7 +71,7 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="switch2">
@@ -103,7 +103,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="switch2">
@@ -135,7 +135,7 @@ exports[`Switch with unavailable duration + end time: idle 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="input_boolean" data-state="off">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="switch3">

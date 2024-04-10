@@ -49,7 +49,7 @@ function tryTranslate(hass: HomeAssistant, state: string) {
   return;
 }
 
-function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations, capitalize=true) {
+function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations, capitalize = true) {
   if (!state) return '';
   if (translations && translations[state]) return translations[state];
   if (stateObj) {
@@ -82,11 +82,9 @@ export class TimerBarEntityRow extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
-    if (this.config && this.config.entity) {
-      const stateObj = this.hass?.states[this.config!.entity];
-      if (stateObj) {
-        this._startInterval(stateObj);
-      }
+    if (this.config) {
+      const stateObj = this.hass?.states[this.config!.entity!];
+      this._startInterval(stateObj);
     }
   }
 
@@ -95,12 +93,12 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   protected render(): TemplateResult | void {
-    const state = this.hass!.states[this.config.entity!];
+    const state: HassEntity | undefined = this.hass!.states[this.config.entity!];
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
 
     let percent = 0;
     try {
-      if (state) percent = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
+      percent = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
     } catch (e) {
       return html`<hui-warning>${e}</hui-warning>`;
     }
@@ -121,48 +119,50 @@ export class TimerBarEntityRow extends LitElement {
 
     switch (this._mode()) {
       case 'active':
-      return this._renderRow(activeConfig, html`
+        return this._renderRow(activeConfig, html`
         ${this._renderBar(percent)}
         ${this._renderTime(pointer)}
       `);
 
       case 'pause':
-      return this._renderRow(activeConfig, html`
+        return this._renderRow(activeConfig, html`
         ${this._renderStatus(pointer, '')}
         ${this._renderTime(pointer)}
       `);
 
       case 'waiting':
-      return this._renderRow(this.modConfig, html`
-        ${this._renderStatus(pointer, formatStartTime(state))}
+        return this._renderRow(this.modConfig, html`
+        ${this._renderStatus(pointer, formatStartTime(this.hass!, this.config, state))}
       `);
 
       default:
-      const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
-      const style = textHidden ? 'visibility: hidden' : '';
-      return this._renderRow(this.modConfig, html`
+        const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
+        const style = textHidden ? 'visibility: hidden' : '';
+        return this._renderRow(this.modConfig, html`
         <div class="text-content value ${pointer}" style=${style}
         @action=${createHandleAction(this.hass!, this.config)}
        .actionHandler=${createActionHandler(this.config)}
-        >${this._renderState(state)}</div>
+        >${this._renderState()}</div>
       `);
     }
   }
 
-  protected _renderState(state: HassEntity): TemplateResult {
-    return html`${this.localize(state)}`
+  protected _renderState(): string | TemplateResult {
+    const state = this.hass!.states[this.config.entity!];
+    const value = this.config.state?.fixed.replace(/^pause$/, 'paused') ?? state.state;
+    return this.localize(value, state)
   }
 
-  protected localize(state: HassEntity, capitalize=true) {
-    return localize(this.hass!, state?.state, state, this.config.translations, capitalize)
+  protected localize(value: string, state: HassEntity, capitalize = true) {
+    return localize(this.hass!, value, state, this.config.translations, capitalize)
   }
 
   protected _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     const warning = this._warning ? html`<hui-warning>${this._warning}</hui-warning>` : '';
 
     if (this.modConfig.full_row || this.modConfig.layout === 'full_row')
-      return html`${warning}<div class="flex" @action=${createHandleAction(this.hass!, config)} .actionHandler=${createActionHandler (config)}> ${contents}</div>${this._renderDebug()}`;
-    if (this.modConfig.layout === 'hide_name') config = {...config, name: ''};
+      return html`${warning}<div class="flex" @action=${createHandleAction(this.hass!, config)} .actionHandler=${createActionHandler(config)}> ${contents}</div>${this._renderDebug()}`;
+    if (this.modConfig.layout === 'hide_name') config = { ...config, name: '' };
     return html`
       ${warning}
       ${genericEntityRow(contents, this.hass, config)}
@@ -180,13 +180,14 @@ export class TimerBarEntityRow extends LitElement {
     </div>`;
   }
 
-  protected _renderStatus(pointer: string, content: TemplateResult|string) {
+  protected _renderStatus(pointer: string, content: TemplateResult | string) {
     const state = this.hass!.states[this.config.entity!];
+    const value = this.config.state?.fixed ?? state.state;
     return html`
       <div class="status ${pointer}" style=${this._statusStyle(!!content)}
         @action=${createHandleAction(this.hass!, this.config)}
         .actionHandler=${createActionHandler(this.config)}>
-      ${this.localize(state)}
+      ${this._renderState()}
       ${content}
     </div>`;
   }
@@ -203,7 +204,7 @@ export class TimerBarEntityRow extends LitElement {
     if (this.modConfig.layout === 'hide_name') style = { ...style, 'flex-grow': '1', 'margin-left': '8px' };
     const containerStyle = styleMap(style);
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
-    const fgStyle = this._barStyle(percent+"%", this.modConfig.bar_foreground!);
+    const fgStyle = this._barStyle(percent + "%", this.modConfig.bar_foreground!);
     const pointer = this.config.tap_action?.action !== "none" ? "pointer" : "";
     return html`<div class="bar-container ${pointer}" style=${containerStyle}
       @action=${createHandleAction(this.hass!, this.config)}
@@ -217,31 +218,35 @@ export class TimerBarEntityRow extends LitElement {
   protected _renderDebug() {
     if (!this.config.debug) return undefined;
     const state = this.hass!.states[this.config.entity!];
-    if (!state) return html`<code>No state found</code>`;
 
-    const auto_used = this.config.guess_mode ? 'used' : 'unused';
-    const remaining = this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) : undefined
-    const warn_active = remaining && remaining > 0 && this._mode() != 'active';
-
-    const stMode = stateMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
+    let stMode: string = 'err'
+    let guess_mode: string = 'err'
+    let remaining: number | undefined
+    let warn_active = false
     let aoMode: string = 'err'
     let duration: string = 'err'
     let err: string = ''
+
     try {
+      guess_mode = this.config.guess_mode ? 'guessed' : 'explicit';
+      remaining = this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) : undefined
+      warn_active = !!remaining && remaining > 0 && this._mode() != 'active';
+
+      stMode = stateMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
       aoMode = autoMode(this.hass!, this.config, this._browserClockCorrection) || 'N/A';
       duration = findDuration(this.hass!, this.config, state)
-    } catch(e) {
+    } catch (e) {
       err = 'Error calculating duration:' + e
     }
     return html`<code>
-      State: ${state.state} (state mode = ${stMode})<br>
-      Mode: ${this._mode()} (auto mode = ${aoMode}, ${auto_used})<br>
+      State: ${state?.state ?? 'No entity specified'} (state mode = ${stMode})<br>
+      Mode: ${this._mode()} (${guess_mode}; guess mode produces ${aoMode})<br>
       Duration: ${duration} second<br>
       Time remaining: ${remaining}<br>
       Counter: ${this._timeRemaining}<br>
       ${warn_active ? html`<b>Did you set active_state?</b>` : ''}
       ${err ? err : ''}
-      <small>Attr: ${JSON.stringify(state.attributes)}</small>
+      ${state ? html`<small>Attr: ${JSON.stringify(state.attributes)}</small>` : ''}      
     </code>`;
   }
 
@@ -286,11 +291,7 @@ export class TimerBarEntityRow extends LitElement {
 
     if (changedProps.has("hass")) {
       const stateObj = this.hass!.states[this.config!.entity!];
-      if (!stateObj) {
-        this._clearInterval();
-      } else {
-        this._startInterval(stateObj);
-      }
+      this._startInterval(stateObj);
     }
   }
 
@@ -301,7 +302,7 @@ export class TimerBarEntityRow extends LitElement {
     }
   }
 
-  private _startInterval(stateObj: HassEntity): void {
+  private _startInterval(stateObj: HassEntity | undefined): void {
     this._clearInterval();
     this._calculateRemaining(stateObj);
 
@@ -313,7 +314,7 @@ export class TimerBarEntityRow extends LitElement {
     }
   }
 
-  private _calculateRemaining(stateObj: HassEntity): void {
+  private _calculateRemaining(stateObj: HassEntity | undefined): void {
     try {
       this._timeRemaining = this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, stateObj, this._browserClockCorrection) : undefined;
       this._error = undefined;
@@ -376,7 +377,7 @@ export class TimerBarEntityRow extends LitElement {
   protected get modConfig(): TimerBarEntityConfig {
     if (!this.config.modifications) return this.config;
 
-    const state = this.hass!.states[this.config.entity!];
+    const state: HassEntity | undefined = this.hass!.states[this.config.entity!];
     const remaining = (this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) : undefined) ?? Infinity;
     const elapsed = (findDuration(this.hass!, this.config, state) ?? 0) - remaining;
     const percentElapsed = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;

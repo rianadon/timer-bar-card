@@ -1,10 +1,147 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Can explicitly specify state: all 1`] = `
+"<timer-bar-card hass="[object Object]">
+  <ha-card raised="false">
+    <slot></slot>
+    <div class="card-content">
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge class="pointer" icon="true" overrideIcon="mdi:timer" tabindex="0">
+            <ha-state-icon icon="mdi:timer">…</ha-state-icon>
+          </state-badge>
+          <div class="info pointer" title="Active timer">
+            Active timer
+          </div>
+          <div class="bar-container pointer">
+            <div class="bar">
+              <div></div>
+            </div>
+          </div>
+          <div class="pointer text-content value">
+            30
+          </div>
+        </div>
+        <code>
+          State:
+          No entity specified
+          (state mode =
+          active
+          )
+          <br>
+          Mode:
+          active
+          (
+          explicit
+          ; guess mode produces
+          N/A
+          )
+          <br>
+          Duration:
+          60
+          second
+          <br>
+          Time remaining:
+          30
+          <br>
+          Counter:
+          30
+          <br>
+        </code>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge class="pointer" icon="true" overrideIcon="mdi:timer-lock" tabindex="0">
+            <ha-state-icon icon="mdi:timer-lock">…</ha-state-icon>
+          </state-badge>
+          <div class="info pointer" title="Paused timer">
+            Paused timer
+          </div>
+          <div class="pointer status">
+            Paused
+          </div>
+          <div class="pointer text-content value">
+            30
+          </div>
+        </div>
+        <code>
+          State:
+          No entity specified
+          (state mode =
+          pause
+          )
+          <br>
+          Mode:
+          pause
+          (
+          explicit
+          ; guess mode produces
+          N/A
+          )
+          <br>
+          Duration:
+          60
+          second
+          <br>
+          Time remaining:
+          30
+          <br>
+          Counter:
+          30
+          <br>
+          <b>
+            Did you set active_state?
+          </b>
+        </code>
+      </timer-bar-entity-row>
+      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <div class="generic-entity-row">
+          <state-badge class="pointer" icon="true" overrideIcon="mdi:timer-off" tabindex="0">
+            <ha-state-icon icon="mdi:timer-off">…</ha-state-icon>
+          </state-badge>
+          <div class="info pointer" title="Idle timer">
+            Idle timer
+          </div>
+          <div class="pointer text-content value">
+            Idle
+          </div>
+        </div>
+        <code>
+          State:
+          No entity specified
+          (state mode =
+          idle
+          )
+          <br>
+          Mode:
+          idle
+          (
+          explicit
+          ; guess mode produces
+          N/A
+          )
+          <br>
+          Duration:
+          60
+          second
+          <br>
+          Time remaining:
+          <br>
+          Counter:
+          <br>
+        </code>
+      </timer-bar-entity-row>
+    </div>
+  </ha-card>
+</timer-bar-card>
+"
+`;
+
 exports[`Custom entity can pause: idle 1`] = `
 "<timer-bar-card hass="[object Object]">
   <timer-bar-entity-row config="[object Object]" hass="[object Object]">
     <div class="generic-entity-row">
-      <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+      <state-badge class="pointer" icon="true" tabindex="0">
         <ha-state-icon data-domain="sensor" data-state="idle">…</ha-state-icon>
       </state-badge>
       <div class="info pointer" title="Fancy timer">
@@ -23,7 +160,7 @@ exports[`Custom entity can pause: paused 1`] = `
 "<timer-bar-card hass="[object Object]">
   <timer-bar-entity-row config="[object Object]" hass="[object Object]">
     <div class="generic-entity-row">
-      <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+      <state-badge class="pointer" icon="true" tabindex="0">
         <ha-state-icon data-domain="sensor" data-state="paused">…</ha-state-icon>
       </state-badge>
       <div class="info pointer" title="Fancy timer">
@@ -45,7 +182,7 @@ exports[`Custom entity can pause: running 1`] = `
 "<timer-bar-card hass="[object Object]">
   <timer-bar-entity-row config="[object Object]" hass="[object Object]">
     <div class="generic-entity-row">
-      <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+      <state-badge class="pointer" icon="true" tabindex="0">
         <ha-state-icon data-domain="sensor" data-state="active">…</ha-state-icon>
       </state-badge>
       <div class="info pointer" title="Fancy timer">

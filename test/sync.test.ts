@@ -40,7 +40,7 @@ async function setupTest(offset: number, sync_issues?: string) {
   const entity = `timer.test${++testNumber}`
   const dashboard = await hass.Dashboard([
     { type: "custom:timer-bar-card", entity, sync_issues, debug: true },
-  ], { title: String(offset)});
+  ], { title: String(offset) });
 
   const page = (dashboard.page as PlaywrightPage).playwright;
   await page.waitForFunction(() => (window as any).offset != 0); // Wait for offset to update

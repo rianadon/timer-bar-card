@@ -7,7 +7,7 @@ exports[`Colors and icons: running 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="test2">
@@ -36,7 +36,7 @@ exports[`Receding progress bar: running 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="test3">
@@ -68,7 +68,7 @@ exports[`Widths: idle 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="test1">
@@ -95,7 +95,7 @@ exports[`Widths: running 1`] = `
     <div class="card-content">
       <timer-bar-entity-row config="[object Object]" hass="[object Object]">
         <div class="generic-entity-row">
-          <state-badge _showIcon="true" class="pointer" stateObj="[object Object]" tabindex="0">
+          <state-badge class="pointer" icon="true" tabindex="0">
             <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
           </state-badge>
           <div class="info pointer" title="test1">
