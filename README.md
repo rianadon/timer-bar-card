@@ -66,7 +66,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Sun]                             | *supported*          | [See the example](#sun)                                  |
 | [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊 ([example][opensprinkler-example])                |
 | [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
-| [BambuLab]                        | *supported*          | `active_state`, `end_time` [[#143]] (♡ @andrewtimosca)   |
+| [Bambu Lab]                       | *supported*          | `active_state`, `end_time` [[#143]] (♡ @andrewtimosca)   |
 | [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
 | [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
 | [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)     |
@@ -130,7 +130,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Meater]: https://www.home-assistant.io/integrations/meater/
 [HomeWhiz]: https://github.com/home-assistant-HomeWhiz/home-assistant-HomeWhiz
 [Tesla]: https://github.com/alandtse/tesla
-[BambuLab]: https://github.com/greghesp/ha-bambulab
+[Bambu Lab]: https://github.com/greghesp/ha-bambulab
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*\
 ‡ *Devices connected through the HomeWhiz app: Beko, Grundig, and Arcelik brands*
