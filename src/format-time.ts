@@ -33,12 +33,14 @@ function joinWithColons(h: number, m: number, s: number): string {
   return "" + s;
 }
 const hmsTime = (d: number) => {
+  if (d < 0) return '-' + hmsTime(-d);
   const h = Math.floor(d / 3600);
   const m = Math.floor((d % 3600) / 60);
   const s = Math.floor((d % 3600) % 60);
   return joinWithColons(h, m, s);
 }
 const hmTime = (d: number) => {
+  if (d < 0) return '-' + hmTime(-d);
   const h = Math.floor(d / 3600);
   const m = Math.ceil((d % 3600) / 60); // Round up the minutes (#86)
   return joinWithColons(0, h, m);
