@@ -28,6 +28,10 @@ it("Can render longer times", () => {
     expect(formatTime(d, 's')).toBe('100')
     expect(formatTime(d, 'the time is %hms!')).toBe('the time is 1:40!')
     expect(formatTime(d, 'the time is %hm!')).toBe('the time is 2!')
+
+    expect(formatTime(-d, 'hms')).toBe('-1:40')
+    expect(formatTime(-d, 'hm')).toBe('-1')
+    expect(formatTime(-d, 'd')).toBe('0')
 });
 
 it("Can render long times", () => {
@@ -43,4 +47,19 @@ it("Can render long times", () => {
     expect(formatTime(d, 'the time is %s seconds')).toBe('the time is 10000 seconds')
     expect(formatTime(d, 'the time is %D:%H:%M:%S')).toBe('the time is 0:2:46:40')
     expect(formatTime(d, 'the time is %D:%HH:%MM:%SS')).toBe('the time is 0:02:46:40')
+
+    expect(formatTime(-d, 'hms')).toBe('-2:46:40')
+    expect(formatTime(-d, 'hm')).toBe('-2:46')
+    expect(formatTime(-d, 'h')).toBe('-2')
+    expect(formatTime(-d, 'm')).toBe('-166')
+    expect(formatTime(-d, 'the time is %d days')).toBe('the time is 0 days')
+    expect(formatTime(-d, 'the time is %m minutes')).toBe('the time is -166 minutes')
+    expect(formatTime(-d, 'the time is %D:%HH:%MM:%SS')).toBe('the time is -0:02:46:40')
+    expect(formatTime(-d, 'the time is %H:%MM:%SS')).toBe('the time is -2:46:40')
+});
+
+it('can render negative times', () => {
+    expect(formatTime(-30, 'hms')).toBe('-30')
+    expect(formatTime(-60, 'hms')).toBe('-1:00')
+    expect(formatTime(-90, 'hms')).toBe('-1:30')
 });
