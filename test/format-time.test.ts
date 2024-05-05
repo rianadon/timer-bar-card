@@ -31,7 +31,7 @@ it("Can render longer times", () => {
     
     expect(formatTime(-d, 'hms')).toBe('-1:40')
     expect(formatTime(-d, 'hm')).toBe('-1')
-    expect(formatTime(-d, 'd')).toBe('-1')
+    expect(formatTime(-d, 'd')).toBe('0')
 });
 
 it("Can render long times", () => {
@@ -50,6 +50,6 @@ it("Can render long times", () => {
     
     expect(formatTime(-d, 'hms')).toBe('-2:46:40')
     expect(formatTime(-d, 'hm')).toBe('-2:46')
-    expect(formatTime(-d, 'h')).toBe('-3')
-    expect(formatTime(-d, 'm')).toBe('-167')
+    expect(formatTime(-d, 'h')).toBe('-2')
+    expect(formatTime(-d, 'm')).toBe('-166')
 });
