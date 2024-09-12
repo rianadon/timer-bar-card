@@ -65,7 +65,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | Automation-controlled<br>switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
 | [Sun]                             | *supported*          | [See the example](#sun)                                  |
 | [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊 ([example][opensprinkler-example])                |
-| [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]]       |
+| [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]], or [[#166]] |
 | [Bambu Lab]                       | *supported*          | `active_state`, `end_time` [[#143]] (♡ @andrewtimosca)   |
 | [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
 | [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
@@ -109,6 +109,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#122]: https://github.com/rianadon/timer-bar-card/issues/122
 [#140]: https://github.com/rianadon/timer-bar-card/pull/140
 [#143]: https://github.com/rianadon/timer-bar-card/issues/143
+[#166]: https://github.com/rianadon/timer-bar-card/pull/166
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
