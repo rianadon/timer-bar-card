@@ -1,118 +1,126 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Colors and icons: running 1`] = `
-"<timer-bar-card hass="[object Object]">
-  <ha-card raised="false">
-    <slot></slot>
-    <div class="card-content">
-      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
-        <div class="generic-entity-row">
-          <state-badge class="pointer" icon="true" tabindex="0">
-            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
-          </state-badge>
-          <div class="info pointer" title="test2">
-            test2
-          </div>
-          <div class="bar-container pointer">
-            <div class="bar">
-              <div></div>
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test2">
+              test2
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+              </div>
+            </div>
+            <div class="pointer text-content value">
+              8
             </div>
           </div>
-          <div class="pointer text-content value">
-            8
-          </div>
-        </div>
-      </timer-bar-entity-row>
-    </div>
-  </ha-card>
-</timer-bar-card>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
 "
 `;
 
 exports[`Receding progress bar: running 1`] = `
-"<timer-bar-card hass="[object Object]">
-  <ha-card raised="false">
-    <slot></slot>
-    <div class="card-content">
-      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
-        <div class="generic-entity-row">
-          <state-badge class="pointer" icon="true" tabindex="0">
-            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
-          </state-badge>
-          <div class="info pointer" title="test3">
-            test3
-          </div>
-          <div class="bar-container pointer">
-            <div class="bar">
-              <div></div>
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test3">
+              test3
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+              </div>
+            </div>
+            <div class="pointer text-content value">
+              8
             </div>
           </div>
-          <div class="pointer text-content value">
-            8
-          </div>
-        </div>
-      </timer-bar-entity-row>
-    </div>
-  </ha-card>
-</timer-bar-card>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
 "
 `;
 
 exports[`Widths: idle 1`] = `
-"<timer-bar-card hass="[object Object]">
-  <ha-card raised="false">
-    <slot></slot>
-    <h1 class="card-header">
-      Progress bar should be munched
-    </h1>
-    <div class="card-content">
-      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
-        <div class="generic-entity-row">
-          <state-badge class="pointer" icon="true" tabindex="0">
-            <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
-          </state-badge>
-          <div class="info pointer" title="test1">
-            test1
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <h1 class="card-header">
+        Progress bar should be munched
+      </h1>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test1">
+              test1
+            </div>
+            <div class="pointer text-content value">
+              Idle
+            </div>
           </div>
-          <div class="pointer text-content value">
-            Idle
-          </div>
-        </div>
-      </timer-bar-entity-row>
-    </div>
-  </ha-card>
-</timer-bar-card>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
 "
 `;
 
 exports[`Widths: running 1`] = `
-"<timer-bar-card hass="[object Object]">
-  <ha-card raised="false">
-    <slot></slot>
-    <h1 class="card-header">
-      Progress bar should be munched
-    </h1>
-    <div class="card-content">
-      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
-        <div class="generic-entity-row">
-          <state-badge class="pointer" icon="true" tabindex="0">
-            <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
-          </state-badge>
-          <div class="info pointer" title="test1">
-            test1
-          </div>
-          <div class="bar-container pointer">
-            <div class="bar">
-              <div></div>
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <h1 class="card-header">
+        Progress bar should be munched
+      </h1>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test1">
+              test1
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+              </div>
+            </div>
+            <div class="pointer text-content value">
+              9:59:59
             </div>
           </div>
-          <div class="pointer text-content value">
-            9:59:59
-          </div>
-        </div>
-      </timer-bar-entity-row>
-    </div>
-  </ha-card>
-</timer-bar-card>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
 "
 `;

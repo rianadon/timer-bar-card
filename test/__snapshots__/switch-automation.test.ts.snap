@@ -1,54 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Switch with input_number turns off: idle 1`] = `
-"<timer-bar-card hass="[object Object]">
-  <ha-card raised="false">
-    <slot></slot>
-    <div class="card-content">
-      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
-        <div class="generic-entity-row">
-          <state-badge class="pointer" icon="true" tabindex="0">
-            <ha-state-icon data-domain="input_boolean" data-state="off">…</ha-state-icon>
-          </state-badge>
-          <div class="info pointer" title="switch">
-            switch
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="input_boolean" data-state="off">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="switch">
+              switch
+            </div>
+            <div class="pointer text-content value">
+              Off
+            </div>
           </div>
-          <div class="pointer text-content value">
-            Off
-          </div>
-        </div>
-      </timer-bar-entity-row>
-    </div>
-  </ha-card>
-</timer-bar-card>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
 "
 `;
 
 exports[`Switch with input_number turns off: running 1`] = `
-"<timer-bar-card hass="[object Object]">
-  <ha-card raised="false">
-    <slot></slot>
-    <div class="card-content">
-      <timer-bar-entity-row config="[object Object]" hass="[object Object]">
-        <div class="generic-entity-row">
-          <state-badge class="pointer" icon="true" tabindex="0">
-            <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
-          </state-badge>
-          <div class="info pointer" title="switch">
-            switch
-          </div>
-          <div class="bar-container pointer">
-            <div class="bar">
-              <div></div>
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="switch">
+              switch
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+              </div>
+            </div>
+            <div class="pointer text-content value">
+              2
             </div>
           </div>
-          <div class="pointer text-content value">
-            2
-          </div>
-        </div>
-      </timer-bar-entity-row>
-    </div>
-  </ha-card>
-</timer-bar-card>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
 "
 `;

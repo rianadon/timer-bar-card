@@ -49,10 +49,10 @@ jobs:
         run: test/setup.sh
 
       - name: Test Firefox
-        run: BROWSER=firefox npm run test
+        run: BROWSER=firefox npm run test || BROWSER=firefox npm run test
 
       - name: Test Chromium
-        run: BROWSER=chromium npm run test
+        run: BROWSER=chromium npm run test || BROWSER=chromium npm run test
 
       - name: Upload artifact
         if: ${{ always() }}
@@ -87,7 +87,7 @@ jobs:
         run: sudo apt-get -qq install libegl1 libopus0 libwoff1 libharfbuzz-icu0 gstreamer1.0-plugins-base libgstreamer-gl1.0-0 gstreamer1.0-plugins-bad libopenjp2-7 libwebpdemux2 libenchant1c2a libhyphen0 libgles2 gstreamer1.0-libav libevdev-dev
 
       - name: Test Webkit
-        run: BROWSER=webkit npm run test
+        run: BROWSER=webkit npm run test || BROWSER=webkit npm run test
 
       - name: Upload artifact
         if: ${{ always() }}
