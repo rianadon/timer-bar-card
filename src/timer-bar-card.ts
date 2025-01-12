@@ -34,6 +34,14 @@ export class TimerBarCard extends LitElement {
   @property({ attribute: false }) public editMode?: boolean;
   @state() private config!: TimerBarConfig;
 
+  @property({ reflect: true, type: String })
+  public layout: string | undefined;
+
+  public static async getConfigElement() {
+    await import('./timer-bar-card-editor');
+    return document.createElement('timer-bar-editor');
+  }
+
   public static getStubConfig(): object {
     return {};
   }
@@ -56,7 +64,7 @@ export class TimerBarCard extends LitElement {
 
     if (config.entity) {
       if ('mushroom' in config)
-        return html`<timer-bar-mushroom-row .config=${config} .mushroom=${config.
+        return html`<timer-bar-mushroom-row .layout=${this.layout} .config=${config} .mushroom=${config.
 mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></timer-bar-mushroom-row>`
       else
         return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
@@ -195,6 +203,71 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
       size += 2;
 
     return size + this._filteredEntities().length;
+  }
+
+  /** Taken from lovelace-mushroom */
+  public getGridOptions() {
+    if (!('mushroom' in this.config)) {
+      return undefined
+    }
+    if (!this.config.mushroom) {
+      return {
+        columns: 6,
+        rows: 1,
+      };
+    }
+
+    const options = {
+      min_rows: 1,
+      min_columns: 4,
+      columns: 6,
+      rows: 0, // initial value
+    };
+
+    const appearance = this.config.mushroom;
+
+    const collapsible_controls =
+      "collapsible_controls" in this.config &&
+      Boolean(this.config.collapsible_controls);
+
+    const hasInfo =
+      appearance.primary_info !== "none" ||
+      appearance.secondary_info !== "none";
+    const hasIcon = appearance.icon_type !== "none";
+
+    if (appearance.layout === "vertical") {
+      if (hasIcon) {
+        options.rows += 1;
+      }
+      if (hasInfo) {
+        options.rows += 1;
+      }
+      options.min_columns = 2;
+    }
+
+    if (appearance.layout === "horizontal") {
+      options.rows = 1;
+      options.columns = 12;
+    }
+
+    if (appearance.layout === "default") {
+      if (hasInfo || hasIcon) {
+        options.rows += 1;
+      }
+    }
+
+    // If icon only, set 3x1 for size
+    if (!hasInfo) {
+      options.columns = 3;
+      options.rows = 1;
+      options.min_columns = 2;
+    }
+
+    // Ensure card has at least 1 row
+    options.rows = Math.max(options.rows, 1);
+    options.min_rows = options.rows;
+
+    return options;
   }
 
   static styles = css`
