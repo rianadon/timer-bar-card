@@ -63,3 +63,7 @@ it('can render negative times', () => {
     expect(formatTime(-60, 'hms')).toBe('-1:00')
     expect(formatTime(-90, 'hms')).toBe('-1:30')
 });
+
+it('can render tricky times', () => {
+  expect(formatTime(59 + 59*60 + 1*60*60, 'hm')).toBe('2:00')
+});

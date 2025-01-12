@@ -46,8 +46,13 @@ const hmsTime = (d: number) => {
   return joinWithColons(h, m, s);
 }
 const hmTime = (d: number) => {
-  const h = Math.trunc(d / 3600);
-  const m = Math.ceil((d % 3600) / 60); // Round up the minutes (#86)
+  let h = Math.trunc(d / 3600);
+  let m = Math.ceil((d % 3600) / 60); // Round up the minutes (#86)
+  if (m == 60) {
+    // Edge case: minutes rounded up to 60, so I need to carry to the hours
+    h += 1;
+    m = 0;
+  }
   return joinWithColons(0, h, m);
 }
 
