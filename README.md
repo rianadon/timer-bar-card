@@ -66,6 +66,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Sun]                             | *supported*          | [See the example](#sun)                                  |
 | [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊 ([example][opensprinkler-example])                |
 | [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]], or [[#166]] |
+| [Anova Sous Vide]                 | *supported*          | `active_state`, `end_time` [[#176]] (♡ @kristoficko!)    |
 | [Bambu Lab]                       | *supported*          | `active_state`, `end_time` [[#143]] (♡ @andrewtimosca)   |
 | [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
 | [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
@@ -79,6 +80,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [Moonraker]                       | *supported*          | mutliple: see [#107] (thanks @user74656!)                |
 | [OctoPrint][octoprint]            | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
 | [PrusaLink]                       | *supported*          | start+end time, `guess_mode` [[#106]] (♡ @deadly667!)    |
+| [Public Transport]<br>[Departures]| *supported*          | `guess_mode`, `end_time` [[#188]] (thanks @alex-jung!)   |
 | [RainMachine]                     | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
 | [SmartThings]                     | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
 | [Tesla]                           | *supported*          | [template entity required: see #98][#98]                 |
@@ -110,6 +112,8 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#140]: https://github.com/rianadon/timer-bar-card/pull/140
 [#143]: https://github.com/rianadon/timer-bar-card/issues/143
 [#166]: https://github.com/rianadon/timer-bar-card/pull/166
+[#176]: https://github.com/rianadon/timer-bar-card/issues/176
+[#188]: https://github.com/rianadon/timer-bar-card/issues/188
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
@@ -132,6 +136,9 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [HomeWhiz]: https://github.com/home-assistant-HomeWhiz/home-assistant-HomeWhiz
 [Tesla]: https://github.com/alandtse/tesla
 [Bambu Lab]: https://github.com/greghesp/ha-bambulab
+[Anova Sous Vide]: https://www.home-assistant.io/integrations/anova
+[Public Transport]: https://github.com/alex-jung/ha-departures
+[Departures]: https://github.com/alex-jung/ha-departures
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*\
 ‡ *Devices connected through the HomeWhiz app: Beko, Grundig, and Arcelik brands*
