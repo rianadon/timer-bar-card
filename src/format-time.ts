@@ -1,36 +1,32 @@
-/** secondsToDuration is adapted from the custom-card-helpers library,
-    which in turn was adapted from Home Assistant.
-
-    https://github.com/home-assistant/frontend/blob/dev/src/common/datetime/seconds_to_duration.ts
-
-    I've added the configurable resolution.
-
-    EDIT: This has been turned into a general-purpose time formatting library.
-*/
-
-type Resolution = "seconds" | "minutes" | "automatic";
-
+type Resolution = "seconds" | "minutes" | "automatic" | "hm" | "hms" | "mm:ss"; // Corrected type
 
 const leftPad = (num: number) => {
   num = Math.abs(num);
   return (num < 10 ? `0${num}` : num);
 };
 
-
 /** Rounds away from zero. */
 const roundUp = (num: number) => num > 0 ? Math.ceil(num) : Math.floor(num);
 
 /** Returns "minutes" if seconds>=1hr, otherwise minutes. */
+// Changed to return hms or mm:ss
 function automaticRes(seconds: number) {
-  if (seconds >= 3600) return "minutes"
-  return "seconds"
+  if (seconds >= 3600) return "hms" // Use hms for >= 1 hour
+  return "mm:ss" // Use mm:ss for < 1 hour
 }
 
 
-export function formatFromResolution(seconds: number, resolution: Resolution): string {
-  switch (resolution === "automatic" ? automaticRes(seconds) : resolution) {
-    case "seconds": return "hms"
-    case "minutes": return "hm"
+export function formatFromResolution(seconds: number, resolution: Resolution): string { // Specify return type
+  const resolved = resolution === "automatic" ? automaticRes(seconds) : resolution;
+  switch (resolved) {
+    case "seconds":
+    case "hms": // Added hms case.
+       return "hms"
+    case "minutes":
+    case "mm:ss": // Added mm:ss case
+        return "mm:ss" // Return mm:ss format
+    case "hm": return "hm" //keep the original hm format
+    default: return "hms" //Default case
   }
 }
 
@@ -56,6 +52,13 @@ const hmTime = (d: number) => {
   return joinWithColons(0, h, m);
 }
 
+// Added mmssTime function
+const mmssTime = (d: number) => {
+    const m = Math.trunc(d / 60);
+    const s = Math.trunc(d % 60);
+    return `${leftPad(m)}:${leftPad(s)}`;
+}
+
 /** Like Math.truncate(), but truncates `-.5` to `'-0'` */
 function truncateWithSign(d: number): string {
   const result = Math.trunc(d);
@@ -66,6 +69,7 @@ function truncateWithSign(d: number): string {
 export default function formatTime(d: number, format: string) {
   if (format == 'hms') return hmsTime(d)
   if (format == 'hm') return hmTime(d)
+  if (format == 'mm:ss') return mmssTime(d); // Added mm:ss handling
 
   // When rendering a single component, always round up to count consistent whole units.
   if (format == 'd') return '' + Math.ceil(d / 24 / 3600)
@@ -80,6 +84,8 @@ export default function formatTime(d: number, format: string) {
     const sl = S.toLowerCase()
     if (sl.startsWith('hms')) return hmsTime(d) + S.substring(3)
     if (sl.startsWith('hm')) return hmTime(d) + S.substring(2)
+     // Added mm:ss handling
+    if (sl.startsWith('mm:ss')) return mmssTime(d) + S.substring(5);
     // 1 lowercase letter: round up
     if (S.startsWith('d')) return Math.ceil(d / 24 / 3600) + S.substring(1)
     if (S.startsWith('h')) return Math.ceil(d / 3600) + S.substring(1)

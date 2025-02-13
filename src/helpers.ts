@@ -1,3 +1,4 @@
+
 import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
@@ -17,6 +18,24 @@ export function tryDurationToSeconds(duration: string, field: string) {
   } catch (e) {
     throw new Error(`Could not convert ${field}: ${duration} is not of format 0:10:00. If you are passing in a number, specify the units property.`);
   }
+}
+
+// Added parseDuration function
+export function parseDuration(duration: string): number {
+    const match = duration.match(/^(\d+)\s*(h|m|s)$/);
+    if (!match) {
+        console.warn("Invalid duration format.  Using default 1h");
+        return 60 * 60;  //default 1h
+    }
+    const value = parseInt(match[1], 10);
+    const unit = match[2];
+
+    switch (unit) {
+        case 'h': return value * 3600;
+        case 'm': return value * 60;
+        case 's': return value;
+        default:  return 60 * 60;
+    }
 }
 
 export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity) {
@@ -55,7 +74,20 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 /** Calculate the most accurate estimate of time remaining for the timer. */
 export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined, correction: number): undefined | number => {
   const madeActive = stateObj && Date.parse(stateObj.last_changed);
+  const hasMaxValue = config.max_value !== undefined && config.max_value !== null;
+  const hasDuration = config.duration !== undefined && config.duration !== null;
 
+  // Count-Up Logic
+  if (hasMaxValue && !hasDuration) {
+      const startTime = new Date(stateObj!.last_changed).getTime();
+      if (isNaN(startTime)) {
+        return undefined; // Invalid start time
+      }
+      const nowTime = new Date().getTime();
+      return Math.floor((nowTime - startTime) / 1000);  // Elapsed time in seconds
+  }
+  
+  // Count-Down Logic
   if (stateObj?.attributes.remaining) { // For Home Assistant timers
     let timeRemaining = tryDurationToSeconds(stateObj.attributes.remaining, 'remaining');
 
@@ -91,12 +123,30 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
 
 /** Calculate what percent of the timer's duration has passed. */
 export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined, correction: number): undefined | number => {
-  const remaining = timerTimeRemaining(hass, config, stateObj, correction);
-  const duration = findDuration(hass, config, stateObj);
+    const hasMaxValue = config.max_value !== undefined && config.max_value !== null;
+    const hasDuration = config.duration !== undefined && config.duration !== null;
+    const remaining = timerTimeRemaining(hass, config, stateObj, correction);
+    // Count-Up Logic
+    if (hasMaxValue && !hasDuration) {
+        if (remaining === undefined) {
+            return undefined;
+        }
 
-  if (!duration || !remaining) return undefined;
+        if(config.max_value === "auto") {
+            // For auto, we use the remaining time as the "current" max value.
+            // The bar is always "full" (100%) until we increase _currentMaxValue.
+            return 100;
+        } else {
+          const maxValueSeconds = config.max_value ? parseDuration(config.max_value) : 0; // Safely access max_value
+          return (remaining / maxValueSeconds) * 100;
+        }
 
-  return (duration - Math.floor(remaining)) / duration * 100;
+    }
+    // Count-Down Logic
+    const duration = findDuration(hass, config, stateObj);
+    if (!duration || !remaining) return undefined;
+
+    return (duration - Math.floor(remaining)) / duration * 100;
 };
 
 export const formatStartTime = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined) => {
@@ -154,6 +204,12 @@ const timeAttribute = (hass: HomeAssistant, stateObj: HassEntity | undefined, at
 }
 
 export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode | undefined {
+  const hasMaxValue = config.max_value !== undefined && config.max_value !== null;
+  const hasDuration = config.duration !== undefined && config.duration !== null;
+  // Count-Up Logic
+  if (hasMaxValue && !hasDuration) {
+      return 'countup';
+  }
   // Disable if the last modified date is used and there is no end time
   // Otherwise, auto mode might be enabled when it's not supposed to be!
   const state = hass.states[config.entity!];
@@ -172,6 +228,12 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig, corr
 }
 
 export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode {
+  const hasMaxValue = config.max_value !== undefined && config.max_value !== null;
+  const hasDuration = config.duration !== undefined && config.duration !== null;
+ // Count-Up Logic
+  if (hasMaxValue && !hasDuration) {
+      return 'countup';
+  }
   if (config.state?.fixed) return config.state?.fixed.replace('paused', 'pause') as Mode;
   const state = hass.states[config.entity!];
   if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state, correction) || 0) > 0) return 'active';

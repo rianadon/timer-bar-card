@@ -4,7 +4,7 @@ import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
 import { HomeAssistant, hasConfigOrEntityChanged, computeStateDisplay } from 'custom-card-helpers';
-import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR, gatherEntitiesFromConfig, haveEntitiesChanged } from './helpers';
+import { findDuration, formatStartTime, timerTimeRemaining, timerTimePercent, findMode, stateMode, autoMode, tryDurationToSeconds, MIN_SYNC_ERROR, MAX_FIX_SYNC_ERROR, gatherEntitiesFromConfig, haveEntitiesChanged, parseDuration } from './helpers';
 import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } from './types';
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 import { createActionHandler, createHandleAction } from './helpers-actions';
@@ -74,6 +74,8 @@ export class TimerBarEntityRow extends LitElement {
   @state() private _browserClockCorrection: number = 0;
   @state() private _error?: Error;
   @state() protected _warning?: TemplateResult;
+  @state() private _isCountup: boolean = false; // Flag for countup mode
+  @state() private _currentMaxValue: number = 3600; // Default: 1 hour (in seconds)
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -92,6 +94,22 @@ export class TimerBarEntityRow extends LitElement {
     return findMode(this.hass!, this.config, this._browserClockCorrection);
   }
 
+    protected willUpdate(changedProperties: PropertyValues) {
+        super.willUpdate(changedProperties);
+        if (changedProperties.has('config') && this.config) {
+            this._isCountup = !!this.config.max_value && !this.config.duration;
+
+            // Initialize _currentMaxValue
+            if (this._isCountup && this.config.max_value === "auto") {
+                const stateObj = this.hass?.states[this.config.entity!];
+                const increment = this.config.auto_increment ? parseDuration(this.config.auto_increment) : 3600;
+                this._currentMaxValue =  timerTimeRemaining(this.hass!, this.config, stateObj, this._browserClockCorrection) || increment;
+            } else if (this._isCountup && typeof this.config.max_value === 'string') {
+                this._currentMaxValue = parseDuration(this.config.max_value);
+            }
+        }
+    }
+
   protected render(): TemplateResult | void {
     const state: HassEntity | undefined = this.hass!.states[this.config.entity!];
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
@@ -103,6 +121,7 @@ export class TimerBarEntityRow extends LitElement {
       return html`<hui-warning>${e}</hui-warning>`;
     }
     if (percent > 100) percent = 100;
+    if (this._isCountup && percent < 0) percent = 0; //for countup, negative percent is 0
 
     let activeConfig: TimerBarEntityConfig
     try {
@@ -119,6 +138,7 @@ export class TimerBarEntityRow extends LitElement {
 
     switch (this._mode()) {
       case 'active':
+      case 'countup': // Treat countup like active for rendering
         return this._renderRow(activeConfig, html`
         ${this._renderBar(percent)}
         ${this._renderTime(pointer)}
@@ -200,6 +220,10 @@ export class TimerBarEntityRow extends LitElement {
 
   protected _renderBar(percent: number) {
     if (this.modConfig.invert) percent = 100 - percent; // invert if the options say so
+     // Switch direction for countup
+    if (this._isCountup) {
+        percent = Math.min(percent, 100);  // Limit to 100% for countup
+    }
     let style: StyleInfo = { width: this._bar_width, direction: this.modConfig.bar_direction };
     if (this.modConfig.layout === 'hide_name') style = { ...style, 'flex-grow': '1', 'margin-left': '8px' };
     const containerStyle = styleMap(style);
@@ -278,6 +302,7 @@ export class TimerBarEntityRow extends LitElement {
   protected shouldUpdate(changedProps: PropertyValues): boolean {
     if (!this.config) return false;
     if (changedProps.has('_timeRemaining')) return true;
+    if (changedProps.has('_currentMaxValue')) return true; // Add this
     const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
     this._checkForSyncIssues(oldHass)
 
@@ -306,7 +331,7 @@ export class TimerBarEntityRow extends LitElement {
     this._clearInterval();
     this._calculateRemaining(stateObj);
 
-    if (this._mode() === 'active') {
+    if (this._mode() === 'active' || this._mode() === 'countup') {
       this._interval = window.setInterval(
         () => this._calculateRemaining(stateObj),
         1000
@@ -314,10 +339,19 @@ export class TimerBarEntityRow extends LitElement {
     }
   }
 
-  private _calculateRemaining(stateObj: HassEntity | undefined): void {
+ private _calculateRemaining(stateObj: HassEntity | undefined): void {
     try {
       this._timeRemaining = this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, stateObj, this._browserClockCorrection) : undefined;
       this._error = undefined;
+
+      // Auto-increase max_value
+      if (this._isCountup && this.config.max_value === "auto" && this._timeRemaining) {
+          const increment = this.config.auto_increment ? parseDuration(this.config.auto_increment) : 3600;
+          // Use 90% of increment of threshold
+          if (this._timeRemaining >= this._currentMaxValue - (increment*0.1)) { // Example: within 10% of increment of current max
+              this._currentMaxValue += increment; // Increase by increment
+          }
+      }
     } catch (e) {
       console.error(e);
       this._error = e as Error;

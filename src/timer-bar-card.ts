@@ -8,10 +8,10 @@ import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 import { fillMushroomConfig, TimerBarMushroomRow, mushroomStyle } from './timer-bar-mushroom-row';
 
 import type { TimerBarConfig, TimerBarEntityConfig, AttributeConfig, Mode } from './types';
-import { findMode, gatherEntitiesFromConfig, haveEntitiesChanged } from './helpers';
+import { findMode, gatherEntitiesFromConfig, haveEntitiesChanged, parseDuration } from './helpers'; // Import parseDuration
 import { version } from '../package.json';
 
-// This puts your card into the UI card picker dialog
+// ... (rest of the imports and initial setup as before) ...
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'timer-bar-card',
@@ -54,78 +54,83 @@ export class TimerBarCard extends LitElement {
       this.config = fillMushroomConfig(config, config.mushroom);
     else
       this.config = fillConfig(config);
+
+    // Check for conflicting options
+    if (this.config.duration && this.config.max_value) {
+      console.warn("Both 'duration' and 'max_value' are set.  'duration' will take precedence.");
+    }
   }
 
-  protected render(): TemplateResult | void {
-    const config = this.config;
-    if (config.entity && config.entities) {
-      return html`<hui-warning>Both entity and entities cannot be defined</hui-warning>`;
-    }
+    protected render(): TemplateResult | void {
+        const config = this.config;
+        if (config.entity && config.entities) {
+            return html `<hui-warning>Both entity and entities cannot be defined</hui-warning>`;
+        }
 
-    if (config.entity) {
-      if ('mushroom' in config)
-        return html`<timer-bar-mushroom-row .layout=${this.layout} .config=${config} .mushroom=${config.
-mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></timer-bar-mushroom-row>`
-      else
-        return html`<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
-    } else if (config.entities && !this._filteredEntities().length) {
-      if (this.editMode || config.show_empty) {
-        const content = typeof config.show_empty == 'undefined' ? 'No entities match the filter. This card will disappear when you finish editing.' : config.show_empty;
-        return html`<ha-card>
+        if (config.entity) {
+            if ('mushroom' in config)
+                return html `<timer-bar-mushroom-row .layout=${this.layout} .config=${config} .mushroom=${config.mushroom ?? {}} style=${mushroomStyle(config.mushroom ?? {})} .hass=${this.hass}></timer-bar-mushroom-row>`
+            else
+                return html `<timer-bar-entity-row .config=${config} .hass=${this.hass}></timer-bar-entity-row>`
+        } else if (config.entities && !this._filteredEntities().length) {
+            if (this.editMode || config.show_empty) {
+                const content = typeof config.show_empty == 'undefined' ? 'No entities match the filter. This card will disappear when you finish editing.' : config.show_empty;
+                return html `<ha-card>
           <h1 class="card-header">${config.name}</h1>
           <div class="card-content">${content}</div>
         </ha-card>`;
-      } else {
-        return html``; // Return a blank card
-      }
-    } else if (config.entities) {
-      return html`<ha-card>
+            } else {
+                return html ``; // Return a blank card
+            }
+        } else if (config.entities) {
+            return html `<ha-card>
         ${config.name && !config.header_entity ? html`<h1 class="card-header">${this.config.name}</h1>` : ''}
         <div class="card-content">
           ${config.header_entity ? this._renderTitle() : ''}
           ${this._renderContent()}
         </div>
       </ha-card>`;
-    } else {
-      return html`<hui-warning>Neither entity nor entities are defined</hui-warning>`;
-    }
-  }
-
-  private _hasEntityChanged(oldHass: HomeAssistant, ...entities: (string | AttributeConfig | TimerBarEntityConfig | undefined)[]) {
-    for (const entity of entities) {
-      if (!entity) continue;
-      if (typeof entity === 'string') {
-        if (oldHass.states[entity] !== this.hass!.states[entity]) return true;
-      } else if ('entity' in entity) {
-        if (entity.entity && oldHass.states[entity.entity] !== this.hass!.states[entity.entity]) return true;
-      } else if ('script' in entity) {
-        if (entity.script && oldHass.states[entity.script] !== this.hass!.states[entity.script]) return true;
-      }
-    }
-    return false;
-  }
-
-  protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (!this.config) return false;
-    if (changedProps.has('config')) return true;
-    if (this.config.entity) {
-      return hasConfigOrEntityChanged(this, changedProps, false);
+        } else {
+            return html `<hui-warning>Neither entity nor entities are defined</hui-warning>`;
+        }
     }
 
-    this.updateComplete.then(() => this._patchFontSize());
-
-    const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
-    if (!oldHass || !this.hass) return true;
-
-    const entities = gatherEntitiesFromConfig(this.config)
-    if (this.config.header_entity) entities.push(this.config.header_entity)
-    for (const entity of this.config.entities!) {
-      if (typeof entity === 'string') entities.push(entity)
-      else entities.push(...gatherEntitiesFromConfig(entity))
+  // ... (rest of the methods, like shouldUpdate, _hasEntityChanged, etc., remain the same) ...
+    private _hasEntityChanged(oldHass: HomeAssistant, ...entities: (string | AttributeConfig | TimerBarEntityConfig | undefined)[]) {
+        for (const entity of entities) {
+            if (!entity) continue;
+            if (typeof entity === 'string') {
+                if (oldHass.states[entity] !== this.hass!.states[entity]) return true;
+            } else if ('entity' in entity) {
+                if (entity.entity && oldHass.states[entity.entity] !== this.hass!.states[entity.entity]) return true;
+            } else if ('script' in entity) {
+                if (entity.script && oldHass.states[entity.script] !== this.hass!.states[entity.script]) return true;
+            }
+        }
+        return false;
     }
 
-    return haveEntitiesChanged(entities, oldHass, this.hass)
-  }
+    protected shouldUpdate(changedProps: PropertyValues): boolean {
+        if (!this.config) return false;
+        if (changedProps.has('config')) return true;
+        if (this.config.entity) {
+            return hasConfigOrEntityChanged(this, changedProps, false);
+        }
+
+        this.updateComplete.then(() => this._patchFontSize());
+
+        const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
+        if (!oldHass || !this.hass) return true;
+
+        const entities = gatherEntitiesFromConfig(this.config)
+        if (this.config.header_entity) entities.push(this.config.header_entity)
+        for (const entity of this.config.entities!) {
+            if (typeof entity === 'string') entities.push(entity)
+            else entities.push(...gatherEntitiesFromConfig(entity))
+        }
+
+        return haveEntitiesChanged(entities, oldHass, this.hass)
+    }
 
   /** Merges global and per-entity configuration */
   private _configFor(entity: string | TimerBarEntityConfig) {
@@ -134,7 +139,7 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
     // Merge in per-entity configuration
     if (typeof entity === 'string') config.entity = entity;
     else config = { ...config, ...entity };
-    return config
+    return config;
   }
 
   private _renderContent(): TemplateResult[] {

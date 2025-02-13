@@ -1,7 +1,8 @@
+// types.ts
 import { HomeAssistant } from "custom-card-helpers";
 import { Info } from "./lib/mushroom";
 
-export type Mode = "active" | "pause" | "waiting" | "idle";
+export type Mode = "active" | "pause" | "waiting" | "idle" | "countup";
 
 export type HassEntity = HomeAssistant["states"][0]
 
@@ -57,6 +58,8 @@ export interface TimerBarEntityConfig extends styleConfig {
   end_time?: AttributeConfig;
   debug?: boolean;
   sync_issues?: "show" | "ignore" | "fix";
+  max_value?: string | "auto";
+  auto_increment?: string; // ADDED auto_increment
 
   modifications?: modsConfig[];
   translations?: Translations;
