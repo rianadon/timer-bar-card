@@ -1,4 +1,3 @@
-
 import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
@@ -77,6 +76,11 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
   const hasMaxValue = config.max_value !== undefined && config.max_value !== null;
   const hasDuration = config.duration !== undefined && config.duration !== null;
 
+  // Check if the entity is in the active state
+    if (stateObj && !isState(stateObj, config.active_state!, config)) {
+        return 0; // Or undefined, depending on your preference
+    }
+
   // Count-Up Logic
   if (hasMaxValue && !hasDuration) {
       const startTime = new Date(stateObj!.last_changed).getTime();
@@ -126,6 +130,12 @@ export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, st
     const hasMaxValue = config.max_value !== undefined && config.max_value !== null;
     const hasDuration = config.duration !== undefined && config.duration !== null;
     const remaining = timerTimeRemaining(hass, config, stateObj, correction);
+
+    // Check if the entity is in the active state
+    if (stateObj && !isState(stateObj, config.active_state!, config)) {
+        return 0;
+    }
+
     // Count-Up Logic
     if (hasMaxValue && !hasDuration) {
         if (remaining === undefined) {
