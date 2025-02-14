@@ -107,7 +107,6 @@ export class TimerBarEntityRow extends LitElement {
             } else if (this._isCountup && typeof this.config.max_value === 'string') {
                 this._currentMaxValue = parseDuration(this.config.max_value);
             }
-            console.log("willUpdate: _currentMaxValue:", this._currentMaxValue); // Add this
         }
     }
 
@@ -119,7 +118,6 @@ export class TimerBarEntityRow extends LitElement {
     try {
       // Pass _currentMaxValue to timerTimePercent
       percent = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection, this._currentMaxValue) ?? 0;
-      console.log("render: percent:", percent); // Add this
     } catch (e) {
       return html`<hui-warning>${e}</hui-warning>`;
     }
@@ -353,7 +351,6 @@ export class TimerBarEntityRow extends LitElement {
           // Use 90% of increment of threshold
           if (this._timeRemaining >= this._currentMaxValue - (increment*0.1)) { // Example: within 10% of increment of current max
               this._currentMaxValue += increment; // Increase by increment
-              console.log("_calculateRemaining: Increased _currentMaxValue:", this._currentMaxValue); // Add this
           }
       }
     } catch (e) {
