@@ -414,28 +414,51 @@ export class TimerBarEntityRow extends LitElement {
 
     const state: HassEntity | undefined = this.hass!.states[this.config.entity!];
     const remaining = (this._mode() != 'idle' ? timerTimeRemaining(this.hass!, this.config, state, this._browserClockCorrection) : undefined) ?? Infinity;
-    const elapsed = (findDuration(this.hass!, this.config, state) ?? 0) - remaining;
-    const percentElapsed = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection) ?? 0;
-    const percentRemaining = 100 - percentElapsed
+
+    // Calculate 'elapsed' correctly for both count-up and countdown modes.
+    let elapsed: number;
+    if (this._isCountup) {
+        elapsed = this._timeRemaining ?? 0;
+    } else {
+        elapsed = (findDuration(this.hass!, this.config, state) ?? 0) - remaining;
+    }
+
+    const percentElapsed = timerTimePercent(this.hass!, this.config, state, this._browserClockCorrection, this._currentMaxValue) ?? 0;
+    const percentRemaining = 100 - percentElapsed;
 
     let config = this.config;
-    for (const mod of this.config.modifications) {
-      // @ts-ignore. Warn on using old config syntax
-      if (mod.greater_than_eq || mod.greater_than) {
-        throw new Error('Mod format has changed! See the release notes and readme for details')
-      }
 
-      if (mod.remaining && typeof mod.remaining === 'string' && mod.remaining.endsWith('%')) {
-        if (percentRemaining <= parseFloat(mod.remaining)) config = { ...config, ...mod };
-      } else if (mod.remaining) {
-        if (remaining <= tryDurationToSeconds(mod.remaining, 'remaining')) config = { ...config, ...mod };
-      } else if (mod.elapsed && typeof mod.elapsed === 'string' && mod.elapsed.endsWith('%')) {
-        if (percentElapsed >= parseFloat(mod.elapsed)) config = { ...config, ...mod };
-      } else if (mod.elapsed) {
-        if (elapsed >= tryDurationToSeconds(mod.elapsed, 'elapsed')) config = { ...config, ...mod };
-      }
+    for (const mod of this.config.modifications) {
+        // Handle elapsed modifications
+        if (mod.elapsed !== undefined) { // Use a simple undefined check
+            if (typeof mod.elapsed === 'string' && mod.elapsed.endsWith('%')) {
+                // Percentage-based elapsed
+                if (percentElapsed >= parseFloat(mod.elapsed)) {
+                    config = { ...config, ...mod };
+                }
+            } else if (typeof mod.elapsed === 'number') {
+                // Number-based elapsed (treat as seconds)
+                if (elapsed >= mod.elapsed) {
+                    config = { ...config, ...mod };
+                }
+            }
+        }
+        // Handle remaining modifications.  Identical logic to elapsed.
+        else if (mod.remaining !== undefined) {
+             if (typeof mod.remaining === 'string' && mod.remaining.endsWith('%')) {
+                // Percentage-based remaining
+                if (percentRemaining <= parseFloat(mod.remaining)) {
+                    config = { ...config, ...mod };
+                }
+            } else if (typeof mod.remaining === 'number') {
+                // Number-based remaining (treat as seconds)
+                if (remaining <= mod.remaining) {
+                    config = { ...config, ...mod };
+                }
+            }
+        }
     }
 
     return config;
-  }
+}
 }
