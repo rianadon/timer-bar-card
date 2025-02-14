@@ -66,10 +66,43 @@ function truncateWithSign(d: number): string {
   return result.toString();
 }
 
+// New function to format with days, months, and years
+function formatWithLargeUnits(seconds: number) { // CORRECTED FUNCTION NAME
+    const SECONDS_IN_MINUTE = 60;
+    const MINUTES_IN_HOUR = 60;
+    const HOURS_IN_DAY = 24;
+    const DAYS_IN_MONTH = 30.44;  // Average days in a month
+    const DAYS_IN_YEAR = 365.25; // Average days in a year (accounting for leap years)
+
+    let years = Math.floor(seconds / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_YEAR));
+    seconds -= years * SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_YEAR;
+
+    let months = Math.floor(seconds / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_MONTH));
+    seconds -= months * SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_MONTH;
+
+    let days = Math.floor(seconds / (SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY));
+    seconds -= days * SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY;
+
+    const h = Math.trunc(seconds / 3600);
+    seconds -= h * 3600
+    const m = Math.trunc(seconds / 60);
+    const s = Math.trunc(seconds % 60);
+
+    let result = "";
+    if (years > 0) result += `${years}y `;
+    if (months > 0) result += `${months}m `;
+    if (days > 0) result += `${days}d `;
+    result += `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+
+
+    return result.trim();
+}
+
 export default function formatTime(d: number, format: string) {
   if (format == 'hms') return hmsTime(d)
   if (format == 'hm') return hmTime(d)
   if (format == 'mm:ss') return mmssTime(d); // Added mm:ss handling
+  if (format == 'long') return formatWithLargeUnits(d); // Add long format
 
   // When rendering a single component, always round up to count consistent whole units.
   if (format == 'd') return '' + Math.ceil(d / 24 / 3600)
@@ -100,6 +133,14 @@ export default function formatTime(d: number, format: string) {
     if (S.startsWith('H')) return truncateWithSign((d % (3600 * 24)) / 3600) + S.substring(1)
     if (S.startsWith('M')) return truncateWithSign((d % 3600) / 60) + S.substring(1)
     if (S.startsWith('S')) return truncateWithSign(d % 60) + S.substring(1)
+     // New format codes for years, months, days
+     if (S.startsWith('YYYY')) return leftPad(Math.floor(d / (3600 * 24 * 365.25))) + S.substring(4);
+      if (S.startsWith('YY')) return leftPad(Math.floor(d / (3600 * 24 * 365.25))) + S.substring(2); //maybe remove
+      if (S.startsWith('Y')) return Math.floor(d / (3600 * 24 * 365.25)) + S.substring(1);
+      if (S.startsWith('MONTHS')) return leftPad(Math.floor((d % (3600 * 24 * 365.25)) / (3600 * 24 * 30.44))) + S.substring(6);
+      if (S.startsWith('MON')) return leftPad(Math.floor((d % (3600 * 24 * 365.25)) / (3600 * 24 * 30.44))) + S.substring(3);
+      if (S.startsWith('MO')) return Math.floor((d % (3600 * 24 * 365.25)) / (3600 * 24 * 30.44)) + S.substring(2);
+      if (S.startsWith('DD')) return leftPad(Math.floor((d % (3600 * 24 * 30.44)) / (3600 * 24))) + S.substring(2);
     return match
   })
 }

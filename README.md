@@ -76,6 +76,7 @@ type: custom:timer-bar-card
 entity: binary_sensor.oven_on  # Entity that triggers the count-up
 max_value: 2h  # Bar fills completely after 2 hours
 duration: null
+active_state: "on" # Only active when the binary_sensor is "on"
 ```
 
 **`max_value` Options:**
@@ -95,6 +96,10 @@ When `max_value` is set to `"auto"`, the card will dynamically increase the maxi
     entity: binary_sensor.oven_on
     max_value: auto
     auto_increment: 15m  # Start at 15 minutes, increase by 15 minutes
+    active_state:  # Active when the sensor is "on" or "active"
+      - "on"
+      - "active"
+
    ```
    If `auto_increment` isn't set it will be 1h by default.
 
