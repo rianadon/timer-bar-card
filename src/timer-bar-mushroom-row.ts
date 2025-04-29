@@ -140,8 +140,8 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
   }
 
   protected _renderIcon(stateObj: HassEntity): TemplateResult {
-    const icon = this.config.icon;
     const active = this._mode() == "active";
+    const icon = active ? this.config.active_icon ?? this.config.icon : this.config.icon;
     let style = "";
     if (this.mushroom.icon_color || this.mushroom.color) {
       const iconRgbColor = computeRgbColor(
