@@ -208,7 +208,7 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
   /** Taken from lovelace-mushroom */
   public getGridOptions() {
     if (!('mushroom' in this.config)) {
-      return undefined
+      return {};
     }
     if (!this.config.mushroom) {
       return {
