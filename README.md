@@ -6,6 +6,14 @@ A progress bar display for [Home Assistant][home-assistant] timers. Show the tim
 
 <table><tr><td>
 
+### ⬆️ Count-Up Functionality ⬆️
+
+The Timer Bar Card can now also function as a count-up timer!  This allows you to display the time elapsed since an event, such as how long your oven has been on. See [Count-Up Mode](#count-up-mode) for details.
+
+</td></tr></table>
+
+<table><tr><td>
+
 ### 🍄 Newly Added: Mushroom Styling 🍄
 
 I've been really enjoying Paul Bottein's beautiful [Mushroom card collection](https://github.com/piitaya/lovelace-mushroom), so I've added new styles to make the card feel at home in your mushroom garden. Jump to [Configuring the Mushroom Style](#mushroom-style) for examples.
@@ -50,6 +58,50 @@ entities:
 </td><td>
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/basic.png" width="445" />
 </td></tr></table>
+
+Most integrations require adding at least one or two additional lines of YAML configuration so the card knows the format of the timer. For more information on how these options work, see [Working with New Integrations](#-working-with-new-integrations).
+
+
+
+### Count-Up Mode
+
+This mode displays an increasing progress bar, showing the time elapsed since a specified event (usually the `last_changed` attribute of an entity).
+
+To use count-up mode, you'll use the `max_value` option instead of `duration`.
+
+**Basic Count-Up Example:**
+
+```yaml
+type: custom:timer-bar-card
+entity: binary_sensor.oven_on  # Entity that triggers the count-up
+max_value: 2h  # Bar fills completely after 2 hours
+duration: null
+active_state: "on" # Only active when the binary_sensor is "on"
+```
+
+**`max_value` Options:**
+
+*   **Specific Time:**  Use a string like `"1h"`, `"30m"`, `"90s"` to set a fixed maximum value. The bar will fill completely when the elapsed time reaches this value.
+*   **`"auto"`:**  The maximum value will automatically increase as the elapsed time approaches the current maximum.  See [Automatic Max Value](#automatic-max-value-max_value-auto) for details.
+
+#### Automatic Max Value (`max_value: auto`)
+
+When `max_value` is set to `"auto"`, the card will dynamically increase the maximum value of the progress bar. This is useful for tracking events that might have an indefinite duration.
+
+*   **Initial Value:**  The initial maximum value is determined by the `auto_increment` setting (defaults to 1 hour).
+*   **Increment:**  The maximum value increases by the `auto_increment` amount when the elapsed time gets close to the current maximum (within 10% of the increment).
+* **`auto_increment` Option:** Use this option to control both the initial max value and how much it increases each time.
+   ```yaml
+    type: custom:timer-bar-card
+    entity: binary_sensor.oven_on
+    max_value: auto
+    auto_increment: 15m  # Start at 15 minutes, increase by 15 minutes
+    active_state:  # Active when the sensor is "on" or "active"
+      - "on"
+      - "active"
+
+   ```
+   If `auto_increment` isn't set it will be 1h by default.
 
 Most integrations require adding at least one or two additional lines of YAML configuration so the card knows the format of the timer. For more information on how these options work, see [Working with New Integrations](#-working-with-new-integrations).
 
