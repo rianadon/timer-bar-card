@@ -4,8 +4,8 @@
 
 import { css, html, TemplateResult } from "lit";
 import { HomeAssistant } from "custom-card-helpers";
-import { createEntityRow } from "node_modules/card-tools/src/lovelace-element.js";
-import { provideHass } from "node_modules/card-tools/src/hass.js";
+import { createEntityRow } from "card-tools/src/lovelace-element.js";
+import { provideHass } from "card-tools/src/hass.js";
 import { TimerBarEntityConfig } from "./types";
 import { createActionHandler, createHandleAction } from "./helpers-actions";
 
