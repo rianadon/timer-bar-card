@@ -49,7 +49,7 @@ function tryTranslate(hass: HomeAssistant, state: string) {
   return;
 }
 
-function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations, capitalize = true) {
+export function localize(hass: HomeAssistant, state: string, stateObj?: HassEntity, translations?: Translations, capitalize = true) {
   if (!state) return '';
   if (translations && translations[state]) return translations[state];
   if (stateObj) {
