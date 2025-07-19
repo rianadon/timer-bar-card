@@ -11,7 +11,10 @@
     "custom-cards"
   ],
   "module": "timer-bar-card.js",
-  "repository": "git@github.com:rianadon/timer-bar-card.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/rianadon/timer-bar-card.git"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "card-tools": "github:thomasloven/lovelace-card-tools",
