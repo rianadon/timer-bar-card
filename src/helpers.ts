@@ -128,9 +128,33 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity | undefined,
     return match ? match[0] : undefined;
   }
   if ('entity' in attrib) {
+    const entityState = hass.states[attrib.entity];
+    // Handle input_datetime without date - convert timestamp to today_at format for start_time and end_time
+    if (entityState?.entity_id.startsWith('input_datetime.') && 
+        entityState.attributes.has_date === false && 
+        entityState.attributes.has_time === true &&
+        typeof entityState.attributes.timestamp === 'number' &&
+        (!('attribute' in attrib) || attrib.attribute === 'timestamp')) {
+      const today = new Date();
+      const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const targetTime = new Date(todayMidnight.getTime() + entityState.attributes.timestamp * 1000);
+      return targetTime.toISOString();
+    }
     // Two cases: entity + attribute or entity + state
-    if ('attribute' in attrib) return hass.states[attrib.entity].attributes[attrib.attribute]
-    return nullifyState(hass.states[attrib.entity].state);
+    if ('attribute' in attrib) return entityState.attributes[attrib.attribute]
+    return nullifyState(entityState.state);
+  }
+  if (!stateObj) return undefined;
+  // Handle input_datetime without date for main entity - use for both start_time and end_time
+  if (stateObj.entity_id.startsWith('input_datetime.') && 
+      stateObj.attributes.has_date === false && 
+      stateObj.attributes.has_time === true &&
+      typeof stateObj.attributes.timestamp === 'number' &&
+      'attribute' in attrib && attrib.attribute === 'timestamp') {
+    const today = new Date();
+    const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const targetTime = new Date(todayMidnight.getTime() + stateObj.attributes.timestamp * 1000);
+    return targetTime.toISOString();
   }
   if (!stateObj) return undefined;
   // if (!stateObj) throw new Error(`Since there is no entity, ${JSON.stringify(attrib)} must specify fixed:.`);
