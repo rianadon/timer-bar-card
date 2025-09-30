@@ -46,6 +46,9 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
   const end_time = attribute(hass, stateObj, config.end_time);
   if (start_time && end_time) return (Date.parse(end_time) - Date.parse(start_time)) / 1000;
 
+  const remain_time = timeAttribute(hass, stateObj, config.remain_time);
+  if (start_time && remain_time) return Math.round(((Date.now() - Date.parse(start_time)) / 1000)) + remain_time;
+
   if (!stateObj) throw new Error('If there is neither a duration nor start and end times, an entity is required.')
   if (end_time) return (Date.parse(end_time) - Date.parse(stateObj.last_changed)) / 1000;
 
@@ -133,6 +136,8 @@ export const attribute = (hass: HomeAssistant, stateObj: HassEntity | undefined,
     return nullifyState(hass.states[attrib.entity].state);
   }
   if (!stateObj) return undefined;
+  if ('last_changed' in attrib) return nullifyState(stateObj!.last_changed);
+  if ('last_updated' in attrib) return nullifyState(stateObj!.last_updated);
   // if (!stateObj) throw new Error(`Since there is no entity, ${JSON.stringify(attrib)} must specify fixed:.`);
   if ('state' in attrib) return nullifyState(stateObj!.state);
   return stateObj.attributes[attrib.attribute];

@@ -34,7 +34,9 @@ type AttributeType =
   | { entity: string }
   | { state: any }
   | { fixed: number }
-  | { script: string };
+  | { script: string }
+  | { last_changed: boolean }
+  | { last_updated: boolean };
 export type AttributeConfig = AttributeType & {
   units?: "duration" | "hours" | "minutes" | "seconds";
 };
