@@ -12,7 +12,7 @@ import formatTime, { formatFromResolution } from './format-time';
 
 export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
-    active_state: ['active', 'on', 'manual', 'program', 'once_program'],
+    active_state: ['active', 'on', 'running', 'manual', 'program', 'once_program'],
     pause_state: 'paused',
     waiting_state: 'waiting',
     guess_mode: false,

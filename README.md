@@ -296,19 +296,19 @@ The Developer Tools are a great resource for viewing states and attributes.
 
 Here's all the options you can use in the configuration. I recommend setting `debug: true` while setting up the card to help work through any problems.
 
-| YAML option     | Type            | Description                                    | Default                                                |
-|-----------------|-----------------|------------------------------------------------|--------------------------------------------------------|
-| active_state    | string<br>/list | State(s) used to indicate a timer is running   | `active`, `on`, `manual`,<br>`program`, `once-program` |
-| pause_state     | string<br>/list | State(s) used to indicate a timer is paused    | `paused`                                               |
-| waiting_state   | string<br>/list | State(s) when a timer is scheduled for later † | `waiting`                                              |
-| state           | `{fixed: string}`| Explicitly specify a state without an entity. | -                                                      |
-| state_attribute | string          | Use an attribute when calculating the above.   | -                                                      |
-| guess_mode      | bool            | Attempt to guess mode=active. ‡                | `false`                                                |
-| start_time      | [*timeprop*]    | How the timer's start time is found            | `{attribute: start_time}`                              |
-| end_time        | [*timeprop*]    | How the timer's end time is found              | `{attribute: end_time}`                                |
-| duration        | [*timeprop*]    | How the timer's duration is found              | `{attribute: duration}`                                |
-| remain_time     | [*timeprop*]    | How the timer's remaining time is found        | `{attribute: remain_time}`                             |
-| debug           | bool            | Show debugging info in card                    | `false`                                                |
+| YAML option     | Type            | Description                                    | Default                                                              |
+|-----------------|-----------------|------------------------------------------------|----------------------------------------------------------------------|
+| active_state    | string<br>/list | State(s) used to indicate a timer is running   | `active`, `on`,<br>`running`, `manual`,<br>`program`, `once-program` |
+| pause_state     | string<br>/list | State(s) used to indicate a timer is paused    | `paused`                                                             |
+| waiting_state   | string<br>/list | State(s) when a timer is scheduled for later † | `waiting`                                                            |
+| state           | `{fixed: string}`| Explicitly specify a state without an entity. | -                                                                    |
+| state_attribute | string          | Use an attribute when calculating the above.   | -                                                                    |
+| guess_mode      | bool            | Attempt to guess mode=active. ‡                | `false`                                                              |
+| start_time      | [*timeprop*]    | How the timer's start time is found            | `{attribute: start_time}`                                            |
+| end_time        | [*timeprop*]    | How the timer's end time is found              | `{attribute: end_time}`                                              |
+| duration        | [*timeprop*]    | How the timer's duration is found              | `{attribute: duration}`                                              |
+| remain_time     | [*timeprop*]    | How the timer's remaining time is found        | `{attribute: remain_time}`                                           |
+| debug           | bool            | Show debugging info in card                    | `false`                                                              |
 
 [*timeprop*]: #configuration-of-time-properties-start_time-end_time-etc
 
