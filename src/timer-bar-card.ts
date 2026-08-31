@@ -2,7 +2,7 @@ import { LitElement, css, html, TemplateResult, PropertyValues } from 'lit';
 import { customElement, state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { HomeAssistant, hasConfigOrEntityChanged } from 'custom-card-helpers';
+import { HomeAssistant } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 import { fillMushroomConfig, TimerBarMushroomRow, mushroomStyle } from './timer-bar-mushroom-row';
@@ -109,7 +109,9 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
     if (!this.config) return false;
     if (changedProps.has('config')) return true;
     if (this.config.entity) {
-      return hasConfigOrEntityChanged(this, changedProps, false);
+      const oldHass = changedProps.get('hass') as HomeAssistant | undefined;
+      if (!oldHass || !this.hass) return true;
+      return haveEntitiesChanged(gatherEntitiesFromConfig(this.config), oldHass, this.hass)
     }
 
     this.updateComplete.then(() => this._patchFontSize());

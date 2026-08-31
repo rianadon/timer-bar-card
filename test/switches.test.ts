@@ -9,8 +9,12 @@ input_number:
     min: 0
     max: 10
     initial: 5
+  remaining:
+    min: 0
+    max: 600
+    initial: 0
 input_boolean:
-  ${multiply(4, (i) => `
+  ${multiply(5, (i) => `
   switch${i}:
 `)}
 template:
@@ -77,6 +81,27 @@ it("Switch with unavailable duration + end time", async () => {
   }])
   const card = dashboard.cards[0];
   await expect(card).toMatchDualSnapshot("idle");
+})
+
+it("Switch picks up a time entity that updates after the switch turns on", async () => {
+  const dashboard = await hass.Dashboard([{
+    type: "custom:timer-bar-card",
+    entity: "input_boolean.switch5",
+    remain_time: { entity: "input_number.remaining", "units": "seconds" },
+  }])
+  const card = dashboard.cards[0];
+  // Read the card before changing anything, so it is on screen and rendered. Otherwise
+  // the page can finish loading after the states below and pick both up at once.
+  expect(await card.html()).toContain("Off");
+
+  await hass.callService('homeassistant', 'turn_on', {}, { entity_id: "input_boolean.switch5" });
+  await new Promise(r => setTimeout(r, 500));
+  expect(await card.html()).toContain("On");
+
+  // The card has now rendered while remaining still reads 0. The time it counts down
+  // arrives afterwards, on an entity other than config.entity.
+  await hass.callService('input_number', 'set_value', { value: 120 }, { entity_id: "input_number.remaining" });
+  await waitForTimerTime(card, "00:02:00");
 })
 
 it("Switch with duration string", async () => {
