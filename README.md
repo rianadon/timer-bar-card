@@ -18,6 +18,8 @@ The card is also well tested. There are [24 tests](https://github.com/rianadon/t
 
 **You may also be interested in these other related but unaffiliated cards:**
 - @Gluwc's [Bar Card](https://github.com/custom-cards/bar-card) for numerical quantities or percentages
+- @TommySharpNZ's [Sensor Bar Card](https://github.com/TommySharpNZ/sensor-bar-card) also for numerical quantities but with a more similar look to my card
+- @cdelaet's [Sensor Bar Card Plus](https://github.com/cdelaet/sensor-bar-card-plus) which extends the previous card with more features
 - @pmongloid's [Flipdown Timer Card](https://github.com/pmongloid/flipdown-timer-card) for timers but it has a cool flip effect!
 
 *Jump to:  [[Integration Support Status](#integration-support-status)]
