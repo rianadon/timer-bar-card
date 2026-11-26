@@ -285,7 +285,7 @@ The diagram above shows the minimal configuration you'll need to make the card s
 
 > ⏰ There is an option missing in this diagram: *Remaining Time*. Some integrations have a *Remaining Time* attribute, but the attribute does not update every second like a countdown! This is to reduce the strain on your Home Assistant: Lot of entities updating every second could slow it down.
 >
-> However, some integrations do update a *Remaining Time* attribute (or create an entity whose state is the *Remaining Time* and update its state every second). For these, you can use (*Remaining Time* + one of *Start Time*/*Duration* + *Guess Mode* or *Active State*) **or** (*Remaining Time* + *Active State*)
+> However, some integrations do update a *Remaining Time* attribute (or create an entity whose state is the *Remaining Time* and update its state every second). For these, you can use (*Remaining Time* + *Duration* + *Guess Mode* or *Active State*) **or** the worse option that shows no progress bar: (*Remaining Time* + *Active State*)
 
 <a href="https://my.home-assistant.io/redirect/developer_states/"><img align="left" src="https://my.home-assistant.io/badges/developer_states.svg" height="36"></a>
 The Developer Tools are a great resource for viewing states and attributes.
