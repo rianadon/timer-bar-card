@@ -117,7 +117,7 @@ export const isState = (stateObj: HassEntity | undefined, checkState: string | s
 }
 
 function nullifyState(value: string) {
-  if (value == "unavailable") return null
+  if (value == "unavailable" || value == "unknown") return null
   return value
 }
 
