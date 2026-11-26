@@ -256,7 +256,7 @@ export class TimerBarEntityRow extends LitElement {
     const newState = this.hass!.states[this.config.entity];
     if (oldHass.states[this.config.entity] == newState) return;
 
-    const homeAssistantAhead = Date.parse(newState.last_changed) - Date.now();
+    const homeAssistantAhead = Date.parse(newState.last_updated) - Date.now();
     if (this.config.sync_issues == 'show' && Math.abs(homeAssistantAhead) > MIN_SYNC_ERROR) {
       // Only show sync errors after the clock correction can be precisely measured twice.
       if (Math.abs(homeAssistantAhead - this._previousClockCorrection) < MIN_SYNC_ERROR) {

@@ -7,6 +7,24 @@ timer:
   test${i}:
     duration: "00:01:00"
 `)}
+
+input_boolean:
+  attr_timer_on:
+    initial: false
+
+input_number:
+  attr_timer_bump:
+    min: 0
+    max: 100
+    initial: 0
+
+template:
+  - sensor:
+    - name: Attr timer
+      state: '{{ states("input_boolean.attr_timer_on") }}'
+      attributes:
+        end_time: '{{ (states.input_boolean.attr_timer_on.last_changed + timedelta(seconds=60)).isoformat() }}'
+        bump: '{{ states("input_number.attr_timer_bump") }}'
 `;
 
 let hass: HomeAssistant<PlaywrightElement>;
@@ -110,4 +128,25 @@ it("Browser ahead, ignored", async () => {
 it("Browser ahead, fixed", async () => {
   const card = await setupTest(-5000, 'fix');
   expect(await card.narrow(".text-content").text()).toBe('59');
+});
+
+it("Attribute-only update does not skew fixed clock", async () => {
+  const dashboard = await hass.Dashboard([
+    { type: "custom:timer-bar-card", entity: "sensor.attr_timer", end_time: { attribute: "end_time" }, sync_issues: "fix" },
+  ]);
+  const card = dashboard.cards[0];
+  await waitForState(card, "off");
+
+  await hass.callService("input_boolean", "turn_on", {}, { entity_id: "input_boolean.attr_timer_on" });
+  await waitForState(card, "on");
+
+  // Change only an attribute a few seconds after the state change. last_changed stays at the
+  // start time, so measuring the clock offset from it would mistake elapsed time for clock skew.
+  await new Promise(r => setTimeout(r, 2500));
+  await hass.callService("input_number", "set_value", { value: 1 }, { entity_id: "input_number.attr_timer_bump" });
+  await new Promise(r => setTimeout(r, 500));
+
+  // ~3s into a 60s timer. A skewed correction would push this back up to 60.
+  const remaining = parseInt(await card.narrow(".text-content").text());
+  expect(remaining).toBeLessThanOrEqual(58);
 });
