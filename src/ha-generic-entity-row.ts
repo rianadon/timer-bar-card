@@ -8,7 +8,7 @@ import { createEntityRow } from "card-tools/src/lovelace-element.js";
 import { provideHass } from "card-tools/src/hass.js";
 import { TimerBarEntityConfig } from "./types";
 import { createActionHandler, createHandleAction } from "./helpers-actions";
-import { computeEntityName } from "./entity-name";
+import { computeEntityName } from "./helpers";
 
 function createPaperButtons(pbConfig: any, position: string) {
   if (!pbConfig || pbConfig.position != position) return '';

@@ -10,7 +10,7 @@ import {
 import { property } from "lit/decorators.js";
 
 import { computeRTL, HomeAssistant } from "custom-card-helpers";
-import { computeEntityName } from "./entity-name";
+import { computeEntityName } from "./helpers";
 import {
   HassEntity,
   Mushroom,

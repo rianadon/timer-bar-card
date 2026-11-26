@@ -1,4 +1,4 @@
-import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
+import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig, EntityName } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
 export const MIN_SYNC_ERROR = 500; // Allow local and HA times to be 500ms different
@@ -209,4 +209,32 @@ export function haveEntitiesChanged(entities: string[], oldHass: HomeAssistant, 
     if (oldHass.states[entity] != newHass.states[entity]) return true
   }
   return false
+}
+
+/** Has any of the registry data that entity names are built from changed? */
+export function haveEntityNamesChanged(oldHass: HomeAssistant, newHass: HomeAssistant) {
+  // formatEntityName is also swapped in asynchronously once translations load
+  const sources = ['formatEntityName', 'entities', 'devices', 'areas', 'floors']
+  return sources.some(key => (oldHass as any)[key] !== (newHass as any)[key])
+}
+
+/** HA only accepts a card's `name` option in formatEntityName from 2026.4.
+ * Older versions have the function with an incompatible signature, so check the version too.
+ **/
+function supportsEntityNames(hass: HomeAssistant | undefined) {
+  if (typeof (hass as any)?.formatEntityName !== 'function') return false
+  const [major, minor] = ((hass!.config as any)?.version ?? '').split('.').map(Number)
+  return major > 2026 || (major === 2026 && minor >= 4)
+}
+
+const computeObjectId = (entityId: string) => entityId.substring(entityId.indexOf('.') + 1)
+
+/** Resolve the configured name, falling back to the friendly name on older HA versions. */
+export function computeEntityName(hass: HomeAssistant | undefined, stateObj: HassEntity | undefined, name: EntityName | undefined): string {
+  if (typeof name === 'string') return name
+  if (!stateObj) return ''
+  if (supportsEntityNames(hass)) return (hass as any).formatEntityName(stateObj, name)
+  return stateObj.attributes.friendly_name === undefined
+    ? computeObjectId(stateObj.entity_id).replace(/_/g, ' ')
+    : stateObj.attributes.friendly_name || ''
 }

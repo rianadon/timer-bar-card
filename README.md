@@ -425,7 +425,7 @@ Optional properties to change icons, colors, and sizes.
 
 | Name           | Type    | Requirement  | Description                                                                                                | Default           |
 |----------------|---------|--------------|------------------------------------------------------------------------------------------------------------|-------------------|
-| name           | string / list | **Optional** | Override the entity's name. Accepts a [structured name](#structured-names) on Home Assistant 2026.4 and later. | entity name |
+| name           | string  | **Optional** | Override the entity's name. Can be a list of [name parts] on HA 2026.4+                                    | entity name       |
 | icon           | string  | **Optional** | Customize the icon to show next to the timer                                                               | -                 |
 | image          | string  | **Optional** | Customize the image url to show in place of the icon                                                       | -                 |
 | state_color    | boolean | **Optional** | Change the icon's color if the timer is active                                                             | -                 |
@@ -447,33 +447,7 @@ Optional properties to change icons, colors, and sizes.
 † the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
 
 [Set]: https://github.com/rianadon/timer-bar-card/blob/main/test/format-time.test.ts
-
-### Structured names
-
-*Requires Home Assistant 2026.4 or later. On earlier versions a structured `name` falls back to the entity's friendly name.*
-
-Home Assistant composes an entity's display name out of its registry context
-(entity, device, area, floor) rather than one `friendly_name` string. A per-entity
-`name` can be a list of those parts instead of a plain string, so it keeps
-following renames and matches what the built-in cards show:
-
-```yaml
-type: custom:timer-bar-card
-entities:
-  - entity: timer.laundry
-    name:
-      - type: area
-      - type: entity
-```
-
-Available part types are `entity`, `device`, `area`, `floor`, and
-`text` (a literal, written as `{type: text, text: Laundry}`). Parts that resolve to
-nothing are dropped. A plain string `name` keeps working exactly as before.
-
-The card-level `name` below is the card heading, not an entity name, so it stays a
-plain string.
-
-See the [Home Assistant developer documentation](https://developers.home-assistant.io/docs/frontend/data#hassformatentitynamestateobj-name-options) for details.
+[name parts]: https://www.home-assistant.io/dashboards/naming/
 
 ### Card options
 

@@ -76,12 +76,6 @@ export interface TimerBarEntityConfig extends styleConfig {
 }
 
 export interface TimerBarConfig extends TimerBarEntityConfig {
-  /**
-   * The card's heading, rendered as free text. Narrowed back to a string: a
-   * structured name has no single entity to resolve against here, and this is
-   * rendered straight into the card header.
-   */
-  name?: string;
   entities?: (string | TimerBarEntityConfig)[];
 
   header_entity?: string;
