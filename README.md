@@ -31,7 +31,7 @@ The card is also well tested. There are [24 tests](https://github.com/rianadon/t
 
 ## Installation
 
-Timer Bar Card is available from [HACS][hacs], the Home Assisstant Community Store.
+Timer Bar Card is available from [HACS][hacs], the Home Assistant Community Store.
 
 If you don't have HACS installed, follow the [manual installation](#manual-installation) instructions.
 
@@ -387,7 +387,7 @@ duration:
 debug: true
 ```
 
-##### 5. A script determins when the entitty turns off
+##### 5. A script determine when the entity turns off
 
 The duration will be fetched from the length of the *Delay* action in the script.
 For this to work, the *Delay* action must not be renamed or configured with the `alias` property in the YAML.
@@ -635,7 +635,7 @@ modifications:
 
 For each modification, you have the option of using `remaining` or `elapsed` to filter based on the time left or total time remaining in the timer. You can also use percentages (`40%` = 40% of duration) or durations (`0:00:10` = 10 seconds). See [my comment here](https://github.com/rianadon/timer-bar-card/issues/21#issuecomment-940750817) for a more detailed example!
 
-All modifications that match are applied, with the last modification having precedence. This means you'll likeley want to list them in increasing order of durations/percentages if using `elapsed` and decreasing order if using `remaining`, so that styles are overridden as the timer progresses farther.
+All modifications that match are applied, with the last modification having precedence. This means you'll likely want to list them in increasing order of durations/percentages if using `elapsed` and decreasing order if using `remaining`, so that styles are overridden as the timer progresses farther.
 
 > Do note that `remaining: 1%` is equivalent to `elapsed: 99%`, and that for a 10 second timer `remaining: "00:00:01"` is equivalent to `elapsed: "00:00:09"`.
 
@@ -659,7 +659,7 @@ You can also choose to hide only the entity name with `layout: hide_name`.
 
 Want to change the names of the entity statuses because they are in the wrong language or they just aren't cool enough for you? You can do that! Need to use different settings for each entity? You can do that too (replace the entity id with a YAML dict where the `entity` key is the ID, then you can add any other configuration option you like to change it for that entity).
 
-You can also use these per-setting entities to rename invidual rows of the card, override the icon for a row, or in fact change almost any setting available in the card.
+You can also use these per-setting entities to rename individual rows of the card, override the icon for a row, or in fact change almost any setting available in the card.
 
 ```yaml
 type: custom:timer-bar-card
@@ -696,7 +696,7 @@ extend_paper_buttons_row:
 
 The card by itself does not support using templates to customize the name and icon. However, using a plugin like the [Templatable Configuration Card](https://github.com/iantrich/config-template-card) or [Card Templater](https://github.com/gadgetchnnel/lovelace-card-templater), you can customize the name of entities, the icons, or any configuration option in the card.
 
-I like the latter card since it uses the same templating format as Home Assistant, but the latest release (as of June 2023) with important fixes is still in beta and it takes longer to render the templates. This delays the rendering of the timer card enough to trigger the [alert about the time being out of sync](#sync-issues). Thefore, I recommend you use the [former card](https://github.com/iantrich/config-template-card) unless you do not have the time to learn its unique templating language.
+I like the latter card since it uses the same templating format as Home Assistant, but the latest release (as of June 2023) with important fixes is still in beta and it takes longer to render the templates. This delays the rendering of the timer card enough to trigger the [alert about the time being out of sync](#sync-issues). Therefore, I recommend you use the [former card](https://github.com/iantrich/config-template-card) unless you do not have the time to learn its unique templating language.
 
 <img alt="Screenshot" src="https://raw.githubusercontent.com/rianadon/timer-bar-card/main/images/template.png" width="507" height="88" />
 
