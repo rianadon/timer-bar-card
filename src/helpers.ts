@@ -50,7 +50,20 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
   if (!stateObj) throw new Error('If there is neither a duration nor start and end times, an entity is required.')
   if (end_time) return (Date.parse(end_time) - Date.parse(stateObj.last_changed)) / 1000;
 
+  const remain_time = timeAttribute(hass, stateObj, config.remain_time);
+  if (remain_time) return durationFromRemaining(hass, stateObj, config.remain_time!, Date.parse(start_time || stateObj.last_changed), remain_time);
+
   return null;
+}
+
+/**
+ * Duration = time elapsed from start until remain_time was reported, plus remain_time.
+ * Using the reporting entity's last_updated (rather than the current time) keeps the
+ * duration fixed between updates, even if remain_time only updates once a minute.
+ */
+function durationFromRemaining(hass: HomeAssistant, stateObj: HassEntity, attrib: AttributeConfig, start: number, remain_time: number) {
+  const source = 'entity' in attrib ? hass.states[attrib.entity] : stateObj;
+  return Math.round((Date.parse(source.last_updated) - start) / 1000) + remain_time;
 }
 
 /** Calculate the most accurate estimate of time remaining for the timer. */
