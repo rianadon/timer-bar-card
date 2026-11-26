@@ -1,11 +1,9 @@
 import { AttributeConfig, TimerBarConfig, HassEntity, Mode, TimerBarEntityConfig } from "./types";
 import { durationToSeconds, formatTime, HomeAssistant } from "custom-card-helpers";
 
+// Both of these are in milliseconds
 export const MIN_SYNC_ERROR = 500; // Allow local and HA times to be 500ms different
 export const MAX_FIX_SYNC_ERROR = 60000; // Allow sync fixes of up to 1hr
-
-/** MIN_SYNC_ERROR expressed in seconds, for comparing against durations. */
-const MIN_SYNC_ERROR_SECONDS = MIN_SYNC_ERROR / 1000;
 
 /** Date.now(), but with a specified correction in ms. */
 function now(correction: number) {
@@ -170,7 +168,7 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig, corr
   const duration = findDuration(hass, config, state);
   const remaining = timerTimeRemaining(hass, config, state, correction);
   if (!duration || !remaining) return undefined;
-  if (remaining >= 0 && remaining <= duration + MIN_SYNC_ERROR_SECONDS) return 'active';
+  if (remaining >= 0 && remaining <= duration + MIN_SYNC_ERROR / 1000) return 'active';
   return undefined;
 }
 
