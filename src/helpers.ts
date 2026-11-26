@@ -26,7 +26,7 @@ export function usesLastChanged(hass: HomeAssistant, config: TimerBarConfig, sta
   const end_time = attribute(hass, stateObj, config.end_time);
 
   // Last changed is needed if at least 2 of duration, start time, and end time are undefined.
-  return (!duration && !end_time) || (!duration && !start_time) || (!duration && !remain_time) || (!end_time && !start_time && typeof remain_time === 'undefined');
+  return (!duration && !end_time) || (!duration && !start_time) || (!duration && !remain_time) || (!end_time && !start_time && !remain_time);
 }
 
 // (duration OR start + end)
