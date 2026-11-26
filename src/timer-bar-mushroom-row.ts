@@ -10,6 +10,7 @@ import {
 import { property } from "lit/decorators.js";
 
 import { computeRTL, HomeAssistant } from "custom-card-helpers";
+import { computeEntityName } from "./helpers";
 import {
   HassEntity,
   Mushroom,
@@ -27,14 +28,6 @@ import {
   computeRgbColor,
   computeInfoDisplay,
 } from "./lib/mushroom";
-
-const computeObjectId = (entityId: string): string =>
-  entityId.substring(entityId.indexOf(".") + 1);
-
-const computeStateName = (stateObj: any): string =>
-  stateObj.attributes.friendly_name === undefined
-    ? computeObjectId(stateObj.entity_id).replace(/_/g, " ")
-    : stateObj.attributes.friendly_name || "";
 
 const computeDarkMode = (hass: HomeAssistant | undefined) =>
   hass && !!(hass.themes as any).darkMode;
@@ -89,7 +82,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
 
     const rtl = computeRTL(this.hass);
     const state = this.hass!.states[this.config.entity!];
-    const name = config.name ?? computeStateName(state);
+    const name = computeEntityName(this.hass, state, config.name);
 
     if (this.modConfig.layout === "hide_name") config = { ...config, name: "" };
 
@@ -127,7 +120,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
 
   protected _renderState() {
     const state = this.hass!.states[this.config.entity!];
-    const name = this.config.name ?? computeStateName(state);
+    const name = computeEntityName(this.hass, state, this.config.name);
     const appearance = this.appearance();
     const stateStr = super._renderState();
     return computeInfoDisplay(

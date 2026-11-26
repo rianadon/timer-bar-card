@@ -40,9 +40,16 @@ export type AttributeConfig = AttributeType & {
 };
 export type Translations = { [phrase: string]: string };
 
+/** A `name` option: a plain string, or name parts resolved from the registry. */
+export type EntityName = string | EntityNameItem | EntityNameItem[];
+
+export type EntityNameItem =
+  | { type: "entity" | "device" | "area" | "floor" }
+  | { type: "text"; text: string };
+
 export interface TimerBarEntityConfig extends styleConfig {
   type: string;
-  name?: string;
+  name?: EntityName;
   entity?: string;
 
   state?: { fixed: string };

@@ -8,14 +8,7 @@ import { createEntityRow } from "card-tools/src/lovelace-element.js";
 import { provideHass } from "card-tools/src/hass.js";
 import { TimerBarEntityConfig } from "./types";
 import { createActionHandler, createHandleAction } from "./helpers-actions";
-
-const computeObjectId = (entityId: string): string =>
-  entityId.substring(entityId.indexOf(".") + 1);
-
-const computeStateName = (stateObj: any): string =>
-  stateObj.attributes.friendly_name === undefined
-    ? computeObjectId(stateObj.entity_id).replace(/_/g, " ")
-    : stateObj.attributes.friendly_name || "";
+import { computeEntityName } from "./helpers";
 
 function createPaperButtons(pbConfig: any, position: string) {
   if (!pbConfig || pbConfig.position != position) return '';
@@ -32,7 +25,7 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
   const stateObj = config.entity ? hass.states[config.entity] : undefined;
   if (!stateObj && !config.name && !config.state) return html`<hui-warning>Entity ${config.entity} not found.  To use without an entity, specify name and state.</hui-warning>`;
 
-  const name = config.name ?? computeStateName(stateObj);
+  const name = computeEntityName(hass, stateObj, config.name);
 
   // Hide the pointer if tap action is none
   const pointer = config.tap_action?.action !== "none" ? "pointer" : "";

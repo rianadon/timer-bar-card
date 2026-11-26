@@ -433,6 +433,7 @@ Optional properties to change icons, colors, and sizes.
 
 | Name           | Type    | Requirement  | Description                                                                                                | Default           |
 |----------------|---------|--------------|------------------------------------------------------------------------------------------------------------|-------------------|
+| name           | string  | **Optional** | Override the entity's name. Can be a list of [name parts] on HA 2026.4+                                    | entity name       |
 | icon           | string  | **Optional** | Customize the icon to show next to the timer                                                               | -                 |
 | image          | string  | **Optional** | Customize the image url to show in place of the icon                                                       | -                 |
 | state_color    | boolean | **Optional** | Change the icon's color if the timer is active                                                             | -                 |
@@ -454,6 +455,7 @@ Optional properties to change icons, colors, and sizes.
 † the primary color is taken from your theme using `var(--mdc-theme-primary, #6200ee);`
 
 [Set]: https://github.com/rianadon/timer-bar-card/blob/main/test/format-time.test.ts
+[name parts]: https://www.home-assistant.io/dashboards/naming/
 
 ### Card options
 
