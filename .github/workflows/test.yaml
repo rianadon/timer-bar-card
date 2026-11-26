@@ -27,6 +27,9 @@ jobs:
           enable-cache: true
           cache-dependency-glob: package.json
 
+      - name: Install Hass system libraries
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libturbojpeg
+
       - name: Install NPM Dependencies
         run: npm install
 
@@ -43,10 +46,10 @@ jobs:
         run: test/setup.sh
 
       - name: Test Firefox
-        run: BROWSER=firefox npm run test || BROWSER=firefox npm run test
+        run: BROWSER=firefox npm run test
 
       - name: Test Chromium
-        run: BROWSER=chromium npm run test || BROWSER=chromium npm run test
+        run: BROWSER=chromium npm run test
 
       - name: Upload artifact
         if: ${{ always() }}

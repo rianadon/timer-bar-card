@@ -30,7 +30,7 @@
     "@rollup/plugin-typescript": "^12.3.1",
     "@types/jest": "^30.0.0",
     "@types/jest-image-snapshot": "^6.4.2",
-    "hass-taste-test": "^0.3.0",
+    "hass-taste-test": "^0.3.1",
     "jest": "^30.5.2",
     "jest-image-snapshot": "^6.5.2",
     "playwright": "^1.65.1",

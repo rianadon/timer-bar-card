@@ -1,4 +1,4 @@
-import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement, PlaywrightPage } from "hass-taste-test";
+import { multiply, HomeAssistant, HassCard, PlaywrightBrowser, PlaywrightElement, PlaywrightPage } from "hass-taste-test";
 import { Browser, BrowserContext } from "playwright";
 
 const CONFIGURATION_YAML = `
@@ -35,21 +35,38 @@ class ModPlaywrightBrowser extends PlaywrightBrowser {
   }
 }
 
+/** Wait until the card's entity row has rendered the given timer state */
+async function waitForState(card: HassCard<PlaywrightElement>, state: string) {
+  const deadline = Date.now() + 5000;
+  while (!(await card.html()).includes(`data-state="${state}"`)) {
+    if (Date.now() > deadline) throw new Error(`Timed out waiting for the card to show state ${state}`);
+    await new Promise(r => setTimeout(r, 50));
+  }
+}
+
 async function setupTest(offset: number, sync_issues?: string) {
   const entity = `timer.test${++testNumber}`
   const dashboard = await hass.Dashboard([
     { type: "custom:timer-bar-card", entity, sync_issues, debug: true },
   ], { title: String(offset) });
+  const card = dashboard.cards[0];
 
   const page = (dashboard.page as PlaywrightPage).playwright;
   await page.waitForFunction(() => (window as any).offset != 0); // Wait for offset to update
-  await new Promise(r => setTimeout(r, 1000)) // Wait for the card to load
+  // The card only measures clock offset on state *changes*, so it must have rendered the idle
+  // state before the timer starts. Otherwise the start arrives as the card's first render, is
+  // never measured, and the card can't confirm the offset with two matching measurements.
+  await waitForState(card, "idle");
 
+  await new Promise(r => setTimeout(r, 1100 - Date.now() % 1000));
+  const started = Date.now();
   await hass.callService("timer", "start", {}, { entity_id: entity });
-  await new Promise(r => setTimeout(r, 1000)) // Wait for the card to process the event
+  await waitForState(card, "active");
+  await new Promise(r => setTimeout(r, Math.max(0, started + 1000 - Date.now())));
   // Update the timer state twice so that the card catches the sync error
   await hass.callService("timer", "pause", {}, { entity_id: entity });
-  return dashboard.cards[0];
+  await waitForState(card, "paused");
+  return card;
 }
 
 
