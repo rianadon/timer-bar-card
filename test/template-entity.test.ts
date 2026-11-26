@@ -21,6 +21,19 @@ template:
       attributes:
         finishes_at: '{{ state_attr("timer.test2", "finishes_at") }}'
         duration: 00:01:00
+    - name: Remaining time
+      state: '{{ states("input_number.remaining_time") | int }}'
+      availability: '{{ is_state("input_boolean.remaining_available", "on") }}'
+
+input_number:
+  remaining_time:
+    min: 0
+    max: 600
+    initial: 0
+
+input_boolean:
+  remaining_available:
+    initial: true
 `;
 
 let hass: HomeAssistant<PlaywrightElement>;
@@ -103,3 +116,33 @@ it("Can explicitly specify state", async () => {
   expect(await element.$$eval(".bar", (els) => els.length)).toBe(1);
 });
 
+
+it("Auto mode can guess active/idle from remaining time + duration", async () => {
+  const dashboard = await hass.Dashboard([{
+    type: "custom:timer-bar-card",
+    entity: "sensor.remaining_time",
+    guess_mode: true,
+    duration: { fixed: "0:01:00" },
+    remain_time: { state: true, units: "seconds" },
+  }]);
+  const element = await dashboard.cards[0].element();
+  const barCount = async () => {
+    await new Promise(r => setTimeout(r, 500)); // Give the sensor time to update
+    return element.$$eval(".bar", (els) => els.length);
+  };
+
+  // Remaining time of 0 means the timer is idle
+  expect(await barCount()).toBe(0);
+
+  // Remaining time within the duration means the timer is active
+  await hass.callService("input_number", "set_value", { value: 30 }, { entity_id: "input_number.remaining_time" });
+  expect(await barCount()).toBe(1);
+
+  // Back to 0: idle again
+  await hass.callService("input_number", "set_value", { value: 0 }, { entity_id: "input_number.remaining_time" });
+  expect(await barCount()).toBe(0);
+
+  // An unavailable sensor must not fall back to last_changed + duration
+  await hass.callService("input_boolean", "turn_off", {}, { entity_id: "input_boolean.remaining_available" });
+  expect(await barCount()).toBe(0);
+});

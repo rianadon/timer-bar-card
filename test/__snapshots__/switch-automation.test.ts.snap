@@ -9,7 +9,7 @@ exports[`Switch with input_number turns off: idle 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="input_boolean" data-state="off">…</ha-state-icon>
+              <ha-state-icon data-domain="input_boolean" data-state="off" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="switch">
               switch
@@ -35,7 +35,7 @@ exports[`Switch with input_number turns off: running 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="input_boolean" data-state="on">…</ha-state-icon>
+              <ha-state-icon data-domain="input_boolean" data-state="on" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="switch">
               switch

@@ -1,5 +1,4 @@
-import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { PlaywrightPage } from "hass-taste-test/lib/integrations/playwright";
+import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement, PlaywrightPage } from "hass-taste-test";
 import { Browser, BrowserContext } from "playwright";
 
 const CONFIGURATION_YAML = `

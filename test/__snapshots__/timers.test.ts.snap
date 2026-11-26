@@ -9,7 +9,7 @@ exports[`Card UI Styles: idle 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="test2">
               test2
@@ -22,7 +22,7 @@ exports[`Card UI Styles: idle 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="test3">
               test3
@@ -35,7 +35,7 @@ exports[`Card UI Styles: idle 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="pointer text-content value">
               Idle
@@ -65,7 +65,7 @@ exports[`Card UI Styles: paused 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="paused">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="paused" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="test2">
               test2
@@ -81,7 +81,7 @@ exports[`Card UI Styles: paused 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="test3">
               test3
@@ -94,7 +94,7 @@ exports[`Card UI Styles: paused 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="paused">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="paused" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="pointer status">
               Paused
@@ -130,7 +130,7 @@ exports[`Card UI Styles: running 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="test2">
               test2
@@ -148,7 +148,7 @@ exports[`Card UI Styles: running 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="info pointer" title="test3">
               test3
@@ -161,7 +161,7 @@ exports[`Card UI Styles: running 1`] = `
         <timer-bar-entity-row config="[object Object]" hass="[object Object]">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
-              <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+              <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
             </state-badge>
             <div class="bar-container pointer">
               <div class="bar">
@@ -198,7 +198,7 @@ exports[`Entity Row Styles: idle 1`] = `
     <timer-bar-entity-row config="[object Object]" hass="[object Object]">
       <div class="generic-entity-row">
         <state-badge class="pointer" icon="true" tabindex="0">
-          <ha-state-icon data-domain="timer" data-state="idle">…</ha-state-icon>
+          <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
         </state-badge>
         <div class="info pointer" title="test1">
           test1
@@ -219,7 +219,7 @@ exports[`Entity Row Styles: paused 1`] = `
     <timer-bar-entity-row config="[object Object]" hass="[object Object]">
       <div class="generic-entity-row">
         <state-badge class="pointer" icon="true" tabindex="0">
-          <ha-state-icon data-domain="timer" data-state="paused">…</ha-state-icon>
+          <ha-state-icon data-domain="timer" data-state="paused" stateTitle="false">…</ha-state-icon>
         </state-badge>
         <div class="info pointer" title="test1">
           test1
@@ -243,7 +243,7 @@ exports[`Entity Row Styles: running 1`] = `
     <timer-bar-entity-row config="[object Object]" hass="[object Object]">
       <div class="generic-entity-row">
         <state-badge class="pointer" icon="true" tabindex="0">
-          <ha-state-icon data-domain="timer" data-state="active">…</ha-state-icon>
+          <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
         </state-badge>
         <div class="info pointer" title="test1">
           test1
