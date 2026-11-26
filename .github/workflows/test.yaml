@@ -21,17 +21,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package.json
 
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.4.0
         with:
-          python-version: 3.x
-
-      - name: Cache Hass
-        id: cache-hass
-        uses: actions/cache@v4
-        with:
-          path: /tmp/hasstest-venv
-          key: ${{ runner.os }}-hass
+          enable-cache: true
+          cache-dependency-glob: package.json
 
       - name: Install NPM Dependencies
         run: npm install
@@ -70,12 +64,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cache Hass
-        id: cache-hass
-        uses: actions/cache@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.4.0
         with:
-          path: /tmp/hasstest-venv
-          key: ${{ runner.os }}-hass
+          enable-cache: true
+          cache-dependency-glob: package.json
 
       - name: Install Hass
         run: npm install && npx hass-taste-test
