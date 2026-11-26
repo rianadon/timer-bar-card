@@ -84,9 +84,10 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 | [PrusaLink]                        | *supported*          | start+end time, `guess_mode` [[#106]] (♡ @deadly667!)           |
 | [Public Transport]<br>[Departures] | *supported*          | `guess_mode`, `end_time` [[#188]] (thanks @alex-jung!)          |
 | [RainMachine]                      | *supported*          | multiple: see [#46] (thanks @shbatm!)                           |
+| [Škoda (HACS, EOL)]                | *supported*          | `active_state`, `duration` [[#222]] (♡ @apotkamp!)              |
 | [SmartThings]                      | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)                    |
 | [Tesla]                            | *supported*          | [template entity required: see #98][#98]                        |
-| [LG ThinQ (official)]              | *supported*          | [[#211]] multiple: see [#211] (thanks @RafaelSchridi!)          |
+| [LG ThinQ (official)]              | *supported*          | multiple: see [#211] (thanks @RafaelSchridi!)                   |
 | [ThinQ washer/dryer (HACS)]        | *supported*          | configure `duration` to `initial_time` [[#15]]                  |
 | [ThinQ dishwasher (HACS)]          | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)               |
 | [Google Home Alarm]                | *not really [[#18]]* | template entity required                                        |
@@ -118,6 +119,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#176]: https://github.com/rianadon/timer-bar-card/issues/176
 [#188]: https://github.com/rianadon/timer-bar-card/issues/188
 [#211]: https://github.com/rianadon/timer-bar-card/issues/211#issuecomment-5202944539
+[#222]: https://github.com/rianadon/timer-bar-card/issues/222
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
 [ThinQ washer/dryer (HACS)]: https://github.com/ollo69/ha-smartthinq-sensors
@@ -144,6 +146,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Public Transport]: https://github.com/alex-jung/ha-departures
 [Departures]: https://github.com/alex-jung/ha-departures
 [LG ThinQ (official)]: https://www.home-assistant.io/integrations/lg_thinq/
+[Škoda (HACS, EOL)]: https://github.com/skodaconnect/homeassistant-myskoda
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*\
 ‡ *Devices connected through the HomeWhiz app: Beko, Grundig, and Arcelik brands*
