@@ -61,34 +61,35 @@ Most integrations require adding at least one or two additional lines of YAML co
 I'd love to add it here! Please submit an <a href="https://github.com/rianadon/timer-bar-card/issues/new?template=tell-me-about-an-integration-you-got-working.md">issue</a> with the integration name and your configuration!
 </code></pre>
 
-| Integration                       | Status               | Extra configuration required                             |
-|-----------------------------------|----------------------|----------------------------------------------------------|
-| [Home Assistant timer]            | *supported & tested* | no! 🎉                                                   |
-| Automation-controlled<br>switches | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration] |
-| [Sun]                             | *supported*          | [See the example](#sun)                                  |
-| [OpenSprinkler][opensprinkler]    | *supported*          | no! 🎊 ([example][opensprinkler-example])                |
-| [Amazon Alexa Timer]              | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]], or [[#166]] |
-| [Anova Sous Vide]                 | *supported*          | `active_state`, `end_time` [[#176]] (♡ @kristoficko!)    |
-| [Bambu Lab]                       | *supported*          | `active_state`, `end_time` [[#143]] (♡ @andrewtimosca)   |
-| [BMW Connected Drive][bmw]        | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)           |
-| [Cleverio Sous Vide (Tuya)]       | *supported*          | multiple: see [#67] (thanks @develop-daraf!)             |
-| [Daily Schedule]                  | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)     |
-| [Google Home Timer]               | *supported*          | [auto-entities card][#140] or [template entity][#19]     |
-| [Home Connect] †                  | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)        |
-| [HomeWhiz] ‡                      | *supported*          | multiple: see [#121] (thanks @GigiPompieru)              |
-| [Irrigation Unlimited]            | *supported*          | `duration` and `start_time` [[#5]]                       |
-| [Meater]                          | *supported*          | `active_state`, `end_time` [[#122]] (♡ @Bascht74!)       |
-| [Miele]                           | *supported*          | [template entity required: see #62][#62]                 |
-| [Moonraker]                       | *supported*          | mutliple: see [#107] (thanks @user74656!)                |
-| [OctoPrint][octoprint]            | *supported*          | multiple: see [#58] (thanks @schmacka!)                  |
-| [PrusaLink]                       | *supported*          | start+end time, `guess_mode` [[#106]] (♡ @deadly667!)    |
-| [Public Transport]<br>[Departures]| *supported*          | `guess_mode`, `end_time` [[#188]] (thanks @alex-jung!)   |
-| [RainMachine]                     | *supported*          | multiple: see [#46] (thanks @shbatm!)                    |
-| [SmartThings]                     | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)             |
-| [Tesla]                           | *supported*          | [template entity required: see #98][#98]                 |
-| [ThinQ washer/dryer]              | *supported*          | configure `duration` to `initial_time` [[#15]]           |
-| [ThinQ dishwasher]                | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)        |
-| [Google Home Alarm]               | *not really [[#18]]* | template entity required                                 |
+| Integration                        | Status               | Extra configuration required                                    |
+|------------------------------------|----------------------|-----------------------------------------------------------------|
+| [Home Assistant timer]             | *supported & tested* | no! 🎉                                                          |
+| Automation-controlled<br>switches  | *supported & tested* | [set `duration` to `{ fixed: x:xx:xx }`][fixed-duration]        |
+| [Sun]                              | *supported*          | [See the example](#sun)                                         |
+| [OpenSprinkler][opensprinkler]     | *supported*          | no! 🎊 ([example][opensprinkler-example])                       |
+| [Amazon Alexa Timer]               | *supported*          | `start_time`, `end_time`, and `guess_mode` [[#22]], or [[#166]] |
+| [Anova Sous Vide]                  | *supported*          | `active_state`, `end_time` [[#176]] (♡ @kristoficko!)           |
+| [Bambu Lab]                        | *supported*          | `active_state`, `end_time` [[#143]] (♡ @andrewtimosca)          |
+| [BMW Connected Drive][bmw]         | *supported*          | `active_state`, `end_time` [[#60]] (♡ @hoeni!)                  |
+| [Cleverio Sous Vide (Tuya)]        | *supported*          | multiple: see [#67] (thanks @develop-daraf!)                    |
+| [Daily Schedule]                   | *supported*          | `active_state`, `end_time` [[#80]] (♡ @igorsantos07)            |
+| [Google Home Timer]                | *supported*          | [auto-entities card][#140] or [template entity][#19]            |
+| [Home Connect] †                   | *supported*          | `active_state`, `end_time` [[#36]] (♡ @rickdeck!)               |
+| [HomeWhiz] ‡                       | *supported*          | multiple: see [#121] (thanks @GigiPompieru)                     |
+| [Irrigation Unlimited]             | *supported*          | `duration` and `start_time` [[#5]]                              |
+| [Meater]                           | *supported*          | `active_state`, `end_time` [[#122]] (♡ @Bascht74!)              |
+| [Miele]                            | *supported*          | [template entity required: see #62][#62]                        |
+| [Moonraker]                        | *supported*          | mutliple: see [#107] (thanks @user74656!)                       |
+| [OctoPrint][octoprint]             | *supported*          | multiple: see [#58] (thanks @schmacka!)                         |
+| [PrusaLink]                        | *supported*          | start+end time, `guess_mode` [[#106]] (♡ @deadly667!)           |
+| [Public Transport]<br>[Departures] | *supported*          | `guess_mode`, `end_time` [[#188]] (thanks @alex-jung!)          |
+| [RainMachine]                      | *supported*          | multiple: see [#46] (thanks @shbatm!)                           |
+| [SmartThings]                      | *supported*          | multiple: see [#45] (thanks @TheRedBull205!)                    |
+| [Tesla]                            | *supported*          | [template entity required: see #98][#98]                        |
+| [LG ThinQ (official)]              | *supported*          | [[#211]] multiple: see [#211] (thanks @RafaelSchridi!)          |
+| [ThinQ washer/dryer (HACS)]        | *supported*          | configure `duration` to `initial_time` [[#15]]                  |
+| [ThinQ dishwasher (HACS)]          | *supported*          | multiple: see [#70] (thanks @ollo69 for the help)               |
+| [Google Home Alarm]                | *not really [[#18]]* | template entity required                                        |
 
 [fixed-duration]: #6-ugh-i-know-what-the-duration-is-but-its-nowhere-in-home-assistant
 [opensprinkler-example]: #use-with-opensprinkler-integration
@@ -116,10 +117,11 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [#166]: https://github.com/rianadon/timer-bar-card/pull/166
 [#176]: https://github.com/rianadon/timer-bar-card/issues/176
 [#188]: https://github.com/rianadon/timer-bar-card/issues/188
+[#211]: https://github.com/rianadon/timer-bar-card/issues/211#issuecomment-5202944539
 [Sun]: https://www.home-assistant.io/integrations/sun/
 [Home Assistant timer]: https://www.home-assistant.io/integrations/timer/
-[ThinQ washer/dryer]: https://github.com/ollo69/ha-smartthinq-sensors
-[ThinQ dishwasher]: https://github.com/ollo69/ha-smartthinq-sensors
+[ThinQ washer/dryer (HACS)]: https://github.com/ollo69/ha-smartthinq-sensors
+[ThinQ dishwasher (HACS)]: https://github.com/ollo69/ha-smartthinq-sensors
 [Google Home Alarm]: https://github.com/leikoilja/ha-google-home
 [Google Home Timer]: https://github.com/leikoilja/ha-google-home
 [Amazon Alexa Timer]: https://github.com/custom-components/alexa_media_player
@@ -141,6 +143,7 @@ I'd love to add it here! Please submit an <a href="https://github.com/rianadon/t
 [Anova Sous Vide]: https://www.home-assistant.io/integrations/anova
 [Public Transport]: https://github.com/alex-jung/ha-departures
 [Departures]: https://github.com/alex-jung/ha-departures
+[LG ThinQ (official)]: https://www.home-assistant.io/integrations/lg_thinq/
 
 † *BSH appliances - Bosch/Siemens/Neff/Gagenau. Check out [issue #36][#36] for the full card configuration!*\
 ‡ *Devices connected through the HomeWhiz app: Beko, Grundig, and Arcelik brands*
