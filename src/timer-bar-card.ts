@@ -37,6 +37,19 @@ export class TimerBarCard extends LitElement {
   @property({ reflect: true, type: String })
   public layout: string | undefined;
 
+  /** Text shapes of every row, one per line, passed to each row so their bars line up. */
+  @state() private _sharedShapes = '';
+
+  private _updateSharedShapes() {
+    const rows = this.renderRoot.querySelectorAll<TimerBarEntityRow>('timer-bar-entity-row');
+    this._sharedShapes = [...rows].map(r => r.textShape).join('\n');
+  }
+
+  protected updated(changedProps: PropertyValues): void {
+    super.updated(changedProps);
+    this._updateSharedShapes(); // rows may have been added or removed (e.g. by filter)
+  }
+
   public static async getConfigElement() {
     await import('./timer-bar-card-editor');
     return document.createElement('timer-bar-editor');
@@ -81,7 +94,7 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
     } else if (config.entities) {
       return html`<ha-card>
         ${config.name && !config.header_entity ? html`<h1 class="card-header">${this.config.name}</h1>` : ''}
-        <div class="card-content">
+        <div class="card-content" @timer-bar-text-shape=${this._updateSharedShapes}>
           ${config.header_entity ? this._renderTitle() : ''}
           ${this._renderContent()}
         </div>
@@ -145,6 +158,7 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
       // Create a entity-row component for every entity
       return html`<timer-bar-entity-row
                     .config=${this._configFor(entity)}
+                    .sharedShapes=${this._sharedShapes}
                     .hass=${this.hass}
                     style=${styleMap(style)}
                   ></timer-bar-entity-row>`;

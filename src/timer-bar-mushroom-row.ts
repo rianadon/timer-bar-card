@@ -50,6 +50,8 @@ export function fillMushroomConfig(
     bar_background: `rgba(${color}, 0.2)`,
     bar_foreground: `rgb(${color})`,
     bar_radius: "2px",
+    // Horizontal layouts: bar fills the space left over by the text unless bar_width is given
+    ...(mushroom.layout === "vertical" ? {} : { bar_width: "100%" }),
     translations: config.translations,
     ...config,
   };
@@ -250,11 +252,21 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
         .bar {
           margin-top: 0;
         }
-        .bar-container {
-          flex-grow: 1;
+        /* bar and status take bar_width (100%) but must leave room for the time */
+        .bar-container,
+        .status {
+          flex-shrink: 1;
+          min-width: 0;
         }
         .text-content {
           text-align: start;
+        }
+        .text-content.auto-width {
+          /* the time sits left of the bar here (row-reverse), so pad the other side */
+          padding-inline: 0 8px;
+        }
+        .secondary.vertical > .text-content.auto-width {
+          padding: 0;
         }
       `,
     ];

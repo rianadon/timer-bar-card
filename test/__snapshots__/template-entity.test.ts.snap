@@ -6,7 +6,9 @@ exports[`Can explicitly specify state: all 1`] = `
     <ha-card raised="false">
       <slot></slot>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="44
+44
+">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon icon="mdi:timer" stateTitle="false">…</ha-state-icon>
@@ -19,7 +21,10 @@ exports[`Can explicitly specify state: all 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="44
+44
+44
+">
               30
             </div>
           </div>
@@ -50,7 +55,9 @@ exports[`Can explicitly specify state: all 1`] = `
             <br>
           </code>
         </timer-bar-entity-row>
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="44
+44
+">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon icon="mdi:timer-lock" stateTitle="false">…</ha-state-icon>
@@ -61,7 +68,10 @@ exports[`Can explicitly specify state: all 1`] = `
             <div class="pointer status">
               Paused
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="44
+44
+44
+">
               30
             </div>
           </div>
@@ -95,7 +105,9 @@ exports[`Can explicitly specify state: all 1`] = `
             </b>
           </code>
         </timer-bar-entity-row>
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="44
+44
+">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon icon="mdi:timer-off" stateTitle="false">…</ha-state-icon>
@@ -142,7 +154,7 @@ exports[`Can explicitly specify state: all 1`] = `
 exports[`Custom entity can pause: idle 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+    <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
       <div class="generic-entity-row">
         <state-badge class="pointer" icon="true" tabindex="0">
           <ha-state-icon data-domain="sensor" data-state="idle" stateTitle="false">…</ha-state-icon>
@@ -163,7 +175,7 @@ exports[`Custom entity can pause: idle 1`] = `
 exports[`Custom entity can pause: paused 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+    <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
       <div class="generic-entity-row">
         <state-badge class="pointer" icon="true" tabindex="0">
           <ha-state-icon data-domain="sensor" data-state="paused" stateTitle="false">…</ha-state-icon>
@@ -174,7 +186,8 @@ exports[`Custom entity can pause: paused 1`] = `
         <div class="pointer status">
           Paused
         </div>
-        <div class="pointer text-content value">
+        <div class="auto-width pointer text-content value" data-shape="44
+">
           59
         </div>
       </div>
@@ -187,7 +200,7 @@ exports[`Custom entity can pause: paused 1`] = `
 exports[`Custom entity can pause: running 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+    <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
       <div class="generic-entity-row">
         <state-badge class="pointer" icon="true" tabindex="0">
           <ha-state-icon data-domain="sensor" data-state="active" stateTitle="false">…</ha-state-icon>
@@ -200,7 +213,8 @@ exports[`Custom entity can pause: running 1`] = `
             <div></div>
           </div>
         </div>
-        <div class="pointer text-content value">
+        <div class="auto-width pointer text-content value" data-shape="44
+">
           59
         </div>
       </div>

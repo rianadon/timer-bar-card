@@ -6,7 +6,7 @@ exports[`Switch with input_number turns off: idle 1`] = `
     <ha-card raised="false">
       <slot></slot>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="off" stateTitle="false">…</ha-state-icon>
@@ -32,7 +32,7 @@ exports[`Switch with input_number turns off: running 1`] = `
     <ha-card raised="false">
       <slot></slot>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="on" stateTitle="false">…</ha-state-icon>
@@ -45,7 +45,8 @@ exports[`Switch with input_number turns off: running 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="4
+4">
               2
             </div>
           </div>

@@ -67,3 +67,11 @@ it('can render negative times', () => {
 it('can render tricky times', () => {
   expect(formatTime(59 + 59*60 + 1*60*60, 'hm')).toBe('2:00')
 });
+
+test('num only transforms filled-in time values', () => {
+  const placeholder = (n: string) => n.replace(/\d/g, '4')
+  expect(formatTime(2684, 'hms', placeholder)).toBe('44:44')
+  expect(formatTime(4000, 'hm', placeholder)).toBe('4:44')
+  expect(formatTime(605, '%m min %SS s (x2)', placeholder)).toBe('44 min 44 s (x2)')
+  expect(formatTime(-30, '%M:%SS', placeholder)).toBe('-4:44')
+})

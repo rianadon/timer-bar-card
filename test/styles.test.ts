@@ -72,3 +72,30 @@ it("Receding progress bar", async () => {
   await waitForTimerTime(card, "00:00:08");
   await expect(card).toMatchDualSnapshot("running");
 });
+
+it("Auto text width lines up rows in a card", async () => {
+  const dashboard = await hass.Dashboard([
+    {
+      type: "custom:timer-bar-card",
+      entities: ["timer.test4", "timer.test5"],
+      text_min_width: "0", // so the widths come only from the text
+    },
+  ]);
+  const card = dashboard.cards[0];
+
+  await hass.callService("timer", "start", { duration: "02:00:00" }, { entity_id: "timer.test4" });
+  await hass.callService("timer", "start", { duration: "00:00:30" }, { entity_id: "timer.test5" });
+  await waitForTimerTime(card, "01:59:58");
+
+  const element: PlaywrightElement = await card.element();
+  const measure = () => element.$$eval(".text-content", (els) => els.map((e) => ({
+    text: e.textContent!.trim(),
+    width: e.getBoundingClientRect().width,
+  })));
+  const [long, short] = await measure();
+  expect(long.text).toMatch(/^1:59:\d\d$/);
+  expect(short.text).toMatch(/^\d\d$/);
+  // The short row reserves room for the long row's text, so the bars line up
+  expect(short.width).toBeCloseTo(long.width, 1);
+  await expect(card).toMatchDualSnapshot("running");
+});

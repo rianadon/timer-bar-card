@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LitElement, html, CSSResultGroup, TemplateResult, css, PropertyValues } from 'lit';
+import { LitElement, html, CSSResultGroup, TemplateResult, css, PropertyValues, nothing } from 'lit';
 import { state, property } from "lit/decorators.js";
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
 
@@ -9,6 +9,9 @@ import { TimerBarEntityConfig, HassEntity, Translations, TimerBarConfig, Mode } 
 import { genericEntityRow, genericEntityRowStyles } from './ha-generic-entity-row';
 import { createActionHandler, createHandleAction } from './helpers-actions';
 import formatTime, { formatFromResolution } from './format-time';
+
+/** Replace a time value's digits with a wide digit so that e.g. "44:44" and "11:11" share a shape. */
+const placeholderDigits = (n: string) => n.replace(/\d/g, '4');
 
 export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
@@ -23,7 +26,7 @@ export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
     sync_issues: 'show',
     bar_width: 'calc(70% - 7em)',
     bar_height: '8px',
-    text_width: '3.5em',
+    text_min_width: '3.5em',
     bar_background: '#eee',
     bar_foreground: 'var(--mdc-theme-primary, #6200ee);',
     bar_radius: '0',
@@ -67,6 +70,8 @@ export class TimerBarEntityRow extends LitElement {
 
   @property() public hass?: HomeAssistant;
   @property() public config!: TimerBarEntityConfig;
+  /** Text shapes of every row in the card, one per line, so all rows line up their bars. */
+  @property() public sharedShapes = '';
 
   @state() private _interval?: number;
   @state() private _timeRemaining?: number;
@@ -74,6 +79,11 @@ export class TimerBarEntityRow extends LitElement {
   @state() private _browserClockCorrection: number = 0;
   @state() private _error?: Error;
   @state() protected _warning?: TemplateResult;
+
+  /** Shape of the auto-width time text from the latest render ('' if none shown). */
+  private _renderedShape = '';
+  /** Shape last reported to the card, which lines up its rows' bars using every row's shape. */
+  public textShape = '';
 
   public disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -93,6 +103,7 @@ export class TimerBarEntityRow extends LitElement {
   }
 
   protected render(): TemplateResult | void {
+    this._renderedShape = '';
     const state: HassEntity | undefined = this.hass!.states[this.config.entity!];
     if (this._error) return html`<hui-warning>${this._error.message}</hui-warning>`;
 
@@ -173,10 +184,18 @@ export class TimerBarEntityRow extends LitElement {
   protected _renderTime(pointer: string) {
     const format = this.modConfig.format ? this.modConfig.format
       : formatFromResolution(this._timeRemaining || 0, this.modConfig.resolution!)
-    return html`<div class="text-content value ${pointer}" style=${this._textStyle()}
+    const remaining = this._timeRemaining || 0;
+    const text = formatTime(remaining, format);
+    const auto = this._autoTextWidth;
+    // In auto mode, an invisible copy of the text with the time values' digits replaced (plus
+    // the shapes of the card's other rows) sets the width, so it only changes when a shape changes.
+    if (auto) this._renderedShape = formatTime(remaining, format, placeholderDigits);
+    return html`<div class="text-content value ${pointer} ${auto ? 'auto-width' : ''}"
+      style=${this._textStyle()}
+      data-shape=${auto ? `${this._renderedShape}\n${this.sharedShapes}` : nothing}
       @action=${createHandleAction(this.hass!, this.config)}
       .actionHandler=${createActionHandler(this.config)}>
-      ${formatTime(this._timeRemaining || 0, format)}
+      ${text}
     </div>`;
   }
 
@@ -192,8 +211,17 @@ export class TimerBarEntityRow extends LitElement {
     </div>`;
   }
 
+  /** Whether the time text should size itself to its contents. */
+  private get _autoTextWidth() {
+    return !this.modConfig.text_width || this.modConfig.text_width === 'auto';
+  }
+
+  private get _isFullRow() {
+    return !!(this.modConfig.full_row || this.modConfig.layout === 'full_row');
+  }
+
   private get _bar_width() {
-    if (this.modConfig.full_row || this.modConfig.layout === 'full_row') return `calc(100% - ${this.modConfig.text_width})`;
+    if (this._isFullRow) return this._autoTextWidth ? 'auto' : `calc(100% - ${this.modConfig.text_width})`;
     if (this.modConfig.layout === 'hide_name') return 'auto';
     return this.modConfig.bar_width;
   }
@@ -202,6 +230,7 @@ export class TimerBarEntityRow extends LitElement {
     if (this.modConfig.invert) percent = 100 - percent; // invert if the options say so
     let style: StyleInfo = { width: this._bar_width, direction: this.modConfig.bar_direction };
     if (this.modConfig.layout === 'hide_name') style = { ...style, 'flex-grow': '1', 'margin-left': '8px' };
+    else if (this._isFullRow && this._autoTextWidth) style = { ...style, 'flex-grow': '1' };
     const containerStyle = styleMap(style);
     const bgStyle = this._barStyle('100%', this.modConfig.bar_background!);
     const fgStyle = this._barStyle(percent + "%", this.modConfig.bar_foreground!);
@@ -290,6 +319,12 @@ export class TimerBarEntityRow extends LitElement {
   protected updated(changedProps: PropertyValues) {
     super.updated(changedProps);
 
+    // Only notify the card when the shape changes (e.g. 10:00 -> 9:59), not every tick.
+    if (this._renderedShape !== this.textShape) {
+      this.textShape = this._renderedShape;
+      this.dispatchEvent(new Event('timer-bar-text-shape', { bubbles: true }));
+    }
+
     if (changedProps.has("hass")) {
       const stateObj = this.hass!.states[this.config!.entity!];
       this._startInterval(stateObj);
@@ -335,15 +370,20 @@ export class TimerBarEntityRow extends LitElement {
 
   private _textStyle() {
     return styleMap({
-      width: this.modConfig.text_width,
+      width: this._autoTextWidth ? undefined : this.modConfig.text_width,
+      'min-width': this._autoTextWidth ? this.modConfig.text_min_width : undefined,
       'flex-shrink': '0',
     });
   }
 
   private _statusStyle(includeText?: boolean) {
     let width = this._bar_width;
-    if (includeText) width = `calc(${this._bar_width} + ${this.modConfig.text_width})`;
-    return styleMap({ width, color: 'var(--secondary-text-color, #eee)' });
+    const textWidth = this._autoTextWidth ? this.modConfig.text_min_width : this.modConfig.text_width;
+    // Skip zero widths: calc() rejects a unitless 0 such as "0", which would drop the width
+    if (includeText && parseFloat(textWidth!)) width = `calc(${this._bar_width} + ${textWidth})`;
+    // In full_row with auto text, the bar has no fixed width; fill the space like the bar does.
+    const grow = this._isFullRow && this._autoTextWidth ? '1' : undefined;
+    return styleMap({ width, 'flex-grow': grow, color: 'var(--secondary-text-color, #eee)' });
   }
 
   static get styles(): CSSResultGroup {
@@ -364,6 +404,19 @@ export class TimerBarEntityRow extends LitElement {
       .bar { margin-top: 2px; overflow: hidden; }
       .status { line-height: 1.5em; flex-shrink: 0; }
       .text-content { text-align: right; text-align: end; overflow: hidden; }
+      .text-content.auto-width {
+        /* Spacing sits inside text_min_width so short times look as they did with a fixed width */
+        box-sizing: border-box;
+        padding-inline-start: 8px;
+      }
+      /* Invisible, zero-height lines that set the width: this row's shape, then the card's */
+      .text-content.auto-width::before {
+        content: attr(data-shape);
+        white-space: pre;
+        display: block;
+        height: 0;
+        visibility: hidden;
+      }
       code {
         display: block;
         background-color: var(--secondary-background-color);

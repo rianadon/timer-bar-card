@@ -9,7 +9,7 @@ exports[`Switch with duration string: running 1`] = `
         Timer is on
       </h1>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4:44">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="on" stateTitle="false">…</ha-state-icon>
@@ -22,7 +22,8 @@ exports[`Switch with duration string: running 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="4:44
+4:44">
               1:58
             </div>
           </div>
@@ -40,7 +41,7 @@ exports[`Switch with fixed duration: running 1`] = `
     <ha-card raised="false">
       <slot></slot>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="44">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="on" stateTitle="false">…</ha-state-icon>
@@ -53,7 +54,8 @@ exports[`Switch with fixed duration: running 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="44
+44">
               58
             </div>
           </div>
@@ -74,7 +76,7 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
         Time is 1:57
       </h1>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4:44">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="on" stateTitle="false">…</ha-state-icon>
@@ -87,7 +89,8 @@ exports[`Switch with input_number duration: 2-minutes 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="4:44
+4:44">
               1:57
             </div>
           </div>
@@ -108,7 +111,7 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
         Time is 4:58
       </h1>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4:44">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="on" stateTitle="false">…</ha-state-icon>
@@ -121,7 +124,8 @@ exports[`Switch with input_number duration: 5-minutes 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="4:44
+4:44">
               4:58
             </div>
           </div>
@@ -142,7 +146,7 @@ exports[`Switch with unavailable duration + end time: idle 1`] = `
         Timer is off
       </h1>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="input_boolean" data-state="off" stateTitle="false">…</ha-state-icon>

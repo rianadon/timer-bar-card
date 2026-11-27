@@ -3,7 +3,7 @@
 exports[`Basic mushroom: idle 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="true">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="true" sharedShapes="">
       <ha-card raised="false">
         <slot></slot>
         <mushroom-card appearance="[object Object]">
@@ -48,7 +48,7 @@ exports[`Basic mushroom: idle 1`] = `
 exports[`Basic mushroom: paused 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="true">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="true" sharedShapes="">
       <ha-card raised="false">
         <slot></slot>
         <mushroom-card appearance="[object Object]">
@@ -79,7 +79,8 @@ exports[`Basic mushroom: paused 1`] = `
                 <div class="pointer status">
                   paused
                 </div>
-                <div class="pointer text-content value">
+                <div class="auto-width pointer text-content value" data-shape="44
+">
                   58
                 </div>
               </span>
@@ -96,7 +97,7 @@ exports[`Basic mushroom: paused 1`] = `
 exports[`Basic mushroom: running 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="true">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="true" sharedShapes="">
       <ha-card raised="false">
         <slot></slot>
         <mushroom-card appearance="[object Object]">
@@ -129,7 +130,8 @@ exports[`Basic mushroom: running 1`] = `
                     <div></div>
                   </div>
                 </div>
-                <div class="pointer text-content value">
+                <div class="auto-width pointer text-content value" data-shape="44
+">
                   59
                 </div>
               </span>
@@ -149,7 +151,7 @@ exports[`Mushroom customization: infos 1`] = `
     <div dir="ltr" id="root">
       <hui-card preview="false">
         <timer-bar-card hass="[object Object]">
-          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
             <ha-card raised="false">
               <slot></slot>
               <mushroom-card appearance="[object Object]">
@@ -188,7 +190,7 @@ exports[`Mushroom customization: infos 1`] = `
       </hui-card>
       <hui-card preview="false">
         <timer-bar-card hass="[object Object]">
-          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
             <ha-card raised="false">
               <slot></slot>
               <mushroom-card appearance="[object Object]">
@@ -235,7 +237,7 @@ exports[`Mushroom fill_container: fill_container 1`] = `
     <div dir="ltr" id="root">
       <hui-card preview="false">
         <timer-bar-card hass="[object Object]">
-          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
             <ha-card raised="false">
               <slot></slot>
               <mushroom-card appearance="[object Object]">
@@ -276,7 +278,7 @@ exports[`Mushroom fill_container: fill_container 1`] = `
       </hui-card>
       <hui-card preview="false">
         <timer-bar-card hass="[object Object]">
-          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+          <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
             <ha-card class="fill-container" raised="false">
               <slot></slot>
               <mushroom-card appearance="[object Object]">
@@ -324,7 +326,7 @@ exports[`Mushroom fill_container: fill_container 1`] = `
 exports[`Vertical mushroom: idle 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
       <ha-card raised="false">
         <slot></slot>
         <mushroom-card appearance="[object Object]">
@@ -369,7 +371,7 @@ exports[`Vertical mushroom: idle 1`] = `
 exports[`Vertical mushroom: paused 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
       <ha-card raised="false">
         <slot></slot>
         <mushroom-card appearance="[object Object]">
@@ -400,7 +402,8 @@ exports[`Vertical mushroom: paused 1`] = `
                 <div class="pointer status">
                   paused
                 </div>
-                <div class="pointer text-content value">
+                <div class="auto-width pointer text-content value" data-shape="4:44
+">
                   1:58
                 </div>
               </span>
@@ -417,7 +420,7 @@ exports[`Vertical mushroom: paused 1`] = `
 exports[`Vertical mushroom: running 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
-    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
       <ha-card raised="false">
         <slot></slot>
         <mushroom-card appearance="[object Object]">
@@ -450,7 +453,8 @@ exports[`Vertical mushroom: running 1`] = `
                     <div></div>
                   </div>
                 </div>
-                <div class="pointer text-content value">
+                <div class="auto-width pointer text-content value" data-shape="4:44
+">
                   1:59
                 </div>
               </span>

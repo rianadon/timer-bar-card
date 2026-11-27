@@ -19,6 +19,7 @@ interface styleConfig {
   bar_direction?: string;
   bar_radius?: string;
   text_width?: string;
+  text_min_width?: string;
   full_row?: boolean;
   layout?: 'normal' | 'hide_name' | 'full_row';
 }

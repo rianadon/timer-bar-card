@@ -438,7 +438,8 @@ Optional properties to change icons, colors, and sizes.
 | image          | string  | **Optional** | Customize the image url to show in place of the icon                                                       | -                 |
 | state_color    | boolean | **Optional** | Change the icon's color if the timer is active                                                             | -                 |
 | active_icon    | string  | **Optional** | Override `icon` when timer is active                                                                       | -                 |
-| text_width     | string  | **Optional** | Space alotted for the time remaining (i.e. right offset of bar)                                            | `3.5em`           |
+| text_width     | string  | **Optional** | Space alotted for the time remaining (i.e. right offset of bar)                                            | `auto`            |
+| text_min_width | string  | **Optional** | Minimum space for the time remaining when `text_width` is `auto`                                           | `3.5em`           |
 | invert         | boolean | **Optional** | Make the progress bar count down (start at 100%, end at 0%)                                                | -                 |
 | bar_width      | string  | **Optional** | Width of progress bar (decrease if the entity name is cut off)                                             | `calc(70% - 7em)` |
 | bar_height     | string  | **Optional** | Height of progress bar                                                                                     | `8px`             |

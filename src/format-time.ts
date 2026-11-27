@@ -63,37 +63,41 @@ function truncateWithSign(d: number): string {
   return result.toString();
 }
 
-export default function formatTime(d: number, format: string) {
-  if (format == 'hms') return hmsTime(d)
-  if (format == 'hm') return hmTime(d)
+/**
+ * Formats `d` seconds. Every time value the formatter fills in (but not the format's own
+ * text) is passed through `num`, e.g. to replace its digits when computing the text's shape.
+ */
+export default function formatTime(d: number, format: string, num = (n: string) => n) {
+  if (format == 'hms') return num(hmsTime(d))
+  if (format == 'hm') return num(hmTime(d))
 
   // When rendering a single component, always round up to count consistent whole units.
-  if (format == 'd') return '' + Math.ceil(d / 24 / 3600)
-  if (format == 'h') return '' + Math.ceil(d / 3600)
-  if (format == 'm') return '' + Math.ceil(d / 60)
-  if (format == 's') return '' + Math.ceil(d)
+  if (format == 'd') return num('' + Math.ceil(d / 24 / 3600))
+  if (format == 'h') return num('' + Math.ceil(d / 3600))
+  if (format == 'm') return num('' + Math.ceil(d / 60))
+  if (format == 's') return num('' + Math.ceil(d))
 
 
   // When rendering multiple components, round towards zero because the fraction should
   // be represented by the next unit.
   return format.replace(/%(\w+)/g, (match, S) => {
     const sl = S.toLowerCase()
-    if (sl.startsWith('hms')) return hmsTime(d) + S.substring(3)
-    if (sl.startsWith('hm')) return hmTime(d) + S.substring(2)
+    if (sl.startsWith('hms')) return num(hmsTime(d)) + S.substring(3)
+    if (sl.startsWith('hm')) return num(hmTime(d)) + S.substring(2)
     // 1 lowercase letter: round up
-    if (S.startsWith('d')) return Math.ceil(d / 24 / 3600) + S.substring(1)
-    if (S.startsWith('h')) return Math.ceil(d / 3600) + S.substring(1)
-    if (S.startsWith('m')) return Math.ceil(d / 60) + S.substring(1)
-    if (S.startsWith('s')) return Math.ceil(d) + S.substring(1)
+    if (S.startsWith('d')) return num('' + Math.ceil(d / 24 / 3600)) + S.substring(1)
+    if (S.startsWith('h')) return num('' + Math.ceil(d / 3600)) + S.substring(1)
+    if (S.startsWith('m')) return num('' + Math.ceil(d / 60)) + S.substring(1)
+    if (S.startsWith('s')) return num('' + Math.ceil(d)) + S.substring(1)
     // 2 capital letter: pad + round down
-    if (S.startsWith('HH')) return leftPad(Math.trunc((d % (3600 * 24)) / 3600)) + S.substring(2)
-    if (S.startsWith('MM')) return leftPad(Math.trunc((d % 3600) / 60)) + S.substring(2)
-    if (S.startsWith('SS')) return leftPad(Math.trunc(d % 60)) + S.substring(2)
+    if (S.startsWith('HH')) return num('' + leftPad(Math.trunc((d % (3600 * 24)) / 3600))) + S.substring(2)
+    if (S.startsWith('MM')) return num('' + leftPad(Math.trunc((d % 3600) / 60))) + S.substring(2)
+    if (S.startsWith('SS')) return num('' + leftPad(Math.trunc(d % 60))) + S.substring(2)
     // 1 capital letter: round down, always include sign (for next component)
-    if (S.startsWith('D')) return truncateWithSign(d / 24 / 3600) + S.substring(1)
-    if (S.startsWith('H')) return truncateWithSign((d % (3600 * 24)) / 3600) + S.substring(1)
-    if (S.startsWith('M')) return truncateWithSign((d % 3600) / 60) + S.substring(1)
-    if (S.startsWith('S')) return truncateWithSign(d % 60) + S.substring(1)
+    if (S.startsWith('D')) return num(truncateWithSign(d / 24 / 3600)) + S.substring(1)
+    if (S.startsWith('H')) return num(truncateWithSign((d % (3600 * 24)) / 3600)) + S.substring(1)
+    if (S.startsWith('M')) return num(truncateWithSign((d % 3600) / 60)) + S.substring(1)
+    if (S.startsWith('S')) return num(truncateWithSign(d % 60)) + S.substring(1)
     return match
   })
 }

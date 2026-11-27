@@ -1,12 +1,67 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
+exports[`Auto text width lines up rows in a card: running 1`] = `
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4:44:44
+44">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test4">
+              test4
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+              </div>
+            </div>
+            <div class="auto-width pointer text-content value" data-shape="4:44:44
+4:44:44
+44">
+              1:59:58
+            </div>
+          </div>
+        </timer-bar-entity-row>
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4:44:44
+44">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test5">
+              test5
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+              </div>
+            </div>
+            <div class="auto-width pointer text-content value" data-shape="44
+4:44:44
+44">
+              28
+            </div>
+          </div>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
+"
+`;
+
 exports[`Colors and icons: running 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">
     <ha-card raised="false">
       <slot></slot>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
@@ -19,7 +74,8 @@ exports[`Colors and icons: running 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="4
+4">
               8
             </div>
           </div>
@@ -37,7 +93,7 @@ exports[`Receding progress bar: running 1`] = `
     <ha-card raised="false">
       <slot></slot>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
@@ -50,7 +106,8 @@ exports[`Receding progress bar: running 1`] = `
                 <div></div>
               </div>
             </div>
-            <div class="pointer text-content value">
+            <div class="auto-width pointer text-content value" data-shape="4
+4">
               8
             </div>
           </div>
@@ -71,7 +128,7 @@ exports[`Widths: idle 1`] = `
         Progress bar should be munched
       </h1>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
@@ -100,7 +157,7 @@ exports[`Widths: running 1`] = `
         Progress bar should be munched
       </h1>
       <div class="card-content">
-        <timer-bar-entity-row config="[object Object]" hass="[object Object]">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="">
           <div class="generic-entity-row">
             <state-badge class="pointer" icon="true" tabindex="0">
               <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
