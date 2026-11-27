@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Hides the card when no entities match the filter: empty 1`] = `
+"<hui-card preview="false">
+  <hui-vertical-stack-card preview="false">
+    <div dir="ltr" id="root">
+      <hui-card preview="false">
+        <hui-entities-card>
+          <ha-card raised="false">
+            <slot></slot>
+            <div class="card-content ha-scrollbar" id="states">
+              <div>
+                <hui-timer-entity-row>
+                  <hui-generic-entity-row hideName="false" no-secondary="">
+                    <div class="pointer row" tabindex="0">
+                      <state-badge color="state" icon="true">
+                        <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
+                      </state-badge>
+                      <div class="info text-content" title="test9">
+                        test9
+                      </div>
+                      <div class="text-content value">
+                        <div class="state">
+                          <slot></slot>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-content">
+                      <ha-timer-remaining-time>
+                        Idle
+                      </ha-timer-remaining-time>
+                    </div>
+                  </hui-generic-entity-row>
+                </hui-timer-entity-row>
+              </div>
+            </div>
+          </ha-card>
+        </hui-entities-card>
+      </hui-card>
+      <hui-card hidden="" preview="false"></hui-card>
+      <hui-card preview="false">
+        <hui-entities-card>
+          <ha-card raised="false">
+            <slot></slot>
+            <div class="card-content ha-scrollbar" id="states">
+              <div>
+                <hui-timer-entity-row>
+                  <hui-generic-entity-row hideName="false" no-secondary="">
+                    <div class="pointer row" tabindex="0">
+                      <state-badge color="state" icon="true">
+                        <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
+                      </state-badge>
+                      <div class="info text-content" title="test9">
+                        test9
+                      </div>
+                      <div class="text-content value">
+                        <div class="state">
+                          <slot></slot>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-content">
+                      <ha-timer-remaining-time>
+                        Idle
+                      </ha-timer-remaining-time>
+                    </div>
+                  </hui-generic-entity-row>
+                </hui-timer-entity-row>
+              </div>
+            </div>
+          </ha-card>
+        </hui-entities-card>
+      </hui-card>
+    </div>
+  </hui-vertical-stack-card>
+</hui-card>
+"
+`;
+
+exports[`Hides the card when no entities match the filter: paused 1`] = `
+"<hui-card preview="false">
+  <hui-vertical-stack-card preview="false">
+    <div dir="ltr" id="root">
+      <hui-card preview="false">
+        <hui-entities-card>
+          <ha-card raised="false">
+            <slot></slot>
+            <div class="card-content ha-scrollbar" id="states">
+              <div>
+                <hui-timer-entity-row>
+                  <hui-generic-entity-row hideName="false" no-secondary="">
+                    <div class="pointer row" tabindex="0">
+                      <state-badge color="state" icon="true">
+                        <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
+                      </state-badge>
+                      <div class="info text-content" title="test9">
+                        test9
+                      </div>
+                      <div class="text-content value">
+                        <div class="state">
+                          <slot></slot>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-content">
+                      <ha-timer-remaining-time>
+                        Idle
+                      </ha-timer-remaining-time>
+                    </div>
+                  </hui-generic-entity-row>
+                </hui-timer-entity-row>
+              </div>
+            </div>
+          </ha-card>
+        </hui-entities-card>
+      </hui-card>
+      <hui-card preview="false">
+        <timer-bar-card hass="[object Object]">
+          <ha-card raised="false">
+            <slot></slot>
+            <div class="card-content">
+              <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4:44">
+                <div class="generic-entity-row">
+                  <state-badge class="pointer" icon="true" tabindex="0">
+                    <ha-state-icon data-domain="timer" data-state="paused" stateTitle="false">…</ha-state-icon>
+                  </state-badge>
+                  <div class="info pointer" title="test10">
+                    test10
+                  </div>
+                  <div class="pointer status">
+                    Paused
+                  </div>
+                  <div class="auto-width pointer text-content value" data-shape="4:44
+4:44">
+                    9:58
+                  </div>
+                </div>
+              </timer-bar-entity-row>
+            </div>
+          </ha-card>
+        </timer-bar-card>
+      </hui-card>
+      <hui-card preview="false">
+        <hui-entities-card>
+          <ha-card raised="false">
+            <slot></slot>
+            <div class="card-content ha-scrollbar" id="states">
+              <div>
+                <hui-timer-entity-row>
+                  <hui-generic-entity-row hideName="false" no-secondary="">
+                    <div class="pointer row" tabindex="0">
+                      <state-badge color="state" icon="true">
+                        <ha-state-icon data-domain="timer" data-state="idle" stateTitle="false">…</ha-state-icon>
+                      </state-badge>
+                      <div class="info text-content" title="test9">
+                        test9
+                      </div>
+                      <div class="text-content value">
+                        <div class="state">
+                          <slot></slot>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-content">
+                      <ha-timer-remaining-time>
+                        Idle
+                      </ha-timer-remaining-time>
+                    </div>
+                  </hui-generic-entity-row>
+                </hui-timer-entity-row>
+              </div>
+            </div>
+          </ha-card>
+        </hui-entities-card>
+      </hui-card>
+    </div>
+  </hui-vertical-stack-card>
+</hui-card>
+"
+`;

@@ -1,5 +1,5 @@
 import { multiply, HomeAssistant, PlaywrightBrowser, PlaywrightElement } from "hass-taste-test";
-import { toMatchDualSnapshot } from "./util";
+import { synchronizeTimerPaused, toMatchDualSnapshot } from "./util";
 expect.extend({ toMatchDualSnapshot });
 
 const CONFIGURATION_YAML = `
@@ -39,4 +39,37 @@ it("Filters Entities", async () => {
   await hass.callService("timer", "start", {}, { entity_id: "timer.test2" });
   await new Promise(r => setTimeout(r, 100));
   expect(await card.$$eval('timer-bar-entity-row', e => e.length)).toBe(2);
+});
+
+it("Hides the card when no entities match the filter", async () => {
+  const entities = { type: "entities", entities: ["timer.test9"] };
+  const dashboard = await hass.Dashboard([{ type: "vertical-stack", cards: [
+    entities,
+    { type: "custom:timer-bar-card", entities: ["timer.test10"], filter: true },
+    entities,
+  ]}]);
+  const stack = dashboard.cards[0];
+  const visible = async () => (await stack.element()).evaluate((e: Element) => {
+    // Search through shadow roots for the timer-bar-card
+    const find = (root: ParentNode): Element | null => root.querySelector("timer-bar-card") ??
+      [...root.querySelectorAll("*")].reduce<Element | null>((f, n) => f ?? (n.shadowRoot && find(n.shadowRoot)), null);
+    return find(e.shadowRoot ?? e)?.checkVisibility() ?? false;
+  });
+
+  // No gap is left between the entities cards
+  expect(await visible()).toBe(false);
+  await expect(stack).toMatchDualSnapshot("empty");
+
+  // The card comes back when a timer starts
+  await hass.callService("timer", "start", {}, { entity_id: "timer.test10" });
+  await new Promise(r => setTimeout(r, 100));
+  expect(await visible()).toBe(true);
+
+  await synchronizeTimerPaused(hass, "timer.test10", "00:09:58");
+  await hass.callService("timer", "pause", {}, { entity_id: "timer.test10" });
+  await expect(stack).toMatchDualSnapshot("paused");
+
+  await hass.callService("timer", "cancel", {}, { entity_id: "timer.test10" });
+  await new Promise(r => setTimeout(r, 100));
+  expect(await visible()).toBe(false);
 });

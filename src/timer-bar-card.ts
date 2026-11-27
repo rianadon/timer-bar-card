@@ -2,7 +2,7 @@ import { LitElement, css, html, TemplateResult, PropertyValues } from 'lit';
 import { customElement, state, property } from "lit/decorators.js";
 import { styleMap } from 'lit/directives/style-map.js';
 
-import { HomeAssistant } from 'custom-card-helpers';
+import { HomeAssistant, fireEvent } from 'custom-card-helpers';
 
 import { fillConfig, TimerBarEntityRow } from './timer-bar-entity-row';
 import { fillMushroomConfig, TimerBarMushroomRow, mushroomStyle } from './timer-bar-mushroom-row';
@@ -48,6 +48,14 @@ export class TimerBarCard extends LitElement {
   protected updated(changedProps: PropertyValues): void {
     super.updated(changedProps);
     this._updateSharedShapes(); // rows may have been added or removed (e.g. by filter)
+
+    // Hide the card when the filter leaves nothing to show, so stacks and grids don't leave a gap
+    const empty = !this.config.entity && !!this.config.entities && !this._filteredEntities().length
+      && !this.editMode && !this.config.show_empty;
+    if (empty !== this.hidden) {
+      this.hidden = empty;
+      fireEvent(this, 'card-visibility-changed' as any, { value: !empty });
+    }
   }
 
   public static async getConfigElement() {
