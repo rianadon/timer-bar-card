@@ -198,9 +198,12 @@ export function autoMode(hass: HomeAssistant, config: TimerBarEntityConfig, corr
 export function stateMode(hass: HomeAssistant, config: TimerBarEntityConfig, correction: number): Mode {
   if (config.state?.fixed) return config.state?.fixed.replace('paused', 'pause') as Mode;
   const state = hass.states[config.entity!];
-  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state, correction) || 0) > 0) return 'active';
+  // Pause and waiting are terminal modes for the display. Check them before
+  // active_state because configurations may intentionally include paused in
+  // active_state to keep a row visible while the timer is paused.
   if (isState(state, config.pause_state!, config)) return 'pause';
   if (isState(state, config.waiting_state!, config)) return 'waiting';
+  if (isState(state, config.active_state!, config) && (timerTimeRemaining(hass, config, state, correction) || 0) > 0) return 'active';
   return 'idle';
 }
 
