@@ -10,17 +10,24 @@ import { TimerBarEntityConfig } from "./types";
 import { createActionHandler, createHandleAction } from "./helpers-actions";
 import { computeEntityName } from "./helpers";
 
-function createPaperButtons(pbConfig: any, position: string) {
+/** Each row's paper-buttons-row, reused across renders since provideHass can't be undone */
+const paperButtonsCache = new WeakMap<object, { pbConfig: any, paperButtons: HTMLElement }>();
+
+function createPaperButtons(host: object, pbConfig: any, position: string) {
   if (!pbConfig || pbConfig.position != position) return '';
+  const cached = paperButtonsCache.get(host);
+  if (cached && cached.pbConfig === pbConfig) return cached.paperButtons;
+
   const paperButtons = createEntityRow({
     type: "custom:paper-buttons-row",
     ...pbConfig
   });
   provideHass(paperButtons);
+  paperButtonsCache.set(host, { pbConfig, paperButtons });
   return paperButtons;
 }
 
-export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant, config?: TimerBarEntityConfig): TemplateResult {
+export function genericEntityRow(host: object, children: TemplateResult, hass?: HomeAssistant, config?: TimerBarEntityConfig): TemplateResult {
   if (!hass || !config) return html``;
   const stateObj = config.entity ? hass.states[config.entity] : undefined;
   if (!stateObj && !config.name && !config.state) return html`<hui-warning>Entity ${config.entity} not found.  To use without an entity, specify name and state.</hui-warning>`;
@@ -48,9 +55,9 @@ export function genericEntityRow(children: TemplateResult, hass?: HomeAssistant,
         .actionHandler=${createActionHandler(config)}
         >${name}</div>`
       : ''}
-    ${createPaperButtons(config.extend_paper_buttons_row, 'center')}
+    ${createPaperButtons(host, config.extend_paper_buttons_row, 'center')}
     ${children}
-    ${createPaperButtons(config.extend_paper_buttons_row, 'right')}
+    ${createPaperButtons(host, config.extend_paper_buttons_row, 'right')}
   </div>`;
 }
 

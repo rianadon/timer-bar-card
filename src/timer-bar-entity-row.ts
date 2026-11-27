@@ -179,7 +179,7 @@ export class TimerBarEntityRow extends LitElement {
     if (this.modConfig.layout === 'hide_name') config = { ...config, name: '' };
     return html`
       ${warning}
-      ${genericEntityRow(contents, this.hass, config)}
+      ${genericEntityRow(this, contents, this.hass, config)}
       ${this._renderDebug()}
     `;
   }
