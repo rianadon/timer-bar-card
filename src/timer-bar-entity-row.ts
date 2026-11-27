@@ -92,8 +92,8 @@ export class TimerBarEntityRow extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
-    if (this.config) {
-      const stateObj = this.hass?.states[this.config!.entity!];
+    if (this.config && this.hass) {
+      const stateObj = this.hass.states[this.config.entity!];
       this._startInterval(stateObj);
     }
   }
