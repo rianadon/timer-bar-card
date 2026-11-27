@@ -118,41 +118,46 @@ export class TimerBarEntityRow extends LitElement {
     }
     if (percent > 100) percent = 100;
 
-    let activeConfig: TimerBarEntityConfig
+    let chosenConfig: TimerBarEntityConfig
     try {
-      activeConfig = {
+      chosenConfig = {
         ...this.modConfig,
-        icon: this.modConfig.active_icon ?? this.modConfig.icon,
+        icon: {
+          active: this.modConfig.active_icon,
+          pause: this.modConfig.pause_icon ?? this.modConfig.active_icon,
+          waiting: this.modConfig.waiting_icon,
+          idle: this.modConfig.idle_icon,
+        }[this._mode()] ?? this.modConfig.icon,
       };
     } catch (e) {
       return html`<div>${e}</div>`
     }
 
     // Hide the pointer if tap action is none
-    const pointer = activeConfig.tap_action?.action !== "none" ? "pointer" : "";
+    const pointer = chosenConfig.tap_action?.action !== "none" ? "pointer" : "";
 
     switch (this._mode()) {
       case 'active':
-        return this._renderRow(activeConfig, html`
+        return this._renderRow(chosenConfig, html`
         ${this._renderBar(percent)}
         ${this._renderTime(pointer)}
       `);
 
       case 'pause':
-        return this._renderRow(activeConfig, html`
+        return this._renderRow(chosenConfig, html`
         ${this._renderStatus(pointer, '')}
         ${this._renderTime(pointer)}
       `);
 
       case 'waiting':
-        return this._renderRow(this.modConfig, html`
+        return this._renderRow(chosenConfig, html`
         ${this._renderStatus(pointer, formatStartTime(this.hass!, this.config, state))}
       `);
 
       default:
         const textHidden = (this.modConfig.text_width && parseInt(this.modConfig.text_width) === 0);
         const style = textHidden ? 'visibility: hidden' : '';
-        return this._renderRow(this.modConfig, html`
+        return this._renderRow(chosenConfig, html`
         <div class="text-content value ${pointer}" style=${style}
         @action=${this._innerActions ? createHandleAction(this.hass!, this.config) : nothing}
        .actionHandler=${this._innerActions ? createActionHandler(this.config) : nothing}

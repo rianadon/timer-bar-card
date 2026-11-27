@@ -8,6 +8,9 @@ export type HassEntity = HomeAssistant["states"][0]
 interface styleConfig {
   icon?: string;
   active_icon?: string;
+  pause_icon?: string;
+  waiting_icon?: string;
+  idle_icon?: string;
   image?: string;
   state_color?: boolean;
 

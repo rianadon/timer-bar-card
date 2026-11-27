@@ -99,3 +99,26 @@ it("Auto text width lines up rows in a card", async () => {
   expect(short.width).toBeCloseTo(long.width, 1);
   await expect(card).toMatchDualSnapshot("running");
 });
+
+it("Icons per mode", async () => {
+  const dashboard = await hass.Dashboard([
+    {
+      type: "custom:timer-bar-card",
+      entities: ["timer.test6"],
+      idle_icon: "mdi:timer-off",
+      active_icon: "mdi:timer",
+      pause_icon: "mdi:timer-pause",
+    },
+  ]);
+  const element: PlaywrightElement = await dashboard.cards[0].element();
+  const icon = async () => {
+    await new Promise(r => setTimeout(r, 500)); // Give the card time to update
+    return element.$eval("state-badge", (el: any) => el.overrideIcon);
+  };
+
+  expect(await icon()).toBe("mdi:timer-off");
+  await hass.callService("timer", "start", {}, { entity_id: "timer.test6" });
+  expect(await icon()).toBe("mdi:timer");
+  await hass.callService("timer", "pause", {}, { entity_id: "timer.test6" });
+  expect(await icon()).toBe("mdi:timer-pause");
+});

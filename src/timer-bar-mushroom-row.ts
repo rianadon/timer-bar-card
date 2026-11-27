@@ -111,7 +111,7 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
           @action=${createHandleAction(this.hass, config)}
           .actionHandler=${createActionHandler(config)}
         >
-          ${warning} ${this._renderIcon(state)} ${this._renderBadge(state)}
+          ${warning} ${this._renderIcon(state, config.icon)} ${this._renderBadge(state)}
           <div class="container" slot="info">
             <span class="primary">${primary}</span>
             <span class="secondary ${this.appearance().layout}"
@@ -138,9 +138,8 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     ) as TemplateResult;
   }
 
-  protected _renderIcon(stateObj: HassEntity): TemplateResult {
+  protected _renderIcon(stateObj: HassEntity, icon?: string): TemplateResult {
     const active = this._mode() == "active";
-    const icon = active ? this.config.active_icon ?? this.config.icon : this.config.icon;
     let style = "";
     if (this.mushroom.icon_color || this.mushroom.color) {
       const iconRgbColor = computeRgbColor(
