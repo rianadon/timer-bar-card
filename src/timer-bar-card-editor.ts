@@ -14,8 +14,12 @@ export class TimerBarEditor extends LitElement {
   @query("ha-yaml-editor") _yamlEditor?: any;
 
   private yamlChange = false // true if the change came through the yaml editor
+  // card-mod strips card_mod from the config passed to setConfig, stashes it here, and puts the stashed copy
+  // back into every config-changed. Since this is a YAML editor, show card_mod and sync edits to the stash.
+  declare private _cardModData?: { card?: unknown };
 
   setConfig(config: TimerBarConfig): void {
+    if (this._cardModData?.card) config = { ...config, card_mod: this._cardModData.card };
     this.config = config;
     if (!this.yamlChange) {
       // YAML was changed externally, so update the editor
@@ -51,6 +55,7 @@ export class TimerBarEditor extends LitElement {
     if (ev.detail.isValid) {
       this.yamlChange = true
       this.config = config;
+      if (this._cardModData) this._cardModData.card = config.card_mod;
       fireEvent(this, 'config-changed', { config: this.config });
     }
   }

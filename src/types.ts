@@ -85,6 +85,7 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
   filter?: boolean;
   show_empty?: string;
   mushroom?: Mushroom;
+  card_mod?: unknown; // used by the card-mod integration
 }
 
 export interface Mushroom {
