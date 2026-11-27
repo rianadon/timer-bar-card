@@ -180,10 +180,6 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     };
   }
 
-  protected localize(value: string, state: HassEntity, _: boolean) {
-    return super.localize(value, state, false);
-  }
-
   static get styles(): CSSResultGroup {
     return [
       super.styles,

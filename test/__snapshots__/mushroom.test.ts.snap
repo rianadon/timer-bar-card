@@ -32,7 +32,7 @@ exports[`Basic mushroom: idle 1`] = `
               </span>
               <span class="default secondary">
                 <div class="pointer text-content value">
-                  idle
+                  Idle
                 </div>
               </span>
             </div>
@@ -77,7 +77,7 @@ exports[`Basic mushroom: paused 1`] = `
               </span>
               <span class="default secondary">
                 <div class="pointer status">
-                  paused
+                  Paused
                 </div>
                 <div class="auto-width pointer text-content value" data-shape="44
 ">
@@ -176,7 +176,7 @@ exports[`Mushroom customization: infos 1`] = `
                   </mushroom-shape-icon>
                   <div class="container" slot="info">
                     <span class="primary">
-                      idle
+                      Idle
                     </span>
                     <span class="default secondary">
                       <div class="pointer text-content value"></div>
@@ -215,7 +215,7 @@ exports[`Mushroom customization: infos 1`] = `
                     </span>
                     <span class="default secondary">
                       <div class="pointer text-content value">
-                        idle
+                        Idle
                       </div>
                     </span>
                   </div>
@@ -266,7 +266,7 @@ exports[`Mushroom fill_container: fill_container 1`] = `
                     </span>
                     <span class="default secondary">
                       <div class="pointer text-content value">
-                        idle
+                        Idle
                       </div>
                     </span>
                   </div>
@@ -307,7 +307,7 @@ exports[`Mushroom fill_container: fill_container 1`] = `
                     </span>
                     <span class="default secondary">
                       <div class="pointer text-content value">
-                        idle
+                        Idle
                       </div>
                     </span>
                   </div>
@@ -355,7 +355,7 @@ exports[`Vertical mushroom: idle 1`] = `
               </span>
               <span class="secondary vertical">
                 <div class="pointer text-content value">
-                  idle
+                  Idle
                 </div>
               </span>
             </div>
@@ -400,7 +400,7 @@ exports[`Vertical mushroom: paused 1`] = `
               </span>
               <span class="secondary vertical">
                 <div class="pointer status">
-                  paused
+                  Paused
                 </div>
                 <div class="auto-width pointer text-content value" data-shape="4:44
 ">

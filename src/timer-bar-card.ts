@@ -63,8 +63,8 @@ export class TimerBarCard extends LitElement {
     if (!config) {
       throw new Error("Invalid configuration");
     }
-    if ('mushroom' in config && config.mushroom)
-      this.config = fillMushroomConfig(config, config.mushroom);
+    if ('mushroom' in config)
+      this.config = fillMushroomConfig(config, config.mushroom ?? {});
     else
       this.config = fillConfig(config);
   }
