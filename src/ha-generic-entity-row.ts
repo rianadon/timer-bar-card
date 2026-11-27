@@ -2,7 +2,7 @@
  * This element acts as a stable base to create the timer entity row.
  */
 
-import { css, html, TemplateResult } from "lit";
+import { css, html, ReactiveElement, TemplateResult } from "lit";
 import { HomeAssistant } from "custom-card-helpers";
 import { createEntityRow } from "card-tools/src/lovelace-element.js";
 import { provideHass } from "card-tools/src/hass.js";
@@ -13,7 +13,7 @@ import { computeEntityName } from "./helpers";
 /** Each row's paper-buttons-row, reused across renders since provideHass can't be undone */
 const paperButtonsCache = new WeakMap<object, { pbConfig: any, paperButtons: HTMLElement }>();
 
-function createPaperButtons(host: object, pbConfig: any, position: string) {
+function createPaperButtons(host: ReactiveElement, pbConfig: any, position: string) {
   if (!pbConfig || pbConfig.position != position) return '';
   const cached = paperButtonsCache.get(host);
   if (cached && cached.pbConfig === pbConfig) return cached.paperButtons;
@@ -24,10 +24,15 @@ function createPaperButtons(host: object, pbConfig: any, position: string) {
   });
   provideHass(paperButtons);
   paperButtonsCache.set(host, { pbConfig, paperButtons });
+  // If paper-buttons-row hasn't loaded yet, this is a placeholder. Replace it once loaded.
+  if (!customElements.get("paper-buttons-row")) customElements.whenDefined("paper-buttons-row").then(() => {
+    paperButtonsCache.delete(host);
+    host.requestUpdate();
+  });
   return paperButtons;
 }
 
-export function genericEntityRow(host: object, children: TemplateResult, hass?: HomeAssistant, config?: TimerBarEntityConfig): TemplateResult {
+export function genericEntityRow(host: ReactiveElement, children: TemplateResult, hass?: HomeAssistant, config?: TimerBarEntityConfig): TemplateResult {
   if (!hass || !config) return html``;
   const stateObj = config.entity ? hass.states[config.entity] : undefined;
   if (!stateObj && !config.name && !config.state) return html`<hui-warning>Entity ${config.entity} not found.  To use without an entity, specify name and state.</hui-warning>`;
