@@ -75,6 +75,16 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     }
   }
 
+  protected createRenderRoot() {
+    const root = super.createRenderRoot() as ShadowRoot;
+    // Share mushroom's keyframes (spin, pulse, ...) so card_mod animations work as on mushroom cards
+    customElements.whenDefined("mushroom-shape-icon").then((icon: any) => {
+      const keyframes = icon.elementStyles.find((s: any) => s.cssText.includes("@keyframes spin"));
+      if (keyframes) root.adoptedStyleSheets = [...root.adoptedStyleSheets, keyframes.styleSheet];
+    });
+    return root;
+  }
+
   protected get _innerActions(): boolean {
     return false; // mushroom-state-item handles all actions
   }
