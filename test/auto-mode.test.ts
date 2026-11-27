@@ -41,6 +41,17 @@ it("guesses active while the timer is running", () => {
   expect(autoMode(makeHass(-60, 60), config, 0)).toBe("active");
 });
 
+it("guesses active from Unix-second sensor states", () => {
+  const hass = makeHass(-60, 60);
+  const timer = hass.states[ENTITY];
+  const start = "sensor.timer_start";
+  const end = "sensor.timer_end";
+  hass.states[start] = { ...timer, entity_id: start, state: String(Date.parse(timer.attributes.start_time) / 1000) };
+  hass.states[end] = { ...timer, entity_id: end, state: String(Date.parse(timer.attributes.end_time) / 1000) };
+
+  expect(autoMode(hass, { ...config, start_time: { entity: start }, end_time: { entity: end } }, 0)).toBe("active");
+});
+
 it("does not guess active for a timer scheduled far in the future", () => {
   // Starts in 100s and runs for 60s => duration 60s, remaining 160s.
   // Remaining exceeds the duration, so the timer cannot be running yet.

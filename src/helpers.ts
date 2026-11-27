@@ -10,6 +10,11 @@ function now(correction: number) {
   return Date.now() + correction
 }
 
+function parseTimestamp(value: string | number) {
+  const seconds = Number(value ?? NaN);
+  return Number.isNaN(seconds) ? Date.parse(String(value)) : seconds * 1000;
+}
+
 export function tryDurationToSeconds(duration: string, field: string) {
   try {
     const seconds = durationToSeconds(duration);
@@ -45,13 +50,13 @@ export function findDuration(hass: HomeAssistant, config: TimerBarConfig, stateO
 
   const start_time = attribute(hass, stateObj, config.start_time);
   const end_time = attribute(hass, stateObj, config.end_time);
-  if (start_time && end_time) return (Date.parse(end_time) - Date.parse(start_time)) / 1000;
+  if (start_time && end_time) return (parseTimestamp(end_time) - parseTimestamp(start_time)) / 1000;
 
   if (!stateObj) throw new Error('If there is neither a duration nor start and end times, an entity is required.')
-  if (end_time) return (Date.parse(end_time) - Date.parse(stateObj.last_changed)) / 1000;
+  if (end_time) return (parseTimestamp(end_time) - Date.parse(stateObj.last_changed)) / 1000;
 
   const remain_time = timeAttribute(hass, stateObj, config.remain_time);
-  if (remain_time) return durationFromRemaining(hass, stateObj, config.remain_time!, Date.parse(start_time || stateObj.last_changed), remain_time);
+  if (remain_time) return durationFromRemaining(hass, stateObj, config.remain_time!, parseTimestamp(start_time || stateObj.last_changed), remain_time);
 
   return null;
 }
@@ -82,12 +87,12 @@ export const timerTimeRemaining = (hass: HomeAssistant, config: TimerBarConfig, 
 
   const end_time = attribute(hass, stateObj, config.end_time!);
   if (end_time) // For OpenSprinkler timers + others
-    return (Date.parse(end_time) - now(correction)) / 1000;
+    return (parseTimestamp(end_time) - now(correction)) / 1000;
 
   const start_time = attribute(hass, stateObj, config.start_time);
   const duration = timeAttribute(hass, stateObj, config.duration);
   if (start_time && duration)
-    return (Date.parse(start_time) - now(correction)) / 1000 + duration;
+    return (parseTimestamp(start_time) - now(correction)) / 1000 + duration;
 
   // Second-to-last fallback: remain time attribute
   const remain_time = timeAttribute(hass, stateObj, config.remain_time);
@@ -115,7 +120,7 @@ export const timerTimePercent = (hass: HomeAssistant, config: TimerBarConfig, st
 
 export const formatStartTime = (hass: HomeAssistant, config: TimerBarConfig, stateObj: HassEntity | undefined) => {
   const start_time = attribute(hass, stateObj, config.start_time);
-  const start = new Date(start_time);
+  const start = new Date(parseTimestamp(start_time));
 
   const lang = JSON.parse(localStorage.getItem('selectedLanguage') || '"en"') || 'en';
   return formatTime(start, lang);

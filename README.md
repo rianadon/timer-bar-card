@@ -354,7 +354,7 @@ debug: true
 
 ##### 2. My `duration` isn't in the `0:10:00` format! I need to use different units!
 
-Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects the `hh:mm:ss` (duration/remaining) or `2021-09-07T20:24:13+00:00` (start/end time) format.
+Use the `units` property and specify `seconds`, `hours`, or `minutes`. The default value of `units` is `duration`, which expects `hh:mm:ss` for duration or remaining time. Start and end times accept ISO timestamps like `2021-09-07T20:24:13+00:00` or numeric Unix timestamps in seconds. To use a Home Assistant date-and-time helper, you will need to use its `timestamp` attribute.
 
 ```yaml
 duration:
