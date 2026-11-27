@@ -13,6 +13,9 @@ import formatTime, { formatFromResolution } from './format-time';
 /** Replace a time value's digits with a wide digit so that e.g. "44:44" and "11:11" share a shape. */
 const placeholderDigits = (n: string) => n.replace(/\d/g, '4');
 
+/** How long after the remaining time crosses a whole second to update the display. */
+const TICK_PHASE_MS = 30;
+
 export function fillConfig(config: TimerBarEntityConfig): TimerBarConfig {
   return {
     active_state: ['active', 'on', 'manual', 'program', 'once_program'],
@@ -351,7 +354,7 @@ export class TimerBarEntityRow extends LitElement {
 
   private _clearInterval(): void {
     if (this._interval) {
-      window.clearInterval(this._interval);
+      window.clearTimeout(this._interval);
       this._interval = undefined;
     }
   }
@@ -359,13 +362,20 @@ export class TimerBarEntityRow extends LitElement {
   private _startInterval(stateObj: HassEntity | undefined): void {
     this._clearInterval();
     this._calculateRemaining(stateObj);
+    if (this._mode() === 'active') this._scheduleTick(stateObj);
+  }
 
-    if (this._mode() === 'active') {
-      this._interval = window.setInterval(
-        () => this._calculateRemaining(stateObj),
-        1000
-      );
-    }
+  /** Trigger the timer TICK_PHASE_MS after the time crosses a whole second. */
+  private _scheduleTick(stateObj: HassEntity | undefined): void {
+    const remaining = this._timeRemaining ?? NaN;
+    // Seconds until the remaining time crosses the next whole second (9.4 -> 0.4, -0.3 -> 0.7)
+    const untilNextSecond = remaining - Math.floor(remaining);
+    const delay = Number.isFinite(remaining) ? untilNextSecond * 1000 + TICK_PHASE_MS : 1000;
+    this._interval = window.setTimeout(() => {
+      this._interval = undefined;
+      this._calculateRemaining(stateObj);
+      if (this._mode() === 'active') this._scheduleTick(stateObj);
+    }, delay);
   }
 
   private _calculateRemaining(stateObj: HassEntity | undefined): void {

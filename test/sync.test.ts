@@ -7,6 +7,10 @@ timer:
   test${i}:
     duration: "00:01:00"
 `)}
+  ${multiply(8, (i) => `
+  countdown${i}:
+    duration: "00:00:06"
+`)}
 
 input_boolean:
   attr_timer_on:
@@ -150,3 +154,32 @@ it("Attribute-only update does not skew fixed clock", async () => {
   const remaining = parseInt(await card.narrow(".text-content").text());
   expect(remaining).toBeLessThanOrEqual(58);
 });
+
+it("Fixed clock counts down without skipping seconds", async () => {
+  // With sync_issues: fix, the remaining time is a whole number when the update arrives, so ticks
+  // that aren't scheduled carefully land right on the second boundary and jitter skips digits (#66).
+  // Several timers started at different moments each get their own chance to skip.
+  const entities = Array.from({ length: 8 }, (_, i) => `timer.countdown${i + 1}`);
+  const dashboard = await hass.Dashboard([
+    { type: "custom:timer-bar-card", entities, sync_issues: "fix" },
+  ], { title: "1500" });
+  const page = (dashboard.page as PlaywrightPage).playwright;
+  const texts = page.locator("timer-bar-entity-row .text-content");
+  await page.waitForFunction(() => (window as any).offset != 0);
+  while ((await texts.allTextContents()).filter(t => /idle/i.test(t)).length < entities.length)
+    await new Promise(r => setTimeout(r, 50));
+
+  for (const entity_id of entities) await hass.callService("timer", "start", {}, { entity_id });
+
+  // Record every number each row displays
+  const shown: number[][] = entities.map(() => []);
+  const end = Date.now() + 6500;
+  while (Date.now() < end) {
+    (await texts.allTextContents()).forEach((text, i) => {
+      const n = parseInt(text);
+      if (!isNaN(n) && shown[i][shown[i].length - 1] !== n) shown[i].push(n);
+    });
+  }
+
+  for (const row of shown) expect(row).toEqual(row.map((_, i) => row[0] - i)); // e.g. 6,5,4,3,2,1
+}, 20000);
