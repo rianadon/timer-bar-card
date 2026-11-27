@@ -181,15 +181,26 @@ export class TimerBarEntityRow extends LitElement {
     `;
   }
 
+  /** Total duration in seconds for %dur: / %ela: / %perc, or undefined if unknown. */
+  private _duration(): number | undefined {
+    try {
+      const state = this.hass!.states[this.config.entity!];
+      return findDuration(this.hass!, this.config, state) ?? undefined;
+    } catch (e) {
+      return undefined; // the duration tokens are left as-is
+    }
+  }
+
   protected _renderTime(pointer: string) {
     const format = this.modConfig.format ? this.modConfig.format
       : formatFromResolution(this._timeRemaining || 0, this.modConfig.resolution!)
     const remaining = this._timeRemaining || 0;
-    const text = formatTime(remaining, format);
+    const duration = this._duration();
+    const text = formatTime(remaining, format, { duration });
     const auto = this._autoTextWidth;
     // In auto mode, an invisible copy of the text with the time values' digits replaced (plus
     // the shapes of the card's other rows) sets the width, so it only changes when a shape changes.
-    if (auto) this._renderedShape = formatTime(remaining, format, placeholderDigits);
+    if (auto) this._renderedShape = formatTime(remaining, format, { duration, num: placeholderDigits });
     return html`<div class="text-content value ${pointer} ${auto ? 'auto-width' : ''}"
       style=${this._textStyle()}
       data-shape=${auto ? `${this._renderedShape}\n${this.sharedShapes}` : nothing}
