@@ -10,9 +10,14 @@ function now(correction: number) {
   return Date.now() + correction
 }
 
-function parseTimestamp(value: string | number) {
+export function parseTimestamp(value: string | number) {
   const seconds = Number(value ?? NaN);
-  return Number.isNaN(seconds) ? Date.parse(String(value)) : seconds * 1000;
+  if (!Number.isNaN(seconds)) return seconds * 1000;
+  // HA sends datetime.isoformat(), or str(datetime) (space, not T) from templates. Old Safari (iOS 12) can't parse the space, and reads offset-less times as UTC.
+  const iso = String(value).replace(/^(\d{4}-\d\d-\d\d) /, '$1T');
+  if (iso[10] != 'T' || (iso.length != 19 && iso.length != 26)) return Date.parse(iso); // Not a naive date-time (19 chars, or 26 with microseconds)
+  const n = (from: number, to?: number) => +iso.slice(from, to);
+  return new Date(n(0, 4), n(5, 7) - 1, n(8, 10), n(11, 13), n(14, 16)).getTime() + n(17) * 1000;
 }
 
 export function tryDurationToSeconds(duration: string, field: string) {
