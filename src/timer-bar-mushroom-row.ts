@@ -20,11 +20,6 @@ import {
 import { createActionHandler, createHandleAction } from "./helpers-actions";
 import { TimerBarEntityRow, fillConfig } from "./timer-bar-entity-row";
 import {
-  defaultColorCss,
-  defaultDarkColorCss,
-  cardStyle,
-  themeColorCss,
-  themeVariables,
   computeRgbColor,
   computeInfoDisplay,
 } from "./lib/mushroom";
@@ -77,10 +72,12 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
 
   protected createRenderRoot() {
     const root = super.createRenderRoot() as ShadowRoot;
-    // Share mushroom's keyframes (spin, pulse, ...) so card_mod animations work as on mushroom cards
-    customElements.whenDefined("mushroom-shape-icon").then((icon: any) => {
-      const keyframes = icon.elementStyles.find((s: any) => s.cssText.includes("@keyframes spin"));
-      if (keyframes) root.adoptedStyleSheets = [...root.adoptedStyleSheets, keyframes.styleSheet];
+    // Style the row like the installed mushroom's entity card (theme colors, card style, keyframes)
+    // and its name/state text, so it matches mushroom cards and card_mod recipes for them (e.g. `animation: spin`) work
+    const sources = ["mushroom-entity-card", "mushroom-state-info"];
+    Promise.all(sources.map((el) => customElements.whenDefined(el))).then((elements: any[]) => {
+      const mushroom = elements.map((el) => el.elementStyles.map((s: any) => s.styleSheet));
+      root.adoptedStyleSheets = [...[].concat(...mushroom), ...root.adoptedStyleSheets];
     });
     return root;
   }
@@ -197,54 +194,10 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     return [
       super.styles,
       css`
-        :host {
-          ${defaultColorCss}
-        }
-        :host([dark-mode]) {
-          ${defaultDarkColorCss}
-        }
-        :host {
-          ${themeColorCss}
-          ${themeVariables}
-        }
-      `,
-      cardStyle,
-      css`
         :host([layout="grid"]) {
           height: 100%;
         }
-        mushroom-state-item {
-          cursor: pointer;
-        }
-        mushroom-shape-icon {
-          --icon-color: rgb(var(--rgb-state-entity));
-          --shape-color: rgba(var(--rgb-state-entity), 0.2);
-        }
-        .container {
-          min-width: 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-        .primary {
-          font-weight: var(--card-primary-font-weight);
-          font-size: var(--card-primary-font-size);
-          line-height: var(--card-primary-line-height);
-          color: var(--card-primary-color);
-          letter-spacing: var(--card-primary-letter-spacing);
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-        }
         .secondary {
-          font-weight: var(--card-secondary-font-weight);
-          font-size: var(--card-secondary-font-size);
-          line-height: var(--card-secondary-line-height);
-          color: var(--card-secondary-color);
-          letter-spacing: var(--card-secondary-letter-spacing);
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
           display: flex;
           flex-direction: row-reverse;
           justify-content: start;
