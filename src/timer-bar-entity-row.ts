@@ -151,8 +151,8 @@ export class TimerBarEntityRow extends LitElement {
         const style = textHidden ? 'visibility: hidden' : '';
         return this._renderRow(this.modConfig, html`
         <div class="text-content value ${pointer}" style=${style}
-        @action=${createHandleAction(this.hass!, this.config)}
-       .actionHandler=${createActionHandler(this.config)}
+        @action=${this._innerActions ? createHandleAction(this.hass!, this.config) : nothing}
+       .actionHandler=${this._innerActions ? createActionHandler(this.config) : nothing}
         >${this._renderState()}</div>
       `);
     }
@@ -204,8 +204,8 @@ export class TimerBarEntityRow extends LitElement {
     return html`<div class="text-content value ${pointer} ${auto ? 'auto-width' : ''}"
       style=${this._textStyle()}
       data-shape=${auto ? `${this._renderedShape}\n${this.sharedShapes}` : nothing}
-      @action=${createHandleAction(this.hass!, this.config)}
-      .actionHandler=${createActionHandler(this.config)}>
+      @action=${this._innerActions ? createHandleAction(this.hass!, this.config) : nothing}
+      .actionHandler=${this._innerActions ? createActionHandler(this.config) : nothing}>
       ${text}
     </div>`;
   }
@@ -215,8 +215,8 @@ export class TimerBarEntityRow extends LitElement {
     const value = this.config.state?.fixed ?? state.state;
     return html`
       <div class="status ${pointer}" style=${this._statusStyle(!!content)}
-        @action=${createHandleAction(this.hass!, this.config)}
-        .actionHandler=${createActionHandler(this.config)}>
+        @action=${this._innerActions ? createHandleAction(this.hass!, this.config) : nothing}
+        .actionHandler=${this._innerActions ? createActionHandler(this.config) : nothing}>
       ${this._renderState()}
       ${content}
     </div>`;
@@ -229,6 +229,13 @@ export class TimerBarEntityRow extends LitElement {
 
   private get _isFullRow() {
     return !!(this.modConfig.full_row || this.modConfig.layout === 'full_row');
+  }
+
+  /** Whether the bar, time and status get their own action handlers. False when an ancestor
+   * (the full_row div, mushroom-state-item) already handles actions, as nesting the two
+   * runs the action several times per tap (#114). */
+  protected get _innerActions(): boolean {
+    return !this._isFullRow;
   }
 
   private get _bar_width() {
@@ -247,8 +254,8 @@ export class TimerBarEntityRow extends LitElement {
     const fgStyle = this._barStyle(percent + "%", this.modConfig.bar_foreground!);
     const pointer = this.config.tap_action?.action !== "none" ? "pointer" : "";
     return html`<div class="bar-container ${pointer}" style=${containerStyle}
-      @action=${createHandleAction(this.hass!, this.config)}
-      .actionHandler=${createActionHandler(this.config)}>
+      @action=${this._innerActions ? createHandleAction(this.hass!, this.config) : nothing}
+      .actionHandler=${this._innerActions ? createActionHandler(this.config) : nothing}>
       <div class="bar" style=${bgStyle}>
         <div style=${fgStyle}>
       </div>

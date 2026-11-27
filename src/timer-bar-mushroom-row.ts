@@ -75,6 +75,10 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     }
   }
 
+  protected get _innerActions(): boolean {
+    return false; // mushroom-state-item handles all actions
+  }
+
   protected _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     if (!this.hass) return html``;
 
