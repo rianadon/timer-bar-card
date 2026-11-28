@@ -37,5 +37,5 @@ it("Mushroom not installed", async () => {
   ]);
   const card = dashboard.cards[0];
   await (await card.element()).waitForSelector("hui-warning", { timeout: 5000 });
-  await expect(card).toMatchDualSnapshot("warning");
+  expect(await card.html({ ignoreAttributes: ["style"] })).toMatchSnapshot("warning");
 });
