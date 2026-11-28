@@ -100,4 +100,5 @@ export interface Mushroom {
   primary_info?: Info;
   secondary_info?: Info;
   icon_type?: string;
+  icon_background?: boolean;
 }

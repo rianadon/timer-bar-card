@@ -172,6 +172,10 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
       style += `--icon-color:rgb(${iconRgbColor});`;
       style += `--shape-color:rgba(${iconRgbColor}, 0.2);`;
     }
+    if (mushroom.icon_background === false) {
+      // Like Home Assistant's tile card, which only draws a background behind interactive icons
+      style += "--shape-color:transparent;--shape-color-disabled:transparent;--shape-outline-color:transparent;";
+    }
     return html`<mushroom-shape-icon
       slot="icon"
       .disabled=${!active}

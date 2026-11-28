@@ -789,6 +789,7 @@ You can also configure these Mushroom options:
 - `primary_info` and `secondary_info` can be any of `name`, `state`, `last-changed`, `last-updated`, or `none` to change the information shown on the card.
 - You can also leave these unconfigured and alternatively display custom text by editing `name` (primary info) and `format` (secondary info). Combine with [templates](#use-templates-in-configuration) to mimic mushroom-template-card.
 - `icon_type` can be `icon` (default) or `none` (no icon).
+- `icon_background: false` removes the circle behind the icon, matching what Home Assistant's tile card does with entities that do nothing on tap/click.
 - `icon_color` sets both bar + icon color just like the `color` option. It's there to be consistent with the original Mushroom options.
 - `fill_container` makes the card expand to the surrounding grid.
 

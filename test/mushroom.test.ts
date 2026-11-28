@@ -100,3 +100,23 @@ it("Mushroom fill_container", async () => {
   const card = dashboard.cards[0];
   await expect(card).toMatchDualSnapshot("fill_container");
 });
+
+it("Mushroom icon_background", async () => {
+  const dashboard = await hass.Dashboard([{
+    type: "grid",
+    columns: 2,
+    square: false,
+    cards: [{
+      type: "custom:timer-bar-card",
+      entity: "timer.test5",
+      mushroom: { icon_background: false }
+    }, {
+      type: "custom:timer-bar-card",
+      entity: "timer.test5",
+      mushroom: { color: 'red', icon_background: false }
+    }],
+  }]);
+  const card = dashboard.cards[0];
+  await hass.callService("timer", "start", {}, { entity_id: "timer.test5" });
+  await expect(card).toMatchDualSnapshot("icon_background");
+});
