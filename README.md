@@ -450,6 +450,7 @@ Optional properties to change icons, colors, and sizes.
 | bar_background | string  | **Optional** | Background color of progress bar                                                                           | `#eee`            |
 | bar_radius     | string  | **Optional** | Border radius of the progress bar                                                                          | -                 |
 | bar_direction  | string  | **Optional** | Override the direction of bar progress. Can be `ltr` or `rtl`                                              | -                 |
+| bar_icon       | string  | **Optional** | Icon to show on the progress bar, e.g. `mdi:duck`                                                          | -                 |
 | layout         | string  | **Optional** | Hide the name (`hide_name`) and (optionally icon—`full_row`)                                               | `normal`          |
 | resolution     | string  | **Optional** | Set to `seconds`, `minutes`, or `automatic` to switch between `h:m:s` and `h:m` formats.                   | `seconds`         |
 | format         | string  | **Optional** | Overrides resolution. [Set] to `hms`/`hm`/`d`/`h`/`m`/`s` or use string interpolation like `%m minutes`    | `hms`             |

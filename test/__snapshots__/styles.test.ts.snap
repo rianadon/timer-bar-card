@@ -87,6 +87,39 @@ exports[`Colors and icons: running 1`] = `
 "
 `;
 
+exports[`Icon riding the bar: running 1`] = `
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <ha-card raised="false">
+      <slot></slot>
+      <div class="card-content">
+        <timer-bar-entity-row config="[object Object]" hass="[object Object]" sharedShapes="4">
+          <div class="generic-entity-row">
+            <state-badge class="pointer" icon="true" tabindex="0">
+              <ha-state-icon data-domain="timer" data-state="active" stateTitle="false">…</ha-state-icon>
+            </state-badge>
+            <div class="info pointer" title="test7">
+              test7
+            </div>
+            <div class="bar-container pointer">
+              <div class="bar">
+                <div></div>
+                <ha-icon class="bar-icon" icon="mdi:duck">…</ha-icon>
+              </div>
+            </div>
+            <div class="auto-width pointer text-content value" data-shape="4
+4">
+              5
+            </div>
+          </div>
+        </timer-bar-entity-row>
+      </div>
+    </ha-card>
+  </timer-bar-card>
+</hui-card>
+"
+`;
+
 exports[`Receding progress bar: running 1`] = `
 "<hui-card preview="false">
   <timer-bar-card hass="[object Object]">

@@ -21,6 +21,7 @@ interface styleConfig {
   bar_background?: string;
   bar_direction?: string;
   bar_radius?: string;
+  bar_icon?: string;
   text_width?: string;
   text_min_width?: string;
   full_row?: boolean;

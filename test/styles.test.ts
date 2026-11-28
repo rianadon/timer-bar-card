@@ -122,3 +122,28 @@ it("Icons per mode", async () => {
   await hass.callService("timer", "pause", {}, { entity_id: "timer.test6" });
   expect(await icon()).toBe("mdi:timer-pause");
 });
+
+it("Icon riding the bar", async () => {
+  const dashboard = await hass.Dashboard([
+    {
+      type: "custom:timer-bar-card",
+      entities: ["timer.test7"],
+      bar_icon: "mdi:duck",
+    },
+  ]);
+  const card = dashboard.cards[0];
+
+  await hass.callService("timer", "start", { duration: "00:00:10" }, { entity_id: "timer.test7" });
+  await waitForTimerTime(card, "00:00:05");
+
+  const element: PlaywrightElement = await card.element();
+  expect(await element.$eval(".bar-icon", (el: any) => el.icon)).toBe("mdi:duck");
+  const [bar, fill, icon] = await element.$$eval(".bar, .bar > div, .bar-icon", (els) =>
+    els.map((e) => e.getBoundingClientRect().toJSON()));
+  // The icon covers the leading edge of the filled part and stays within the bar
+  expect(icon.left).toBeLessThanOrEqual(fill.right);
+  expect(icon.right).toBeGreaterThanOrEqual(fill.right);
+  expect(icon.left).toBeGreaterThanOrEqual(bar.left);
+  expect(icon.right).toBeLessThanOrEqual(bar.right);
+  await expect(card).toMatchDualSnapshot("running");
+});

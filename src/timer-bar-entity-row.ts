@@ -267,7 +267,18 @@ export class TimerBarEntityRow extends LitElement {
       <div class="bar" style=${bgStyle}>
         <div style=${fgStyle}>
       </div>
+      ${this.modConfig.bar_icon ? this._renderBarIcon(percent) : nothing}
     </div>`;
+  }
+
+  /** The bar_icon, riding the bar's leading edge without overhanging either end */
+  private _renderBarIcon(percent: number) {
+    const size = `max(${this.modConfig.bar_height}, 22px)`;
+    return html`<ha-icon class="bar-icon" .icon=${this.modConfig.bar_icon} style=${styleMap({
+      width: size, height: size,
+      color: this.modConfig.bar_foreground!.replace(/;\s*$/, ''), // invalid (gradient etc.) = default
+      'inset-inline-start': `calc(${percent}% - ${percent / 100} * ${size})`,
+    })}></ha-icon>`;
   }
 
   protected _renderDebug() {
@@ -429,12 +440,24 @@ export class TimerBarEntityRow extends LitElement {
       .pointer { cursor: pointer; }
       .flex { display: flex; height: 40px; align-items: center; justify-content: flex-end; }
       .bar-container {
+        position: relative;
         min-height: 1.5em;
         display: flex;
         flex-shrink: 0;
         align-items: center;
       }
       .bar { margin-top: 2px; overflow: hidden; }
+      .bar-icon {
+        position: absolute;
+        inset-block: 2px 0; /* centered on the bar, which sits 2px down */
+        margin-block: auto;
+        display: flex;
+        box-sizing: border-box;
+        padding: 3px;
+        --mdc-icon-size: 100%;
+        background-color: var(--ha-card-background, var(--card-background-color, white));
+        border-radius: 50%;
+      }
       .status { line-height: 1.5em; flex-shrink: 0; }
       .text-content { text-align: right; text-align: end; overflow: hidden; }
       .text-content.auto-width {

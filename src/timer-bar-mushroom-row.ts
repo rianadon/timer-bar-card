@@ -214,6 +214,9 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
         .bar {
           margin-top: 0;
         }
+        .bar-icon {
+          inset-block: 0;
+        }
         /* bar and status take bar_width (100%) but must leave room for the time */
         .bar-container,
         .status {
