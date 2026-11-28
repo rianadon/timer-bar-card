@@ -66,4 +66,4 @@ it("Switch with input_number turns off", async () => {
   await new Promise(r => setTimeout(r, 2000));
 
   expect(await card.narrow(".text-content").text()).toBe('Off');
-}, 12000);
+});
