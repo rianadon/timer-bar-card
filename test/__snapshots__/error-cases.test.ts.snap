@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Mushroom not installed: warning 1`] = `
+"<hui-card preview="false">
+  <timer-bar-card hass="[object Object]">
+    <timer-bar-mushroom-row config="[object Object]" hass="[object Object]" mushroom="[object Object]" sharedShapes="">
+      <hui-warning>
+        <hui-error-card severity="warning">
+          <ha-card class="warning" raised="false">
+            <slot></slot>
+            <div class="header">
+              <div class="icon">
+                <slot name="icon">
+                  <ha-svg-icon path="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16">
+                    <svg aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 24 24">
+                      <g>
+                        <path class="primary-path" d="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16"></path>
+                      </g>
+                    </svg>
+                  </ha-svg-icon>
+                </slot>
+              </div>
+              <div class="title">
+                <slot>
+                  Configuration warning
+                </slot>
+              </div>
+            </div>
+          </ha-card>
+          <slot></slot>
+        </hui-error-card>
+        The mushroom option requires the Mushroom cards to be installed.
+      </hui-warning>
+    </timer-bar-mushroom-row>
+  </timer-bar-card>
+</hui-card>
+"
+`;
+
+exports[`Mushroom with entities: error 1`] = `
+"<hui-card preview="false">
+  <hui-error-card severity="error">
+    <ha-card class="error" raised="false">
+      <slot></slot>
+      <div class="header">
+        <div class="icon">
+          <slot name="icon">
+            <ha-svg-icon path="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z">
+              <svg aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 24 24">
+                <g>
+                  <path class="primary-path" d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z"></path>
+                </g>
+              </svg>
+            </ha-svg-icon>
+          </slot>
+        </div>
+        <div class="title">
+          <slot>
+            Configuration error
+          </slot>
+        </div>
+      </div>
+    </ha-card>
+  </hui-error-card>
+</hui-card>
+"
+`;

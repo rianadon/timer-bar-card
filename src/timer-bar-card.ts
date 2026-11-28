@@ -71,6 +71,9 @@ export class TimerBarCard extends LitElement {
     if (!config) {
       throw new Error("Invalid configuration");
     }
+    if (config.entities && 'mushroom' in config) {
+      throw new Error("The mushroom option requires entity, not entities");
+    }
     if ('mushroom' in config)
       this.config = fillMushroomConfig(config, config.mushroom ?? {});
     else
@@ -234,12 +237,6 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
     if (!('mushroom' in this.config)) {
       return {};
     }
-    if (!this.config.mushroom) {
-      return {
-        columns: 6,
-        rows: 1,
-      };
-    }
 
     const options = {
       min_rows: 1,
@@ -248,7 +245,7 @@ mushroom??{}} style=${mushroomStyle(config.mushroom??{})} .hass=${this.hass}></t
       rows: 0, // initial value
     };
 
-    const appearance = this.config.mushroom;
+    const appearance = this.config.mushroom ?? {};
 
     const collapsible_controls =
       "collapsible_controls" in this.config &&

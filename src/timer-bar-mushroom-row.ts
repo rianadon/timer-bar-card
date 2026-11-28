@@ -7,7 +7,7 @@ import {
   nothing,
   PropertyValues,
 } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 
 import { computeRTL, HomeAssistant } from "custom-card-helpers";
 import { computeEntityName } from "./helpers";
@@ -67,6 +67,9 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
   @property({ reflect: true, type: String })
   public layout: string | undefined;
 
+  /** Whether we've waited as long as Home Assistant does for custom cards to load */
+  @state() private _waitedForMushroom = false;
+
   protected updated(changedProps: PropertyValues): void {
     // This function comes from base-element.ts in mushroom cards
     super.updated(changedProps);
@@ -87,7 +90,9 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
     Promise.all(sources.map((el) => customElements.whenDefined(el))).then((elements: any[]) => {
       const mushroom = elements.map((el) => el.elementStyles.map((s: any) => s.styleSheet));
       root.adoptedStyleSheets = [...[].concat(...mushroom), ...root.adoptedStyleSheets];
+      this.requestUpdate();
     });
+    setTimeout(() => (this._waitedForMushroom = true), 2000);
     return root;
   }
 
@@ -97,6 +102,8 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
 
   protected _renderRow(config: TimerBarConfig, contents: TemplateResult) {
     if (!this.hass) return html``;
+    if (this._waitedForMushroom && !customElements.get("mushroom-entity-card"))
+      return html`<hui-warning>The mushroom option requires the Mushroom cards to be installed.</hui-warning>`;
 
     const warning = this._warning
       ? html`<hui-warning>${this._warning}</hui-warning>`
