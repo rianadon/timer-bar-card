@@ -22,6 +22,7 @@ interface styleConfig {
   bar_direction?: string;
   bar_radius?: string;
   bar_icon?: string;
+  mushroom?: Mushroom;
   text_width?: string;
   text_min_width?: string;
   full_row?: boolean;
@@ -88,7 +89,6 @@ export interface TimerBarConfig extends TimerBarEntityConfig {
   compressed?: boolean;
   filter?: boolean;
   show_empty?: string;
-  mushroom?: Mushroom;
   card_mod?: unknown; // used by the card-mod integration
 }
 

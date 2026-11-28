@@ -33,22 +33,31 @@ export function mushroomStyle(mushroom: Mushroom) {
   return;
 }
 
+function barColors(mushroom: Mushroom) {
+  let color = "var(--rgb-state-entity)";
+  if (mushroom.icon_color) color = computeRgbColor(mushroom.icon_color);
+  if (mushroom.color) color = computeRgbColor(mushroom.color);
+  return { bar_background: `rgba(${color}, 0.2)`, bar_foreground: `rgb(${color})` };
+}
+
 export function fillMushroomConfig(
   config: TimerBarEntityConfig,
   mushroom: Mushroom,
 ): TimerBarConfig {
-  let color = "var(--rgb-state-entity)";
-  if (mushroom.icon_color) color = computeRgbColor(mushroom.icon_color);
-  if (mushroom.color) color = computeRgbColor(mushroom.color);
   return {
     ...fillConfig(config),
-    bar_background: `rgba(${color}, 0.2)`,
-    bar_foreground: `rgb(${color})`,
+    ...barColors(mushroom),
     bar_radius: "2px",
     // Horizontal layouts: bar fills the space left over by the text unless bar_width is given
     ...(mushroom.layout === "vertical" ? {} : { bar_width: "100%" }),
     translations: config.translations,
     ...config,
+    // Mushroom options in a modification add to the card's and recolor the bar
+    modifications: config.modifications?.map((mod) => {
+      if (!mod.mushroom) return mod;
+      const modMushroom = { ...mushroom, ...mod.mushroom };
+      return { ...barColors(modMushroom), ...mod, mushroom: modMushroom };
+    }),
   };
 }
 
@@ -147,10 +156,11 @@ export class TimerBarMushroomRow extends TimerBarEntityRow {
 
   protected _renderIcon(stateObj: HassEntity, icon?: string): TemplateResult {
     const active = this._mode() == "active";
+    const mushroom = this.modConfig.mushroom ?? this.mushroom;
     let style = "";
-    if (this.mushroom.icon_color || this.mushroom.color) {
+    if (mushroom.icon_color || mushroom.color) {
       const iconRgbColor = computeRgbColor(
-        this.mushroom.color! || this.mushroom.icon_color!,
+        mushroom.color! || mushroom.icon_color!,
       );
       style += `--icon-color:rgb(${iconRgbColor});`;
       style += `--shape-color:rgba(${iconRgbColor}, 0.2);`;
